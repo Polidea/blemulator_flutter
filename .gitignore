@@ -1,0 +1,14 @@
+.DS_Store
+.atom/
+.idea
+.packages
+.pub/
+build/
+ios/.generated/
+packages
+pubspec.lock
+*.iml
+example/android/res/values/strings_en.arb
+res/values/strings_en.arb
+lib/generated/
+example/lib/generated/
