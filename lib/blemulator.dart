@@ -1,13 +1,17 @@
+library blemulator;
+
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_ble_lib/blemulator/internal/id_generator.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
 
-class Blemulator {
-  static const MethodChannel _channel =
-      const MethodChannel('blemulator');
+import 'internal/internal.dart';
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-}
+part 'simulated_ble_error.dart';
+part 'blemulator_core.dart';
+part 'simulation/simulated_characteristic.dart';
+part 'simulation/simulated_peripheral.dart';
+part 'simulation/simulated_service.dart';
