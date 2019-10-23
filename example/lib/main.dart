@@ -1,56 +1,34 @@
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:blemulator_example/devices_list/devices_bloc_provider.dart';
+import 'package:blemulator_example/devices_list/devices_list_view.dart';
 
-import 'package:flutter/services.dart';
-import 'package:blemulator/blemulator.dart';
+import 'device_details/device_detail_view.dart';
+import 'device_details/devices_details_bloc_provider.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+void main() {
+  Fimber.plantTree(DebugTree());
+  runApp(MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await Blemulator.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+        title: 'FlutterBleLib example',
+        theme: new ThemeData(
+          primaryColor: new Color(0xFF0A3D91),
+          accentColor: new Color(0xFFCC0000),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
-    );
+        initialRoute: "/",
+        routes: <String, WidgetBuilder>{
+          "/": (context) => DevicesBlocProvider(child: DevicesListScreen()),
+          "/details": (context) => DeviceDetailsBlocProvider(child: DeviceDetailsView()),
+        },
+        navigatorObservers: [routeObserver],
+      );
   }
 }
