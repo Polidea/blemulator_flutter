@@ -16,7 +16,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.PluginRegistry;
 
-class BlemulatorPlugin implements MethodCallHandler {
+public class BlemulatorPlugin implements MethodCallHandler {
 
     private DartMethodCaller dartMethodCaller;
     private DartValueHandler dartValueHandler;

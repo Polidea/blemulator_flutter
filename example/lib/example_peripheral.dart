@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:flutter_ble_lib/blemulator/blemulator.dart';
+import 'package:blemulator/blemulator.dart';
 
 class SensorTag extends SimulatedPeripheral {
 

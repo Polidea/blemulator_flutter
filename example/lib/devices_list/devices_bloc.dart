@@ -5,8 +5,8 @@ import 'package:blemulator_example/model/ble_device.dart';
 import 'package:blemulator_example/repository/device_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
-import 'package:flutter_ble_lib/blemulator/blemulator.dart';
-import 'package:flutter_ble_lib/blemulator/example/example_peripheral.dart';
+import 'package:blemulator/blemulator.dart';
+import 'package:blemulator_example/example_peripheral.dart';
 
 class DevicesBloc {
   final List<BleDevice> bleDevices = <BleDevice>[];

@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_ble_lib/blemulator/internal/id_generator.dart';
+import 'package:blemulator/internal/id_generator.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
 
 import 'internal/internal.dart';

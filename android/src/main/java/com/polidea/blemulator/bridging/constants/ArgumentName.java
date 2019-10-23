@@ -4,4 +4,9 @@ public interface ArgumentName {
     String IDENTIFIER = "id";
     String SERVICE_UUID = "serviceUuid";
     String TRANSACTION_ID = "transactionId";
+    String DEVICE_IDENTIFIER = "deviceIdentifier";
+    String CHARACTERISTIC_UUID = "characteristicUuid";
+    String SERVICE_IDENTIFIER = "serviceId";
+    String CHARACTERISTIC_IDENTIFIER = "characteristicIdentifier";
+    String VALUE = "value";
 }
