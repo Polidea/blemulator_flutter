@@ -73,7 +73,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicReadFailed,
-          "Characteristic read failed",
+          "Characteristic is not readable",
         ),
       );
     }
@@ -85,7 +85,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed,
-          "Characteristic cannot be written to with response",
+          "Characteristic is not writable with response",
         ),
       );
     }
@@ -97,7 +97,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed,
-          "Characteristic cannot be written to without response",
+          "Characteristic is not writable without response",
         ),
       );
     }
@@ -109,7 +109,8 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicNotifyChangeFailed,
-          "Characteristic ${characteristic.uuid} cannot be monitored",
+          "Characteristic ${characteristic.uuid} is neither indicatable, "
+          "nor notifiable",
         ),
       );
     }

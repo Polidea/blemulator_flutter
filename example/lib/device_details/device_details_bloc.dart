@@ -46,7 +46,10 @@ class DeviceDetailsBloc {
 
     log = (text) {
       var now = DateTime.now();
-      _logs.insert(0, DebugLog('${now.hour}:${now.minute}:${now.second}.${now.millisecond}', text));
+      _logs.insert(
+          0,
+          DebugLog('${now.hour}:${now.minute}:${now.second}.${now.millisecond}',
+              text));
       Fimber.d(text);
       _logsController.add(_logs);
     };
@@ -111,7 +114,6 @@ class DeviceDetailsBloc {
           .fetchKnownDevice();
     });
   }
-
 
   void readCharacteristicForPeripheral() {
     _clearLogs();
@@ -215,7 +217,8 @@ class DeviceDetailsBloc {
       var peripheral = bleDevice.peripheral;
 
       peripheral
-          .observeConnectionState(emitCurrentValue: true, completeOnDisconnect: true)
+          .observeConnectionState(
+              emitCurrentValue: true, completeOnDisconnect: true)
           .listen((connectionState) {
         log('Observed new connection state: \n$connectionState');
         _connectionStateController.add(connectionState);
@@ -238,8 +241,6 @@ class DeviceDetailsBloc {
   }
 
   void _connectTo(BleDevice bleDevice) async {
-
-
     log("Fetching log level");
     LogLevel logLevel = await _bleManager.logLevel();
     log("Current log level $logLevel");
