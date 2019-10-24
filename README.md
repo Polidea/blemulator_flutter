@@ -121,7 +121,7 @@ class ExampleCharacteristic extends SimulatedCharacteristic {
 
   @override
   Future<void> write(Uint8List value) {
-    int valueAsInt = value.buffer.asByteData().getUint8(0);
+    int valueAsInt = value[0];
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed, "Unsupported value"));
@@ -186,8 +186,7 @@ class SensorTag extends SimulatedPeripheral {
     getCharacteristicForService(_serviceUuid, _temperatureConfigUuid)
         .monitor()
         .listen((value) {
-      int valueAsInt = value.buffer.asByteData().getUint8(8);
-      _readingTemperature = valueAsInt == 1 ? true : false;
+      _readingTemperature = value[0] == 1;
     });
 
     _emitTemperature();
@@ -198,7 +197,7 @@ class SensorTag extends SimulatedPeripheral {
       Uint8List delayBytes = await getCharacteristicForService(
               _serviceUuid, _temperaturePeriodUuid)
           .read();
-      int delay = delayBytes.buffer.asByteData().getUint8(8) * 10;
+      int delay = delayBytes[0] * 10;
       await Future.delayed(Duration(milliseconds: delay));
       SimulatedCharacteristic temperatureDataCharacteristic =
                   getCharacteristicForService(_serviceUuid, _temperatureDataUuid);
