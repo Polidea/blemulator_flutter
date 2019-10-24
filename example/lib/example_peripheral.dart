@@ -97,7 +97,6 @@ class TemperatureService extends SimulatedService {
             ],
             convenienceName: convenienceName) {
     characteristicByUuid(_temperatureConfigUuid).monitor().listen((value) {
-      int valueAsInt = value.buffer.asByteData().getUint8(8);
       _readingTemperature = value[0] == 1 ? true : false;
     });
 
@@ -108,7 +107,7 @@ class TemperatureService extends SimulatedService {
     while (true) {
       Uint8List delayBytes =
           await characteristicByUuid(_temperaturePeriodUuid).read();
-      int delay = delayBytes.buffer.asByteData().getUint8(0) * 10;
+      int delay = delayBytes.buffer.asByteData().getUint8(8) * 10;
       await Future.delayed(Duration(milliseconds: delay));
 
       SimulatedCharacteristic temperatureDataCharacteristic =
@@ -136,7 +135,7 @@ class BooleanCharacteristic extends SimulatedCharacteristic {
 
   @override
   Future<void> write(Uint8List value) {
-    int valueAsInt = value.buffer.asByteData().getUint8(0);
+    int valueAsInt = value.buffer.asByteData().getUint8(8);
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed, "Unsupported value"));

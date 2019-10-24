@@ -34,7 +34,7 @@ blemulator.simulate();
 BleManager bleManager = BleManager();
 bleManager.createClient(); //this creates an instance of native BLE
 ```
-### Defining simulated peripheral
+### Defining simple simulated peripheral
 The following peripheral is based on [Texas Instruments CC2541 SensorTag](http://www.ti.com/tool/CC2541DK-SENSOR).
 To keep the example clearer, only IR temperature service is simulated.
 ```dart
@@ -84,7 +84,7 @@ This creates a peripheral that advertises every 800 milliseconds while periphera
 
 The _convenienceName_ fields are optional and not used by the blemulator itself, but allow you to name created objects for better maintainability.
 
-#### Changing advertisement data or scan info
+### Changing advertisement data or scan info
 
 For your convenience you can mark SimulatedService as advertised, but be aware that this doesn't validate the size of advertised services array inside advertisement data.
 
@@ -109,11 +109,11 @@ class ScanInfo {
 ```
 You can also provide it in the constructor of the SimulatedPeripheral.
 
-#### Custom characteristic behaviour
+### Custom characteristic behaviour
 Blemulator does most of the heavy lifting for you and takes care of the basic stuff, but there's always more complicated logic.
 If you need to validate values or writing to one characteristic has to trigger a change in the behaviour of different characteristic,
  you may need to extend SimulatedService or SimulatedCharacteristic classes.
-##### Limiting values supported by characteristic
+#### Limiting values supported by characteristic
 
 Following is an example of a characteristic that accepts only 0 or 1.
 ```dart
@@ -191,7 +191,7 @@ class SensorTag extends SimulatedPeripheral {
     getCharacteristicForService(_serviceUuid, _temperatureConfigUuid)
         .monitor()
         .listen((value) {
-      int valueAsInt = value.buffer.asByteData().getUint8(0);
+      int valueAsInt = value.buffer.asByteData().getUint8(8);
       _readingTemperature = valueAsInt == 1 ? true : false;
     });
 
@@ -203,12 +203,11 @@ class SensorTag extends SimulatedPeripheral {
       Uint8List delayBytes = await getCharacteristicForService(
               _serviceUuid, _temperaturePeriodUuid)
           .read();
-      int delay = delayBytes.buffer.asByteData().getUint8(0) * 10;
+      int delay = delayBytes.buffer.asByteData().getUint8(8) * 10;
       await Future.delayed(Duration(milliseconds: delay));
-      if (getCharacteristicForService(_serviceUuid, _temperatureConfigUuid)
-          .isNotifying) {
-        SimulatedCharacteristic temperatureDataCharacteristic =
-            getCharacteristicForService(_serviceUuid, _temperatureDataUuid);
+      SimulatedCharacteristic temperatureDataCharacteristic =
+                  getCharacteristicForService(_serviceUuid, _temperatureDataUuid);
+      if (temperatureDataCharacteristic.isNotifying) {
         if (_readingTemperature) {
           temperatureDataCharacteristic
               .write(Uint8List.fromList([101, 254, 64, Random().nextInt(255)]));
@@ -229,6 +228,10 @@ class SensorTag extends SimulatedPeripheral {
 The example above could be refactored to a custom SimulatedService with all the
  logic that handles cross-characteristic mechanisms and a simplified SimulatedPeripheral that takes an instance of the newly created class.
 
+### Working example
+If you'd like to poke around some more, clone the repository and run the provided example.
+
+You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripheral.dart)
 ## Maintained by
 This library is maintained by [Polidea](http://www.polidea.com)
 
