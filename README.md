@@ -1,11 +1,4 @@
-<p align="center">
-  <img
-    alt="FlutterBLE library logo"
-    src="site/logo_Blemulator.png"
-    height="300"
-    style="margin-top: 20px; margin-bottom: 20px;"
-  />
-</p>
+![BLEmulator logo](site/logo_Blemulator.png)
 
 # BLEmulator
 
@@ -15,6 +8,8 @@ Plugin for simulating Bluetooth Low Energy peripherals.
 
 It imitates the behaviour of [MultiPlatformBleAdapter](https://github.com/Polidea/MultiPlatformBleAdapter) and lets you create simulated peripherals in Dart. 
 Your Flutter code for handling BLE will not be aware that it doesn't run on the real implementation, since the simulation is plugged in beneath the native bridge of FlutterBleLib.
+
+The simulation allows you to develop BLE applications on iOS simulator and/or Android emulator, and run automated tests.
 
 ## Configuration and installation
 TBD
