@@ -2,6 +2,8 @@
 
 # BLEmulator
 
+[![Build Status](https://travis-ci.org/Polidea/blemulator_flutter.svg?branch=master)](https://travis-ci.org/Polidea/blemulator_flutter)
+
 Plugin for simulating Bluetooth Low Energy peripherals.
 
 **Note:** Works only with [FlutterBleLib](https://github.com/Polidea/FlutterBleLib).
