@@ -43,7 +43,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     int characteristicIdentifier,
   ) async {
     SimulatedPeripheral peripheral =
-        _peripheralWithCharacteristicId(characteristicIdentifier);
+        _findPeripheralWithCharacteristicId(characteristicIdentifier);
     await _errorIfPeripheralNull(peripheral);
     await _errorIfNotConnected(peripheral.id);
 
@@ -87,10 +87,10 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
     await _errorIfCharacteristicIsNull(
         targetCharacteristic, characteristicUUID);
-    await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
+    await _errorIfNotConnected(_findPeripheralWithServiceId(serviceIdentifier).id);
     await _errorIfCharacteristicNotReadable(targetCharacteristic);
     Uint8List value = await targetCharacteristic.read();
-    await _errorIfDisconnected(targetCharacteristic.service.peripheralId);
+    await _errorIfDisconnected(_findPeripheralWithServiceId(serviceIdentifier).id);
     return CharacteristicResponse(targetCharacteristic, value);
   }
 
@@ -100,7 +100,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     bool withResponse = true,
   }) async {
     SimulatedPeripheral peripheral =
-        _peripheralWithCharacteristicId(characteristicIdentifier);
+        _findPeripheralWithCharacteristicId(characteristicIdentifier);
 
     await _errorIfPeripheralNull(peripheral);
     await _errorIfNotConnected(peripheral.id);
@@ -158,7 +158,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
     await _errorIfCharacteristicIsNull(
         targetCharacteristic, characteristicUUID);
-    await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
+    await _errorIfNotConnected(_findPeripheralWithServiceId(serviceIdentifier).id);
     if (withResponse) {
       await _errorIfCharacteristicNotWritableWithResponse(targetCharacteristic);
     } else {
@@ -166,7 +166,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
           targetCharacteristic);
     }
     await targetCharacteristic.write(value);
-    await _errorIfDisconnected(targetCharacteristic.service.peripheralId);
+    await _errorIfDisconnected(_findPeripheralWithServiceId(serviceIdentifier).id);
     return targetCharacteristic;
   }
 
@@ -179,27 +179,37 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
     await _errorIfCharacteristicIsNull(
         targetCharacteristic, characteristicIdentifier.toString());
-    await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
+    await _errorIfNotConnected(
+        _findPeripheralWithCharacteristicId(characteristicIdentifier).id);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
       transactionId,
       () => targetCharacteristic.monitor().listen((value) async {
         try {
           await _errorIfDisconnected(
-              _peripheralWithCharacteristicId(characteristicIdentifier).id);
+              _findPeripheralWithCharacteristicId(characteristicIdentifier).id);
 
           _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
+              _findPeripheralWithCharacteristicId(characteristicIdentifier).id,
+              targetCharacteristic,
+              value,
+              transactionId);
         } on SimulatedBleError catch (e) {
           _bridge.publishCharacteristicMonitoringError(
-              characteristicIdentifier, e, transactionId);
+              _findPeripheralWithCharacteristicId(characteristicIdentifier).id,
+              characteristicIdentifier,
+              e,
+              transactionId);
 
           _monitoringSubscriptions[transactionId]?.cancel();
           _monitoringSubscriptions.remove(transactionId);
         }
       }, onError: (error) {
         _bridge.publishCharacteristicMonitoringError(
-            characteristicIdentifier, error, transactionId);
+            _findPeripheralWithCharacteristicId(characteristicIdentifier).id,
+            characteristicIdentifier,
+            error,
+            transactionId);
       }, cancelOnError: true),
     );
   }
@@ -228,17 +238,29 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
           await _errorIfDisconnected(peripheralId);
 
           _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
+            peripheralId,
+            targetCharacteristic,
+            value,
+            transactionId,
+          );
         } on SimulatedBleError catch (e) {
           _bridge.publishCharacteristicMonitoringError(
-              targetCharacteristic.id, e, transactionId);
+            peripheralId,
+            targetCharacteristic.id,
+            e,
+            transactionId,
+          );
 
           _monitoringSubscriptions[transactionId]?.cancel();
           _monitoringSubscriptions.remove(transactionId);
         }
       }, onError: (error) {
         _bridge.publishCharacteristicMonitoringError(
-            targetCharacteristic.id, error, transactionId);
+          peripheralId,
+          targetCharacteristic.id,
+          error,
+          transactionId,
+        );
       }, cancelOnError: true),
     );
   }
@@ -253,27 +275,37 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
     await _errorIfCharacteristicIsNull(
         targetCharacteristic, characteristicUUID);
-    await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
+    await _errorIfNotConnected(_findPeripheralWithServiceId(serviceIdentifier).id);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
       transactionId,
       () => targetCharacteristic.monitor().listen((value) async {
         try {
           await _errorIfDisconnected(
-              _peripheralWithServiceId(serviceIdentifier).id);
+              _findPeripheralWithServiceId(serviceIdentifier).id);
 
           _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
+            _findPeripheralWithServiceId(serviceIdentifier).id,
+            targetCharacteristic,
+            value,
+            transactionId,
+          );
         } on SimulatedBleError catch (e) {
           _bridge.publishCharacteristicMonitoringError(
-              targetCharacteristic.id, e, transactionId);
+              _findPeripheralWithServiceId(serviceIdentifier).id,
+              targetCharacteristic.id,
+              e,
+              transactionId);
 
           _monitoringSubscriptions[transactionId]?.cancel();
           _monitoringSubscriptions.remove(transactionId);
         }
       }, onError: (error) {
         _bridge.publishCharacteristicMonitoringError(
-            targetCharacteristic.id, error, transactionId);
+            _findPeripheralWithServiceId(serviceIdentifier).id,
+            targetCharacteristic.id,
+            error,
+            transactionId);
       }, cancelOnError: true),
     );
   }

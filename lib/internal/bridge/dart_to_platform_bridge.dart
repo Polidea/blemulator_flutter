@@ -53,6 +53,7 @@ class DartToPlatformBridge {
   }
 
   Future<void> publishCharacteristicUpdate(
+    String peripheralId,
     SimulatedCharacteristic characteristic,
     Uint8List value,
     String transactionId,
@@ -60,13 +61,14 @@ class DartToPlatformBridge {
       _dartToPlatformChannel.invokeMethod(
         SimulationPlatformMethodName.publishCharacteristicUpdate,
         mapToCharacteristicJson(
-          characteristic.service.peripheralId,
+          peripheralId,
           characteristic,
           value,
         )..putIfAbsent(Metadata.transactionId, () => transactionId),
       );
 
   Future<void> publishCharacteristicMonitoringError(
+    String peripheralId,
     int characteristicId,
     SimulatedBleError bleError,
     String transactionId,

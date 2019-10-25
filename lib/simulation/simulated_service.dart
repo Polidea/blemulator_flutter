@@ -1,7 +1,6 @@
 part of blemulator;
 
 class SimulatedService {
-  String peripheralId;
   final String uuid;
   final int id;
   final bool isAdvertised;
