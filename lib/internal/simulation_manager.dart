@@ -8,7 +8,8 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
         PeripheralConnectionMixin,
         PeripheralScanningMixing,
         DiscoveryMixin,
-        PeripheralRssiMixin {
+        PeripheralRssiMixin,
+        PeripheralMtuMixin {
   SimulationManager(DartToPlatformBridge bridge) : super(bridge);
 
   void addSimulatedPeripheral(SimulatedPeripheral peripheral) {

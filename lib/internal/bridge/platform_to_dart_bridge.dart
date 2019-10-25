@@ -6,11 +6,12 @@ class PlatformToDartBridge {
   Map<String, CancelableOperation> pendingTransactions = HashMap();
 
   PlatformToDartBridge(this._manager) {
-    _platformToDartChannel = new MethodChannel(ChannelName.platformToDart);
-    _platformToDartChannel.setMethodCallHandler(_handleCall);
+    _platformToDartChannel = MethodChannel(ChannelName.platformToDart);
+    _platformToDartChannel.setMethodCallHandler(handleCall);
   }
 
-  Future<dynamic> _handleCall(MethodCall call) async {
+  @visibleForTesting
+  Future<dynamic> handleCall(MethodCall call) async {
     print("Observed method call on Flutter Simulator: ${call.method}");
     if (_isCallCancellable(call)) {
       return _handleCancelablePlatformCall(call);
@@ -51,6 +52,7 @@ class PlatformToDartBridge {
     });
   }
 
+  @visibleForTesting
   Future<dynamic> _dispatchPlatformCall(MethodCall call) {
     switch (call.method) {
       case DartMethodName.createClient:
@@ -91,6 +93,8 @@ class PlatformToDartBridge {
         return _cancelTransaction(call);
       case DartMethodName.readRssi:
         return _readRssiForDevice(call);
+      case DartMethodName.requestMtu:
+        return _requestMtuForDevice(call);
       case DartMethodName.cancelTransaction:
         return _cancelTransactionIfExists(
             call.arguments[SimulationArgumentName.transactionId]);
@@ -271,6 +275,13 @@ class PlatformToDartBridge {
 
   Future<int> _readRssiForDevice(MethodCall call) {
     return _manager._readRssiForDevice(call.arguments[ArgumentName.id] as String);
+  }
+
+  Future<int> _requestMtuForDevice(MethodCall call) {
+    return _manager.requestMtuForDevice(
+        call.arguments[SimulationArgumentName.deviceIdentifier] as String,
+        requestedMtu: call.arguments[SimulationArgumentName.mtu] as int
+    );
   }
 
   Future<void> _cancelTransactionIfExists(String transactionId) async {

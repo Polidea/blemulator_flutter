@@ -39,6 +39,10 @@ class ManualTestView extends StatelessWidget {
     _deviceDetailsBloc.readRssi();
   }
 
+  void _requestMtu() {
+    _deviceDetailsBloc.requestMtu();
+  }
+
   void _discovery() {
     _deviceDetailsBloc.discovery();
   }
@@ -117,7 +121,7 @@ class ManualTestView extends StatelessWidget {
           child: Row(
             children: <Widget>[
               ButtonView("Read Rssi", action: _readRssi),
-              ButtonView("Request MTU"),
+              ButtonView("Request MTU", action: _requestMtu),
               ButtonView("Known devices", action: _fetchKnownDevices),
             ],
           ),

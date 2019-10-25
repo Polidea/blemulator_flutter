@@ -136,6 +136,7 @@ public class SimulatedAdapter implements BleAdapter {
                                     OnSuccessCallback<Device> onSuccessCallback,
                                     OnErrorCallback onErrorCallback) {
         Log.i(TAG, "requestMTUForDevice");
+        dartMethodCaller.requestMTUForDevice(deviceIdentifier, mtu, onSuccessCallback, onErrorCallback);
     }
 
     @Override

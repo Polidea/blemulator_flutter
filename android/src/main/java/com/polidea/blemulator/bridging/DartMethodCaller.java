@@ -559,6 +559,36 @@ public class DartMethodCaller {
         });
     }
 
+    public void requestMTUForDevice(final String deviceIdentifier,
+                                  final int mtu,
+                                  final OnSuccessCallback<Device> onSuccessCallback,
+                                  final OnErrorCallback onErrorCallback) {
+        HashMap<String, Object> arguments = new HashMap<String, Object>();
+        arguments.put(SimulationArgumentName.DEVICE_IDENTIFIER, deviceIdentifier);
+        arguments.put(SimulationArgumentName.MTU, mtu);
+        dartMethodChannel.invokeMethod(DartMethodName.REQUEST_MTU, arguments, new MethodChannel.Result() {
+            @Override
+            public void success(@Nullable Object mtu) {
+                Log.d(TAG, "request MTU");
+                String placeholderName = "Simulated device"; // the name does not matter but API of MBA requires it
+                Device device = new Device(deviceIdentifier, placeholderName);
+                device.setMtu((int) mtu);
+                onSuccessCallback.onSuccess(device);
+            }
+
+            @Override
+            public void error(String s, @Nullable String s1, @Nullable Object o) {
+                Log.e(TAG, "Error during requesting MTU of simulating peripheral: " + s1);
+                onErrorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(s1));
+            }
+
+            @Override
+            public void notImplemented() {
+                Log.e(TAG, "requestMTUForDevice not implemented");
+            }
+        });
+    }
+
     public void cancelTransaction(final String transactionId) {
         Log.i(TAG, "cancelTransaction");
         dartMethodChannel.invokeMethod(DartMethodName.CANCEL_TRANSACTION, new HashMap<String, String>() {{

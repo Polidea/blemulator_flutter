@@ -1,6 +1,7 @@
 package com.polidea.blemulator.bridging.constants;
 
 public interface SimulationArgumentName {
+    String DEVICE_IDENTIFIER = "deviceIdentifier";
     String DEVICE_NAME = "name";
     String DEVICE_ID = "id";
     String RSSI = "rssi";

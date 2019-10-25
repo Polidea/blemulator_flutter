@@ -157,4 +157,9 @@ abstract class SimulatedPeripheral {
   }
 
   Future<int> rssi() async => scanInfo.rssi;
+
+  Future<int> requestMtu({int requestedMtu}) async {
+    mtu = requestedMtu ?? mtu;
+    return mtu;
+  }
 }

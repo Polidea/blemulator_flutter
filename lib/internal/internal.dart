@@ -8,6 +8,7 @@ import 'package:async/async.dart';
 import 'package:flutter/services.dart';
 import 'package:blemulator/blemulator.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:meta/meta.dart';
 
 part 'bridge/constants.dart';
 part 'bridge/dart_to_platform_bridge.dart';
@@ -23,5 +24,6 @@ part 'simulation_manager_mixins/peripheral_connection_mixin.dart';
 part 'simulation_manager_mixins/peripheral_scanning_mixin.dart';
 part 'simulation_manager_mixins/response_models.dart';
 part 'simulation_manager_mixins/rssi_mixin.dart';
+part 'simulation_manager_mixins/mtu_mixin.dart';
 part 'simulation_manager_mixins/simulation_manager_base.dart';
 part 'util/mappers.dart';
