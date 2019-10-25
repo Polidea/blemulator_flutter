@@ -2,7 +2,7 @@ import 'package:blemulator/internal/internal.dart';
 import 'package:test/test.dart';
 
 import '../../factory/simulated_peripheral_factory.dart';
-import '../../factory/simulator_manager_factory.dart';
+import '../../factory/simulation_manager_factory.dart';
 
 void main() {
   const DEVICE_ID = "qwe123";
