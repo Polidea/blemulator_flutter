@@ -1,5 +1,4 @@
 #import "SimulatedAdapter.h"
-#import <flutter_ble_lib-Swift.h>
 #import "CommonTypes.h"
 #import "DeviceContainer.h"
 #import "BleError.h"
