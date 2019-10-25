@@ -1,3 +1,7 @@
+/// Library with all BLEmulator definitions
+///
+/// To use create a Blemulator instance, add an instance of
+/// SimulatedPeripheral to it and call blemulator.simulate()
 library blemulator;
 
 import 'dart:async';
@@ -12,7 +16,11 @@ import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
 import 'internal/internal.dart';
 
 part 'simulated_ble_error.dart';
+
 part 'blemulator_core.dart';
+
 part 'simulation/simulated_characteristic.dart';
+
 part 'simulation/simulated_peripheral.dart';
+
 part 'simulation/simulated_service.dart';

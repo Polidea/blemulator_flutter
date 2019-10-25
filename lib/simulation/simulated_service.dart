@@ -25,6 +25,6 @@ class SimulatedService {
 
   SimulatedCharacteristic characteristicByUuid(String uuid) =>
       _characteristics.values.firstWhere(
-              (characteristic) => characteristic.uuid == uuid,
+          (characteristic) => characteristic.uuid == uuid,
           orElse: () => null);
 }
