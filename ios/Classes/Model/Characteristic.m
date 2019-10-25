@@ -1,5 +1,5 @@
 #import "Characteristic.h"
-#import "CharacteristicResponse.h"
+#import "BlemulatorCharacteristicResponse.h"
 #import <Flutter/Flutter.h>
 
 @implementation Characteristic

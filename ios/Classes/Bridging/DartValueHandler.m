@@ -1,5 +1,4 @@
 #import "DartValueHandler.h"
-#import <flutter_ble_lib-Swift.h>
 #import "PlatformMethodName.h"
 #import "ScannedPeripheral.h"
 #import "DartCallArgumentsConverter.h"

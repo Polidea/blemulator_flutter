@@ -1,5 +1,5 @@
 #import "Peripheral.h"
-#import "PeripheralResponse.h"
+#import "BlemulatorPeripheralResponse.h"
 
 @implementation Peripheral
 

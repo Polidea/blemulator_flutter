@@ -1,6 +1,6 @@
-#import "JSONStringifier.h"
+#import "BlemulatorJSONStringifier.h"
 
-@implementation JSONStringifier
+@implementation BlemulatorJSONStringifier
 
 + (NSString *)jsonStringFromJSONObject:(id)jsonObject {
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:jsonObject
