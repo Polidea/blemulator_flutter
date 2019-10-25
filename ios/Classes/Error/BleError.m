@@ -1,5 +1,5 @@
 #import "BleError.h"
-#import "JSONStringifier1.h"
+#import "BlemulatorJSONStringifier.h"
 
 @implementation BleError
 
@@ -36,7 +36,7 @@
 }
 
 - (void)callReject:(Reject)reject {
-    reject(nil, [JSONStringifier1 jsonStringFromJSONObject:[self jsonObjectRepresentation]], nil);
+    reject(nil, [BlemulatorJSONStringifier jsonStringFromJSONObject:[self jsonObjectRepresentation]], nil);
 }
 
 - (id)valueOrNull:(id)argument {
