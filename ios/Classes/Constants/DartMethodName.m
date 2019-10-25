@@ -22,5 +22,6 @@ NSString * const DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_SERVICE = @"monitor
 NSString * const DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_IDENTIFIER = @"monitorCharacteristicForIdentifier";
 
 NSString * const DART_METHOD_NAME_RSSI = @"rssi";
+NSString * const DART_METHOD_NAME_REQUEST_MTU = @"requestMtu";
 
 NSString * const DART_METHOD_NAME_CANCEL_TRANSACTION = @"cancelTransaction";

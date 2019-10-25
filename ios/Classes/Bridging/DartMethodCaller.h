@@ -99,6 +99,14 @@
                       resolve:(Resolve)resolve
                        reject:(Reject)reject;
 
+// MARK: - MTU
+
+- (void)requestMTUForDevice:(NSString *)deviceIdentifier
+                       name:(NSString *)name
+                        mtu:(NSInteger)mtu
+                    resolve:(Resolve)resolve
+                     reject:(Reject)reject;
+
 // MARK: - RSSI
 
 - (void)readRSSIForDevice:(NSString *)deviceIdentifier
