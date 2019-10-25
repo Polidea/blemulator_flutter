@@ -1,5 +1,5 @@
 #import "ScannedPeripheral.h"
-#import "PeripheralResponse.h"
+#import "PeripheralResponse1.h"
 #import "Base64Coder.h"
 #import "ArrayUtilities.h"
 

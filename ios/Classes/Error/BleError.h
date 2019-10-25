@@ -1,5 +1,5 @@
 #import "BleErrorCode.h"
-#import "CommonTypes.h"
+#import "CommonTypes1.h"
 
 @interface BleError : NSObject
 

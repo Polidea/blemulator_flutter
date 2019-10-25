@@ -1,5 +1,5 @@
 #import "SimulatedAdapter.h"
-#import "CommonTypes.h"
+#import "CommonTypes1.h"
 #import "DeviceContainer.h"
 #import "BleError.h"
 
