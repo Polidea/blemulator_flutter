@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:blemulator_example/device_details/view/temperature_view.dart';
+import 'package:blemulator_example/model/ble_device.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:blemulator_example/device_details/device_details_bloc.dart';
@@ -60,6 +62,7 @@ class DeviceDetailsViewState extends State<DeviceDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    DeviceCategory deviceCategory = _deviceDetailsBloc.device.value.category;
     return WillPopScope(
       onWillPop: () {
         return _deviceDetailsBloc.disconnect().then((_) {
@@ -67,22 +70,24 @@ class DeviceDetailsViewState extends State<DeviceDetailsView> {
         });
       },
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
             backgroundColor: Colors.grey[300],
             appBar: AppBar(
               title: Text('Devicie Details'),
               bottom: TabBar(
                 tabs: [
+                  Tab(icon: Icon(Icons.ac_unit), text: "Temperature",),
                   Tab(icon: Icon(Icons.autorenew), text: "Automatic",),
-                  Tab(icon: Icon(Icons.settings), text: "Manual",),
+                  Tab(icon: Icon(Icons.settings), text: "Manual",)
                 ],
               ),
             ),
             body: TabBarView(
               children: <Widget>[
+                TemperatureView(_deviceDetailsBloc),
                 AutoTestView(_deviceDetailsBloc),
-                ManualTestView(_deviceDetailsBloc),
+                ManualTestView(_deviceDetailsBloc)
               ],
             )),
       ),

@@ -15,6 +15,10 @@ class DeviceDetailsBloc {
 
   ValueObservable<BleDevice> get device => _deviceController.stream;
 
+  PublishSubject<String> _temperatureController;
+
+  Observable<String> get temperature => _temperatureController.stream;
+
   BehaviorSubject<PeripheralConnectionState> _connectionStateController;
 
   ValueObservable<PeripheralConnectionState> get connectionState =>
@@ -36,6 +40,7 @@ class DeviceDetailsBloc {
   DeviceDetailsBloc(this._deviceRepository, this._bleManager) {
     var device = _deviceRepository.pickedDevice.value;
     _deviceController = BehaviorSubject<BleDevice>.seeded(device);
+    _temperatureController = PublishSubject<String>();
 
     _connectionStateController =
         BehaviorSubject<PeripheralConnectionState>.seeded(device.isConnected
@@ -70,6 +75,7 @@ class DeviceDetailsBloc {
   Future<void> disconnect() async {
     _clearLogs();
     disconnectManual();
+    tempSubscription?.cancel();
     return _deviceRepository.pickDevice(null);
   }
 
@@ -81,6 +87,37 @@ class DeviceDetailsBloc {
           .disconnectOrCancelConnection();
     }
     log("Disconnected!");
+  }
+
+  StreamSubscription tempSubscription;
+  
+  Future<void> connectAndMonitorTemperature() async {
+    BleDevice bleDevice = _deviceController.stream.value;
+    var peripheral = bleDevice.peripheral;
+
+    PeripheralTestOperations peripheralTestOperations = PeripheralTestOperations(_bleManager, bleDevice.peripheral, log, logError);
+
+    peripheral
+        .observeConnectionState(emitCurrentValue: true, completeOnDisconnect: true)
+        .listen((connectionState) {
+      log('Observed new connection state: \n$connectionState');
+      _connectionStateController.add(connectionState);
+    });
+
+    log("Connecting to ${peripheral.name}");
+    await peripheral.connect();
+    await peripheral.discoverAllServicesAndCharacteristics();
+    await peripheralTestOperations.writeCharacteristicForPeripheral();
+    tempSubscription = peripheralTestOperations.monitorTemperature().listen(
+          (temperature) {
+        _temperatureController.add(temperature);
+      },
+      onError: (error) {
+        Fimber.e(error.toString());
+      },
+      cancelOnError: true,
+    );
+
   }
 
   void readRssi() {
@@ -238,6 +275,9 @@ class DeviceDetailsBloc {
 
     await _connectionStateController.drain();
     _connectionStateController.close();
+
+    await _temperatureController.drain();
+    _temperatureController.close();
   }
 
   void _connectTo(BleDevice bleDevice) async {

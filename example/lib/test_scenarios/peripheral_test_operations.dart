@@ -218,6 +218,18 @@ class PeripheralTestOperations {
     });
   }
 
+  Stream<String> monitorTemperature() {
+      log("Start monitoring temperature update");
+      return peripheral
+          .monitorCharacteristic(
+            SensorTagTemperatureUuids.temperatureService,
+            SensorTagTemperatureUuids.temperatureDataCharacteristic,
+            transactionId: "monitor")
+          .map((characteristic) => characteristic.value)
+          .map(_convertToTemperature)
+          .map((temp) => "${temp}C");
+  }
+
   Future<void> monitorCharacteristicForService() async {
     await _tryCatch(() async {
       log("Start monitoring temperature update");
