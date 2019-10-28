@@ -279,6 +279,30 @@ typedef void (^SuccessHandler)(id _Nullable result);
                                   result:[self simpleInvokeMethodResultHandlerForMethod:DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_IDENTIFIER]];
 }
 
+// MARK: - MTU
+
+- (void)requestMTUForDevice:(NSString *)deviceIdentifier
+                       name:(NSString *)name
+                        mtu:(NSInteger)mtu
+                    resolve:(Resolve)resolve
+                     reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_IDENTIFIER,
+                                              [NSNumber numberWithInteger:mtu], DART_CALL_ARGUMENT_MTU,
+                                              nil];
+    SuccessHandler successHandler = ^(id result) {
+        Peripheral *peripheral = [[Peripheral alloc] initWithIdentifier:deviceIdentifier
+                                                                   name:name];
+        peripheral.mtu = (NSInteger)result;
+        resolve([peripheral jsonObjectRepresentation]);
+    };
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_REQUEST_MTU
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_REQUEST_MTU
+                                                                        onSuccess:successHandler
+                                                                          onError:reject]];
+}
+
 // MARK: - RSSI
 
 - (void)readRSSIForDevice:(NSString *)deviceIdentifier
