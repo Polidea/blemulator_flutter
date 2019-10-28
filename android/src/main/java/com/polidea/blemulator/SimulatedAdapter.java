@@ -430,7 +430,8 @@ public class SimulatedAdapter implements BleAdapter {
     @Override
     public void monitorCharacteristicForService(final int serviceIdentifier,
                                                 final String characteristicUUID,
-                                                final String transactionId, OnEventCallback<Characteristic> onEventCallback,
+                                                final String transactionId,
+                                                final OnEventCallback<Characteristic> onEventCallback,
                                                 final OnErrorCallback onErrorCallback) {
         Log.i(TAG, "monitorCharacteristicForService");
         final OnErrorCallback localOnErrorCallback = new OnErrorCallback() {
@@ -443,6 +444,7 @@ public class SimulatedAdapter implements BleAdapter {
         dartMethodCaller.cancelTransaction(transactionId, new OnSuccessCallback<Void>() {
             @Override
             public void onSuccess(Void irrelevant) {
+                dartValueHandler.addCharacteristicsUpdatePublishers(transactionId, onEventCallback, localOnErrorCallback);
                 dartMethodCaller.monitorCharacteristicForService(serviceIdentifier, characteristicUUID, transactionId, localOnErrorCallback);
             }
         });
