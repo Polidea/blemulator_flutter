@@ -34,7 +34,7 @@ void main() {
       platformToDartBridge.handleCall(methodCall);
 
       //then
-      verify(simulationManager.requestMtuForDevice(DEVICE_ID, requestedMtu: REQUESTED_MTU));
+      verify(simulationManager.requestMtuForDevice(DEVICE_ID, REQUESTED_MTU));
     });
 
     test("should return returned MTU", () async {
@@ -44,7 +44,7 @@ void main() {
             SimulationArgumentName.mtu: REQUESTED_MTU}
       );
 
-      when(simulationManager.requestMtuForDevice(DEVICE_ID, requestedMtu: REQUESTED_MTU))
+      when(simulationManager.requestMtuForDevice(DEVICE_ID, REQUESTED_MTU))
           .thenAnswer((_) => Future.value(NEGOTIATED_MTU));
 
       //when

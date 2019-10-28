@@ -26,6 +26,10 @@ class ScanInfo {
 }
 
 abstract class SimulatedPeripheral {
+
+  static const MIN_MTU = 23;
+  static const MAX_MTU = 512;
+
   final String name;
   final String id;
   Duration advertisementInterval;
@@ -92,6 +96,7 @@ abstract class SimulatedPeripheral {
 
   Future<void> onConnect() async {
     _isConnected = true;
+    mtu = _negotiateMtu(mtu);
     _connectionStateStreamController
         .add(FlutterBLELib.PeripheralConnectionState.connected);
   }
@@ -158,8 +163,14 @@ abstract class SimulatedPeripheral {
 
   Future<int> rssi() async => scanInfo.rssi;
 
-  Future<int> requestMtu({int requestedMtu}) async {
-    mtu = requestedMtu ?? mtu;
+  Future<int> requestMtu(int requestedMtu) async {
+    mtu = _negotiateMtu(requestedMtu ?? mtu);
     return mtu;
+  }
+
+  int _negotiateMtu(int requestedMtu) {
+    int negotiatedMtu = max(MIN_MTU, requestedMtu);
+    negotiatedMtu = min(MAX_MTU, negotiatedMtu);
+    return negotiatedMtu;
   }
 }

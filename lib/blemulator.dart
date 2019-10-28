@@ -3,6 +3,7 @@ library blemulator;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:blemulator/internal/id_generator.dart';

@@ -280,7 +280,7 @@ class PlatformToDartBridge {
   Future<int> _requestMtuForDevice(MethodCall call) {
     return _manager.requestMtuForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier] as String,
-        requestedMtu: call.arguments[SimulationArgumentName.mtu] as int
+        call.arguments[SimulationArgumentName.mtu] as int
     );
   }
 
