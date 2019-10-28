@@ -283,12 +283,10 @@ typedef void (^SuccessHandler)(id _Nullable result);
 
 - (void)requestMTUForDevice:(NSString *)deviceIdentifier
                        name:(NSString *)name
-                        mtu:(NSInteger)mtu
                     resolve:(Resolve)resolve
                      reject:(Reject)reject {
     NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                               deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_IDENTIFIER,
-                                              [NSNumber numberWithInteger:mtu], DART_CALL_ARGUMENT_MTU,
                                               nil];
     SuccessHandler successHandler = ^(id result) {
         Peripheral *peripheral = [[Peripheral alloc] initWithIdentifier:deviceIdentifier

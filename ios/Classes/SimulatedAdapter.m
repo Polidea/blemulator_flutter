@@ -410,7 +410,6 @@
     NSLog(@"SimulatedAdapter.requestMTUForDevice");
     [self.dartMethodCaller requestMTUForDevice:deviceIdentifier
                                           name:[self.knownPeripherals objectForKey:deviceIdentifier].name
-                                           mtu:mtu
                                        resolve:resolve
                                         reject:reject];
 }

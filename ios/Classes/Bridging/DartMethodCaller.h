@@ -103,7 +103,6 @@
 
 - (void)requestMTUForDevice:(NSString *)deviceIdentifier
                        name:(NSString *)name
-                        mtu:(NSInteger)mtu
                     resolve:(Resolve)resolve
                      reject:(Reject)reject;
 
