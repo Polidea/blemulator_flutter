@@ -43,11 +43,11 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
         connectionStatePublishers.put(identifier, publisher);
     }
 
-    public void addCharacteristicsUpdatePublishers(String transactionId, OnEventCallback<Characteristic> eventPublisher, OnErrorCallback errorPublisher) {
+    public synchronized void addCharacteristicsUpdatePublishers(String transactionId, OnEventCallback<Characteristic> eventPublisher, OnErrorCallback errorPublisher) {
         characteristicsUpdatePublishers.put(transactionId, new Pair<>(eventPublisher, errorPublisher));
     }
 
-    public void removeCharacteristicsUpdatePublisher(String transactionId) {
+    public synchronized void removeCharacteristicsUpdatePublisher(String transactionId) {
         characteristicsUpdatePublishers.remove(transactionId);
     }
 
@@ -148,14 +148,14 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
         result.success(null);
     }
 
-    private void publishCharacteristicUpdate(MethodCall call, MethodChannel.Result result) {
+    private synchronized void publishCharacteristicUpdate(MethodCall call, MethodChannel.Result result) {
         String transactionId = call.argument(SimulationArgumentName.TRANSACTION_ID);
         Characteristic characteristic = characteristicDartValueDecoder.decode((Map<String, Object>) call.arguments);
         characteristicsUpdatePublishers.get(transactionId).first.onEvent(characteristic);
         result.success(null);
     }
 
-    private void publishCharacteristicUpdateError(MethodCall call, MethodChannel.Result result) {
+    private synchronized void publishCharacteristicUpdateError(MethodCall call, MethodChannel.Result result) {
         String transactionId = call.argument(SimulationArgumentName.TRANSACTION_ID);
         BleError bleError = bleErrorDartValueDecoder.decode((Map<String, Object>) call.arguments);
         characteristicsUpdatePublishers.get(transactionId).second.onError(bleError);
