@@ -3,6 +3,7 @@
 # BLEmulator
 
 [![Build Status](https://travis-ci.org/Polidea/blemulator_flutter.svg?branch=master)](https://travis-ci.org/Polidea/blemulator_flutter)
+[![Frontside](https://img.shields.io/static/v1?label=Facilitated%20by&message=frontside.io&color=blue)
 
 Plugin for simulating Bluetooth Low Energy peripherals.
 
@@ -228,6 +229,10 @@ The example above could be refactored to a custom SimulatedService with all the
 If you'd like to poke around some more, clone the repository and run the provided example.
 
 You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripheral.dart)
+
+## Facilitated by Frontside 
+[Frontside](https://github.com/thefrontside) provided architectural advice and financial support for this library on behalf of [Resideo](https://github.com/resideo).
+
 ## Maintained by
 This library is maintained by [Polidea](http://www.polidea.com)
 
