@@ -33,7 +33,7 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
     private BleErrorDartValueDecoder bleErrorDartValueDecoder = new BleErrorDartValueDecoder();
     private OnEventCallback<ScanResult> scanResultPublisher;
     private Map<String, OnEventCallback<ConnectionState>> connectionStatePublishers = new HashMap<>();
-    private Map<Integer, Pair<OnEventCallback<Characteristic>, OnErrorCallback>> characteristicsUpdatePublishers = new HashMap<>();
+    private Map<String, Pair<OnEventCallback<Characteristic>, OnErrorCallback>> characteristicsUpdatePublishers = new HashMap<>();
 
     public void setScanResultPublisher(OnEventCallback<ScanResult> scanResultPublisher) {
         this.scanResultPublisher = scanResultPublisher;
@@ -43,12 +43,12 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
         connectionStatePublishers.put(identifier, publisher);
     }
 
-    public void addCharacteristicsUpdatePublishers(int characteristicId, OnEventCallback<Characteristic> eventPublisher, OnErrorCallback errorPublisher) {
-        characteristicsUpdatePublishers.put(characteristicId, new Pair<>(eventPublisher, errorPublisher));
+    public void addCharacteristicsUpdatePublishers(String transactionId, OnEventCallback<Characteristic> eventPublisher, OnErrorCallback errorPublisher) {
+        characteristicsUpdatePublishers.put(transactionId, new Pair<>(eventPublisher, errorPublisher));
     }
 
-    public void removeCharacteristicsUpdatePublisher(int characteristicId) {
-        characteristicsUpdatePublishers.remove(characteristicId);
+    public void removeCharacteristicsUpdatePublisher(String transactionId) {
+        characteristicsUpdatePublishers.remove(transactionId);
     }
 
     @Override
@@ -149,15 +149,16 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
     }
 
     private void publishCharacteristicUpdate(MethodCall call, MethodChannel.Result result) {
+        String transactionId = call.argument(SimulationArgumentName.TRANSACTION_ID);
         Characteristic characteristic = characteristicDartValueDecoder.decode((Map<String, Object>) call.arguments);
-        characteristicsUpdatePublishers.get(characteristic.getId()).first.onEvent(characteristic);
+        characteristicsUpdatePublishers.get(transactionId).first.onEvent(characteristic);
         result.success(null);
     }
 
     private void publishCharacteristicUpdateError(MethodCall call, MethodChannel.Result result) {
-        int characteristicId = call.argument(SimulationArgumentName.CHARACTERISTIC_ID);
+        String transactionId = call.argument(SimulationArgumentName.TRANSACTION_ID);
         BleError bleError = bleErrorDartValueDecoder.decode((Map<String, Object>) call.arguments);
-        characteristicsUpdatePublishers.get(characteristicId).second.onError(bleError);
+        characteristicsUpdatePublishers.get(transactionId).second.onError(bleError);
         result.success(null);
     }
 }

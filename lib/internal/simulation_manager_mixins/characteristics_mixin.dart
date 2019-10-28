@@ -1,7 +1,8 @@
 part of internal;
 
 mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
-  Map<String, StreamSubscription> _monitoringSubscriptions = HashMap();
+  Map<String, _CharacteristicMonitoringSubscription> _monitoringSubscriptions =
+      HashMap();
 
   Future<SimulatedCharacteristic> _findCharacteristicForId(
       int characteristicIdentifier) async {
@@ -182,26 +183,30 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
-      transactionId,
-      () => targetCharacteristic.monitor().listen((value) async {
-        try {
-          await _errorIfDisconnected(
-              _peripheralWithCharacteristicId(characteristicIdentifier).id);
+        transactionId,
+        () => _CharacteristicMonitoringSubscription(
+            targetCharacteristic.id,
+            targetCharacteristic.monitor().listen((value) async {
+              try {
+                await _errorIfDisconnected(
+                    _peripheralWithCharacteristicId(characteristicIdentifier)
+                        .id);
 
-          _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
-        } on SimulatedBleError catch (e) {
-          _bridge.publishCharacteristicMonitoringError(
-              characteristicIdentifier, e, transactionId);
+                _bridge.publishCharacteristicUpdate(
+                    targetCharacteristic, value, transactionId);
+              } on SimulatedBleError catch (e) {
+                _bridge.publishCharacteristicMonitoringError(
+                    characteristicIdentifier, e, transactionId);
 
-          _monitoringSubscriptions[transactionId]?.cancel();
-          _monitoringSubscriptions.remove(transactionId);
-        }
-      }, onError: (error) {
-        _bridge.publishCharacteristicMonitoringError(
-            characteristicIdentifier, error, transactionId);
-      }, cancelOnError: true),
-    );
+                await _monitoringSubscriptions[transactionId]
+                    ?.subscription
+                    ?.cancel();
+                _monitoringSubscriptions.remove(transactionId);
+              }
+            }, onError: (error) {
+              _bridge.publishCharacteristicMonitoringError(
+                  characteristicIdentifier, error, transactionId);
+            }, cancelOnError: true)));
   }
 
   Future<void> _monitorCharacteristicForDevice(
@@ -222,25 +227,28 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         targetCharacteristic, characteristicUUID);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
-      transactionId,
-      () => targetCharacteristic.monitor().listen((value) async {
-        try {
-          await _errorIfDisconnected(peripheralId);
+        transactionId,
+        () => _CharacteristicMonitoringSubscription(
+            targetCharacteristic.id,
+            targetCharacteristic.monitor().listen((value) async {
+              try {
+                await _errorIfDisconnected(peripheralId);
 
-          _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
-        } on SimulatedBleError catch (e) {
-          _bridge.publishCharacteristicMonitoringError(
-              targetCharacteristic.id, e, transactionId);
+                _bridge.publishCharacteristicUpdate(
+                    targetCharacteristic, value, transactionId);
+              } on SimulatedBleError catch (e) {
+                _bridge.publishCharacteristicMonitoringError(
+                    targetCharacteristic.id, e, transactionId);
 
-          _monitoringSubscriptions[transactionId]?.cancel();
-          _monitoringSubscriptions.remove(transactionId);
-        }
-      }, onError: (error) {
-        _bridge.publishCharacteristicMonitoringError(
-            targetCharacteristic.id, error, transactionId);
-      }, cancelOnError: true),
-    );
+                await _monitoringSubscriptions[transactionId]
+                    ?.subscription
+                    ?.cancel();
+                _monitoringSubscriptions.remove(transactionId);
+              }
+            }, onError: (error) {
+              _bridge.publishCharacteristicMonitoringError(
+                  targetCharacteristic.id, error, transactionId);
+            }, cancelOnError: true)));
   }
 
   Future<void> _monitorCharacteristicForService(
@@ -256,26 +264,30 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     await _errorIfNotConnected(targetCharacteristic.service.peripheralId);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
-      transactionId,
-      () => targetCharacteristic.monitor().listen((value) async {
-        try {
-          await _errorIfDisconnected(
-              _peripheralWithServiceId(serviceIdentifier).id);
+        transactionId,
+        () => _CharacteristicMonitoringSubscription(
+              targetCharacteristic.id,
+              targetCharacteristic.monitor().listen((value) async {
+                try {
+                  await _errorIfDisconnected(
+                      _peripheralWithServiceId(serviceIdentifier).id);
 
-          _bridge.publishCharacteristicUpdate(
-              targetCharacteristic, value, transactionId);
-        } on SimulatedBleError catch (e) {
-          _bridge.publishCharacteristicMonitoringError(
-              targetCharacteristic.id, e, transactionId);
+                  _bridge.publishCharacteristicUpdate(
+                      targetCharacteristic, value, transactionId);
+                } on SimulatedBleError catch (e) {
+                  _bridge.publishCharacteristicMonitoringError(
+                      targetCharacteristic.id, e, transactionId);
 
-          _monitoringSubscriptions[transactionId]?.cancel();
-          _monitoringSubscriptions.remove(transactionId);
-        }
-      }, onError: (error) {
-        _bridge.publishCharacteristicMonitoringError(
-            targetCharacteristic.id, error, transactionId);
-      }, cancelOnError: true),
-    );
+                  await _monitoringSubscriptions[transactionId]
+                      ?.subscription
+                      ?.cancel();
+                  _monitoringSubscriptions.remove(transactionId);
+                }
+              }, onError: (error) {
+                _bridge.publishCharacteristicMonitoringError(
+                    targetCharacteristic.id, error, transactionId);
+              }, cancelOnError: true),
+            ));
   }
 
   Future<void> _errorIfCharacteristicIsNull(
@@ -292,6 +304,23 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
   Future<void> _cancelMonitoringTransactionIfExists(
       String transactionId) async {
-    await _monitoringSubscriptions.remove(transactionId)?.cancel();
+    _CharacteristicMonitoringSubscription subscription =
+        _monitoringSubscriptions.remove(transactionId);
+    if (subscription != null) {
+      await subscription.subscription.cancel();
+      await _bridge.publishCharacteristicMonitoringError(
+          subscription.characteristicId,
+          SimulatedBleError(
+              BleErrorCode.OperationCancelled, "Operation cancelled"),
+          transactionId);
+    }
   }
+}
+
+class _CharacteristicMonitoringSubscription {
+  int characteristicId;
+  StreamSubscription subscription;
+
+  _CharacteristicMonitoringSubscription(
+      this.characteristicId, this.subscription);
 }
