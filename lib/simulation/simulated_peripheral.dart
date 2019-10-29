@@ -13,16 +13,17 @@ class ScanInfo {
   List<String> solicitedServiceUuids;
   List<String> overflowUuids;
 
-  ScanInfo(
-      {this.rssi = defaultRssi,
-      this.isConnectable = true,
-      this.txPowerLevel,
-      this.manufacturerData,
-      this.serviceData,
-      this.serviceUuids,
-      this.localName,
-      this.solicitedServiceUuids,
-      this.overflowUuids});
+  ScanInfo({
+    this.rssi = defaultRssi,
+    this.isConnectable = true,
+    this.txPowerLevel,
+    this.manufacturerData,
+    this.serviceData,
+    this.serviceUuids,
+    this.localName,
+    this.solicitedServiceUuids,
+    this.overflowUuids,
+  });
 }
 
 abstract class SimulatedPeripheral {
@@ -39,13 +40,13 @@ abstract class SimulatedPeripheral {
 
   bool _isConnected = false;
 
-  SimulatedPeripheral(
-      {@required this.name,
-      @required this.id,
-      @required this.advertisementInterval,
-      @required List<SimulatedService> services,
-      this.scanInfo})
-      : _connectionStateStreamController = StreamController.broadcast() {
+  SimulatedPeripheral({
+    @required this.name,
+    @required this.id,
+    @required this.advertisementInterval,
+    @required List<SimulatedService> services,
+    this.scanInfo,
+  }) : _connectionStateStreamController = StreamController.broadcast() {
     mtu = defaultMtu;
     if (scanInfo == null) {
       this.scanInfo = ScanInfo();
@@ -157,4 +158,15 @@ abstract class SimulatedPeripheral {
   }
 
   Future<int> rssi() async => scanInfo.rssi;
+
+  Future<int> requestMtu(int requestedMtu) async {
+    mtu = _negotiateMtu(requestedMtu);
+    return mtu;
+  }
+
+  int _negotiateMtu(int requestedMtu) {
+    int negotiatedMtu = max(min_mtu, requestedMtu);
+    negotiatedMtu = min(max_mtu, negotiatedMtu);
+    return negotiatedMtu;
+  }
 }
