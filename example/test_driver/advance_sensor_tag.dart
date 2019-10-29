@@ -39,7 +39,14 @@ class AdvanceSensorTag extends SimulatedPeripheral {
 // and the value of the temperature can be retrieved from IR Temperature Data
 // characteristic through reading or notifications
 class TemperatureService extends SimulatedService {
-  ...
+  static const String _temperatureDataUuid =
+      "F000AA01-0451-4000-B000-000000000000";
+  static const String _temperatureConfigUuid =
+      "F000AA02-0451-4000-B000-000000000000";
+  static const String _temperaturePeriodUuid =
+      "F000AA03-0451-4000-B000-000000000000";
+
+  bool _readingTemperature = false;
 
   TemperatureService(
       {@required String uuid,
@@ -49,7 +56,21 @@ class TemperatureService extends SimulatedService {
             uuid: uuid,
             isAdvertised: isAdvertised,
             characteristics: [
-              ...
+              SimulatedCharacteristic(
+                uuid: _temperatureDataUuid,
+                value: Uint8List.fromList([0, 0, 0, 0]),
+                convenienceName: "IR Temperature Data",
+                isNotifiable: true,
+              ),
+              BooleanCharacteristic(
+                uuid: _temperatureConfigUuid,
+                initialValue: false,
+                convenienceName: "IR Temperature Config",
+              ),
+              SimulatedCharacteristic(
+                  uuid: _temperaturePeriodUuid,
+                  value: Uint8List.fromList([50]),
+                  convenienceName: "IR Temperature Period"),
             ],
             convenienceName: convenienceName) {
     characteristicByUuid(_temperatureConfigUuid).monitor().listen((value) {
@@ -61,7 +82,13 @@ class TemperatureService extends SimulatedService {
 
   void _emitTemperature() async {
     while (true) {
-      ...
+      Uint8List delayBytes =
+          await characteristicByUuid(_temperaturePeriodUuid).read();
+      int delay = delayBytes[0] * 10;
+      await Future.delayed(Duration(milliseconds: delay));
+
+      SimulatedCharacteristic temperatureDataCharacteristic =
+          characteristicByUuid(_temperatureDataUuid);
 
       if (temperatureDataCharacteristic.isNotifying) {
         if (_readingTemperature) {
