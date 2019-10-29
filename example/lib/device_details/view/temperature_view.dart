@@ -29,13 +29,15 @@ class TemperatureView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             StreamBuilder<PeripheralConnectionState>(
+              key: Key("connectionStateContainer"),
               stream: _deviceDetailsBloc.connectionState,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     snapshot.data.toString(),
-                    style: TextStyle(fontSize: 16)
+                    style: TextStyle(fontSize: 16),
+                    key: Key("connectionState"),
                   ),
                 );
               }

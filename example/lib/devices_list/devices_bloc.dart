@@ -9,6 +9,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
+import '../main.dart';
+
 class DevicesBloc {
   final List<BleDevice> bleDevices = <BleDevice>[];
 
@@ -47,10 +49,15 @@ class DevicesBloc {
   void init() {
     Fimber.d("Init devices bloc");
     bleDevices.clear();
-    Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
-//    Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
-    Blemulator().addSimulatedPeripheral(BasicSensorTag());
+
+    if (simulatedPeripherals.isNotEmpty) {
+      simulatedPeripherals.forEach((peripheral) =>
+          Blemulator().addSimulatedPeripheral(peripheral));
+    } else {
+      Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
+    }
     Blemulator().simulate();
+
     _bleManager.createClient(
           restoreStateIdentifier: "example-restore-state-identifier",
           restoreStateAction: (peripherals) {

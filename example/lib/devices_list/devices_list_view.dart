@@ -112,6 +112,7 @@ class DevicesList extends ListView {
                   indent: 0,
                 ),
             itemCount: devices.length,
+            key: Key('devicesList'),
             itemBuilder: (context, i) {
               Fimber.d("Build row for $i");
               return _buildRow(context, devices[i],
@@ -151,6 +152,7 @@ class DevicesList extends ListView {
   static Widget _buildRow(BuildContext context, BleDevice device,
       DeviceTapListener deviceTapListener) {
     return ListTile(
+      key: Key("deviceCell"),
       leading: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: _buildAvatar(context, device),

@@ -14,7 +14,7 @@ const String _temperaturePeriodUuid =
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
 class BasicSensorTag extends SimulatedPeripheral {
   BasicSensorTag(
-      {String id = "12:12:12:12:12:22",
+      {String id = "12:12:12:12:12:33",
         String name = "SensorTag",
         String localName = "SensorTag"})
       : super(
@@ -44,7 +44,7 @@ class BasicSensorTag extends SimulatedPeripheral {
                 convenienceName: "IR Temperature Period"),
           ])
         ]
-  ) {
-    scanInfo.localName = localName;
-  }
+  );
 }
+
+SimulatedPeripheral peripheral1 = BasicSensorTag();

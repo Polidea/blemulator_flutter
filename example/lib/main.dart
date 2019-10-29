@@ -6,10 +6,15 @@ import 'package:blemulator_example/devices_list/devices_list_view.dart';
 import 'device_details/device_detail_view.dart';
 import 'device_details/devices_details_bloc_provider.dart';
 
-void main() {
+import 'package:blemulator/blemulator.dart';
+
+void main({List<SimulatedPeripheral> peripherals}) {
   Fimber.plantTree(DebugTree());
+  simulatedPeripherals = peripherals ?? [];
   runApp(MyApp());
 }
+
+List<SimulatedPeripheral> simulatedPeripherals;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
