@@ -21,17 +21,6 @@ void main() {
 
   });
 
-  test("should return MTU", () async {
-    //given
-    int expectedMtu = MTU;
-
-    //when
-    int mtu = await peripheralMtuMixin.requestMtuForDevice(DEVICE_ID, null);
-
-    //then
-    expect(mtu, expectedMtu);
-  });
-
   test("should change MTU", () async {
     //given
     const newMtu = 119;

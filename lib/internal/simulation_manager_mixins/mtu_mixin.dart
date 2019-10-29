@@ -6,7 +6,13 @@ mixin PeripheralMtuMixin on SimulationManagerBaseWithErrorChecks {
     await _errorIfUnknown(identifier);
     await _errorIfNotConnected(identifier);
 
-    int mtu = await _peripherals[identifier].requestMtu(requestedMtu);
+    int mtu;
+    if (Platform.isIOS) {
+      mtu = await _peripherals[identifier].requestMtu(max_mtu);
+    } else {
+      mtu = await _peripherals[identifier].requestMtu(requestedMtu);
+    }
+
     await _errorIfDisconnected(identifier);
     return mtu;
   }
