@@ -55,6 +55,7 @@ class DevicesBloc {
           Blemulator().addSimulatedPeripheral(peripheral));
     } else {
       Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
+      Blemulator().addSimulatedPeripheral(BasicSensorTag());
     }
     Blemulator().simulate();
 
