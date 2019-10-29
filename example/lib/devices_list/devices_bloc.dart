@@ -50,14 +50,14 @@ class DevicesBloc {
     Fimber.d("Init devices bloc");
     bleDevices.clear();
 
-    if (simulatedPeripherals.isNotEmpty) {
-      simulatedPeripherals.forEach((peripheral) =>
-          Blemulator().addSimulatedPeripheral(peripheral));
-    } else {
-      Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
-      Blemulator().addSimulatedPeripheral(BasicSensorTag());
-    }
-    Blemulator().simulate();
+//    if (simulatedPeripherals.isNotEmpty) {
+//      simulatedPeripherals.forEach((peripheral) =>
+//          Blemulator().addSimulatedPeripheral(peripheral));
+//    } else {
+//      Blemulator().addSimulatedPeripheral(AdvanceSensorTag());
+//      Blemulator().addSimulatedPeripheral(BasicSensorTag());
+//    }
+//    Blemulator().simulate();
 
     _bleManager.createClient(
           restoreStateIdentifier: "example-restore-state-identifier",
