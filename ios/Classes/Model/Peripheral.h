@@ -2,7 +2,7 @@
 
 @property NSString * _Nonnull identifier;
 @property NSString * _Nullable name;
-@property NSInteger * _Nullable mtu;
+@property NSNumber * _Nullable mtu;
 
 - (instancetype _Nonnull)initWithIdentifier:(NSString * _Nonnull)identifier
                                        name:(NSString * _Nullable)name;

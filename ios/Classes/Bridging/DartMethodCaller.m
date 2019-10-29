@@ -291,7 +291,7 @@ typedef void (^SuccessHandler)(id _Nullable result);
     SuccessHandler successHandler = ^(id result) {
         Peripheral *peripheral = [[Peripheral alloc] initWithIdentifier:deviceIdentifier
                                                                    name:name];
-        peripheral.mtu = (NSInteger)result;
+        peripheral.mtu = (NSNumber *)result;
         resolve([peripheral jsonObjectRepresentation]);
     };
     [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_REQUEST_MTU
