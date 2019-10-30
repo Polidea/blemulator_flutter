@@ -4,6 +4,7 @@ import 'package:blemulator/blemulator.dart';
 
 
 import '../Command.dart';
+import '../test_isolate/test_devices.dart';
 import 'simulated_devices/advance_sensor_tag.dart';
 import 'simulated_devices/basic_sensor_tag.dart';
 import 'simulated_devices/test_simulated_peripheral.dart';
@@ -11,9 +12,9 @@ import 'simulated_devices/unconnectable_peripheral.dart';
 
 class SimulatedDevicesAdapter {
 
-  SimulatedPeripheral basicSensorTag = SensorTagWithDelayedDisconnect("12:12:12:12:12:11");
-  SimulatedPeripheral advancedSensorTag = SensorTag("12:12:12:12:12:22");
-  SimulatedPeripheral unconnectableSensorTag = UnconnectablePeripheral("12:12:12:12:12:33");
+  SimulatedPeripheral basicSensorTag = SensorTagWithDelayedDisconnect(sensorTagWithDelayedDisconnectStub.deviceId);
+  SimulatedPeripheral advancedSensorTag = SensorTag(sensorStagStub.deviceId);
+  SimulatedPeripheral unconnectableSensorTag = UnconnectablePeripheral(unconnectablePeripheralStub.deviceId);
 
   List<SimulatedPeripheral> peripherals;
 

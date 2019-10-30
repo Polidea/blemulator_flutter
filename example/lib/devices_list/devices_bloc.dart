@@ -57,6 +57,11 @@ class DevicesBloc {
       Fimber.d('Turn on simulator');
 
       Blemulator().simulate();
+    } else {
+      Blemulator().addSimulatedPeripheral(AdvancedSensorTag());
+      Fimber.d('Turn on simulator');
+
+      Blemulator().simulate();
     }
 
 
