@@ -7,9 +7,9 @@ import 'package:blemulator/blemulator.dart';
 
 // Simplified simulation of Texas Instruments CC2541 SensorTag
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
-class AdvanceSensorTag extends SimulatedPeripheral {
-  AdvanceSensorTag(
-      {String id = "4B:99:4C:34:DE:77",
+class AdvancedSensorTag extends SimulatedPeripheral {
+  AdvancedSensorTag(
+      {String id = "4B:99:4C:34:DE:99",
       String name = "SensorTag",
       String localName = "SensorTag"})
       : super(

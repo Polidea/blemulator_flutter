@@ -44,7 +44,7 @@ class BasicSensorTag extends SimulatedPeripheral {
                 convenienceName: "IR Temperature Period"),
           ])
         ]
-  );
+  ) {
+    scanInfo.localName = localName;
+  }
 }
-
-SimulatedPeripheral peripheral1 = BasicSensorTag();

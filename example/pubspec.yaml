@@ -25,6 +25,7 @@ dev_dependencies:
     sdk: flutter
 
   test: ^1.5.3
+  ozzie: 2.2.3
 
   blemulator:
     path: ../

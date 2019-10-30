@@ -1,21 +1,7 @@
+import 'package:blemulator/blemulator.dart';
 
+import 'advance_sensor_tag.dart';
+import 'basic_sensor_tag.dart';
 
-
-
-class Communicator {
-
-  static Function _disconnect;
-
-  static register(Function disconnect) {
-    print('[com]register---------------${_disconnect}');
-    print('[com]register2---------------${disconnect}');
-    _disconnect = disconnect;
-  }
-
-  static disconnect() {
-    print('[com]disconnect---------------${_disconnect}');
-    _disconnect();
-  }
-}
-
-//Communicator communicator = Communicator();
+SimulatedPeripheral basicSensorTag = BasicSensorTag(id: "12:12:12:12:12:11");
+SimulatedPeripheral advancedSensorTag = AdvancedSensorTag(id: "12:12:12:12:12:22");
