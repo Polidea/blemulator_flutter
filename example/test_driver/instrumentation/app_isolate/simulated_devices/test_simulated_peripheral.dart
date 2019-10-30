@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 
 import 'package:blemulator/blemulator.dart';
 
-import 'Command.dart';
+import '../../Command.dart';
+
+
 
 
 mixin TestCommandHandler on SimulatedPeripheral {

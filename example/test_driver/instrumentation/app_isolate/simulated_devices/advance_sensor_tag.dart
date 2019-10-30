@@ -9,10 +9,10 @@ import 'test_simulated_peripheral.dart';
 
 // Simplified simulation of Texas Instruments CC2541 SensorTag
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
-class AdvancedSensorTag extends SimulatedPeripheral with TestCommandHandler implements CommandHandlerInterface {
-  AdvancedSensorTag(
-      {String id = "4B:99:4C:34:DE:88",
-      String name = "SensorTag",
+class SensorTag extends SimulatedPeripheral with TestCommandHandler implements CommandHandlerInterface {
+  SensorTag(
+      String id,
+      {String name = "SensorTag",
       String localName = "SensorTag"})
       : super(
             name: name,

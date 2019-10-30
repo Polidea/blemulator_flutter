@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ozzie/ozzie.dart';
 import 'package:test/test.dart';
-import 'Command.dart';
+import 'instrumentation/Command.dart';
 
 //import 'peripherals.dart';
 
