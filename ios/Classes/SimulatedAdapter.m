@@ -402,11 +402,16 @@
 
 // MARK: - Adapter Methods - MTU
 
-- (void)requestMTUForDevice:(NSString * _Nonnull)deviceIdentifier mtu:(NSInteger)mtu
+- (void)requestMTUForDevice:(NSString * _Nonnull)deviceIdentifier
+                        mtu:(NSInteger)mtu
               transactionId:(NSString * _Nonnull)transactionId
                     resolve:(Resolve)resolve
                      reject:(Reject)reject {
     NSLog(@"SimulatedAdapter.requestMTUForDevice");
+    [self.dartMethodCaller requestMTUForDevice:deviceIdentifier
+                                          name:[self.knownPeripherals objectForKey:deviceIdentifier].name
+                                       resolve:resolve
+                                        reject:reject];
 }
 
 // MARK: - Adapter Methods - RSSI
