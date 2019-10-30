@@ -3,6 +3,9 @@ import 'dart:typed_data';
 import 'package:blemulator/blemulator.dart';
 import 'package:blemulator_example/simulated_peripherals/advance_sensor_tag.dart';
 
+import 'Command.dart';
+import 'test_simulated_peripheral.dart';
+
 
 const String _temperatureDataUuid =
     "F000AA01-0451-4000-B000-000000000000";
@@ -12,7 +15,8 @@ const String _temperaturePeriodUuid =
     "F000AA03-0451-4000-B000-000000000000";
 // Simplified simulation of Texas Instruments CC2541 SensorTag
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
-class BasicSensorTag extends SimulatedPeripheral {
+
+class BasicSensorTag extends SimulatedPeripheral with TestCommandHandler implements CommandHandlerInterface {
   BasicSensorTag(
       {String id = "12:12:12:12:12:33",
         String name = "SensorTag",
@@ -47,4 +51,39 @@ class BasicSensorTag extends SimulatedPeripheral {
   ) {
     scanInfo.localName = localName;
   }
+
+  @override
+  void handleDeviceCommand(DeviceCommand deviceCommand) {
+    switch (deviceCommand.commandType) {
+      case CommandType.DISCONNECT:
+        Future.delayed(Duration(milliseconds: 5000))
+            .then((_) => onDisconnect());
+        break;
+      default:
+        break;
+    }
+  }
+
+}
+
+class UnconnectableSensorTag extends SimulatedPeripheral with TestCommandHandler implements CommandHandlerInterface {
+  UnconnectableSensorTag(
+      {String id = "12:12:12:12:12:33",
+        String name = "UnconnectableSensorTag",
+        String localName = "UnconnectableSensorTag"})
+      : super(
+      name: name,
+      id: id,
+      advertisementInterval: Duration(milliseconds: 800),
+      services: []
+  ) {
+    scanInfo.localName = localName;
+  }
+
+  @override
+  Future<bool> onConnectRequest() {
+    return Future.value(false);
+  }
+
+
 }

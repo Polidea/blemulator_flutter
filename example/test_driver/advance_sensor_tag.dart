@@ -5,9 +5,11 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:blemulator/blemulator.dart';
 
+import 'test_simulated_peripheral.dart';
+
 // Simplified simulation of Texas Instruments CC2541 SensorTag
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
-class AdvancedSensorTag extends SimulatedPeripheral {
+class AdvancedSensorTag extends SimulatedPeripheral with TestCommandHandler implements CommandHandlerInterface {
   AdvancedSensorTag(
       {String id = "4B:99:4C:34:DE:88",
       String name = "SensorTag",

@@ -28,7 +28,7 @@ class TemperatureView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            StreamBuilder<PeripheralConnectionState>(
+            StreamBuilder<String>(
               key: Key("connectionStateContainer"),
               stream: _deviceDetailsBloc.connectionState,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -55,10 +55,10 @@ class TemperatureView extends StatelessWidget {
             ),
             Row(
               children: <Widget>[
-                StreamBuilder<PeripheralConnectionState>(
+                StreamBuilder<String>(
                   stream: _deviceDetailsBloc.connectionState,
                   builder: (context, snapshot) {
-                    if (snapshot.data == PeripheralConnectionState.connected) {
+                    if (snapshot.data == PeripheralConnectionState.connected.toString()) {
                       return ButtonView("Disconnnect", action: _disconnect);
                     } else {
                       return ButtonView("Connect", action: _connectAndMonitorTemperature);

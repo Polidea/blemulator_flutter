@@ -50,10 +50,12 @@ class DevicesBloc {
     Fimber.d("Init devices bloc");
     bleDevices.clear();
 
+    Fimber.d('Add $simulatedPeripherals to Simulator');
     if (simulatedPeripherals.isNotEmpty) {
-      Fimber.d('Add $simulatedPeripherals to Simulator');
       simulatedPeripherals.forEach((peripheral) =>
           Blemulator().addSimulatedPeripheral(peripheral));
+      Fimber.d('Turn on simulator');
+
       Blemulator().simulate();
     }
 

@@ -19,9 +19,9 @@ class DeviceDetailsBloc {
 
   Observable<String> get temperature => _temperatureController.stream;
 
-  BehaviorSubject<PeripheralConnectionState> _connectionStateController;
+  BehaviorSubject<String> _connectionStateController;
 
-  ValueObservable<PeripheralConnectionState> get connectionState =>
+  ValueObservable<String> get connectionState =>
       _connectionStateController.stream;
 
   Subject<List<DebugLog>> _logsController;
@@ -43,9 +43,9 @@ class DeviceDetailsBloc {
     _temperatureController = PublishSubject<String>();
 
     _connectionStateController =
-        BehaviorSubject<PeripheralConnectionState>.seeded(device.isConnected
-            ? PeripheralConnectionState.connected
-            : PeripheralConnectionState.disconnected);
+        BehaviorSubject<String>.seeded(device.isConnected
+            ? PeripheralConnectionState.connected.toString()
+            : PeripheralConnectionState.disconnected.toString());
 
     _logsController = PublishSubject<List<DebugLog>>();
 
@@ -101,22 +101,27 @@ class DeviceDetailsBloc {
         .observeConnectionState(emitCurrentValue: true, completeOnDisconnect: true)
         .listen((connectionState) {
       log('Observed new connection state: \n$connectionState');
-      _connectionStateController.add(connectionState);
+      _connectionStateController.add(connectionState.toString());
     });
 
     log("Connecting to ${peripheral.name}");
-    await peripheral.connect();
-    await peripheral.discoverAllServicesAndCharacteristics();
-    await peripheralTestOperations.writeCharacteristicForPeripheral();
-    tempSubscription = peripheralTestOperations.monitorTemperature().listen(
-          (temperature) {
-        _temperatureController.add(temperature);
-      },
-      onError: (error) {
-        Fimber.e(error.toString());
-      },
-      cancelOnError: true,
-    );
+    try {
+      await peripheral.connect();
+      await peripheral.discoverAllServicesAndCharacteristics();
+      await peripheralTestOperations.writeCharacteristicForPeripheral();
+      tempSubscription = peripheralTestOperations.monitorTemperature().listen(
+            (temperature) {
+          _temperatureController.add(temperature);
+        },
+        onError: (error) {
+          Fimber.e(error.toString());
+        },
+        cancelOnError: true,
+      );
+    } catch (e) {
+      Fimber.d(e.toString());
+//      _connectionStateController.add("Connection Error");
+    }
 
   }
 
@@ -258,7 +263,7 @@ class DeviceDetailsBloc {
               emitCurrentValue: true, completeOnDisconnect: true)
           .listen((connectionState) {
         log('Observed new connection state: \n$connectionState');
-        _connectionStateController.add(connectionState);
+        _connectionStateController.add(connectionState.toString());
       });
 
       log("Connecting to ${peripheral.name}");
@@ -298,7 +303,7 @@ class DeviceDetailsBloc {
         .observeConnectionState(emitCurrentValue: true)
         .listen((connectionState) {
       log('Observed new connection state: \n$connectionState');
-      _connectionStateController.add(connectionState);
+      _connectionStateController.add(connectionState.toString());
     });
 
     SensorTagTestScenario(_bleManager, peripheral, log, logError)
