@@ -15,7 +15,7 @@ Your Flutter code for handling BLE will not be aware that it doesn't run on the 
 
 The simulation allows you to develop BLE applications on iOS simulator and/or Android emulator, and run automated tests.
 
-## How to use
+## How to use  
 
 To start simulating a BLE peripheral:
 1. obtain an instance of Blemulator
