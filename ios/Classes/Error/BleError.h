@@ -15,6 +15,8 @@
 
 - (instancetype)initWithErrorCode:(BleErrorCode)errorCode reason:(NSString *)reason;
 
+- (NSString *)jsonStringRepresentation;
+
 - (NSDictionary *)jsonObjectRepresentation;
 
 - (void)callReject:(Reject)reject;

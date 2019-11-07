@@ -1,8 +1,10 @@
+[![Build Status](https://travis-ci.org/Polidea/blemulator_flutter.svg?branch=master)](https://travis-ci.org/Polidea/blemulator_flutter)
+[![Frontside](https://img.shields.io/static/v1?label=Facilitated%20by&message=frontside.io&color=blue)](#facilitated-by-frontside)
+[![pub package](https://img.shields.io/pub/v/blemulator.svg)](https://pub.dev/packages/blemulator)
+
 ![BLEmulator logo](site/logo_Blemulator.png)
 
 # BLEmulator
-
-[![Build Status](https://travis-ci.org/Polidea/blemulator_flutter.svg?branch=master)](https://travis-ci.org/Polidea/blemulator_flutter)
 
 Plugin for simulating Bluetooth Low Energy peripherals.
 
@@ -13,8 +15,6 @@ Your Flutter code for handling BLE will not be aware that it doesn't run on the 
 
 The simulation allows you to develop BLE applications on iOS simulator and/or Android emulator, and run automated tests.
 
-## Configuration and installation
-TBD
 ## How to use
 
 To start simulating a BLE peripheral:
@@ -228,6 +228,10 @@ The example above could be refactored to a custom SimulatedService with all the
 If you'd like to poke around some more, clone the repository and run the provided example.
 
 You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripheral.dart)
+
+## Facilitated by Frontside 
+[Frontside](https://github.com/thefrontside) provided architectural advice and financial support for this library on behalf of [Resideo](https://github.com/resideo).
+
 ## Maintained by
 This library is maintained by [Polidea](http://www.polidea.com)
 

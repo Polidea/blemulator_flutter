@@ -11,23 +11,27 @@ mixin PeripheralConnectionMixin on SimulationManagerBaseWithErrorChecks {
     await _errorIfConnected(identifier);
 
     await _errorIfCannotConnect(identifier);
-    return _peripherals[identifier].onConnect();
+    await _peripherals[identifier].onConnect();
+
+    if (Platform.isIOS) {
+      await _peripherals[identifier].requestMtu(max_mtu);
+    }
   }
 
   void addConnectionStateObserverIfNeeded(String identifier) {
     _connectionStateSubscriptions.putIfAbsent(
         identifier,
-            () => _peripherals[identifier]
-            .connectionStateStream
-            .listen((connectionState) {
-          _bridge.publishConnectionState(
-              _peripherals[identifier], connectionState);
+        () => _peripherals[identifier]
+                .connectionStateStream
+                .listen((connectionState) {
+              _bridge.publishConnectionState(
+                  _peripherals[identifier], connectionState);
 
-          if (connectionState == PeripheralConnectionState.disconnected) {
-            _connectionStateSubscriptions[identifier].cancel();
-            _connectionStateSubscriptions.remove(identifier);
-          }
-        }));
+              if (connectionState == PeripheralConnectionState.disconnected) {
+                _connectionStateSubscriptions[identifier].cancel();
+                _connectionStateSubscriptions.remove(identifier);
+              }
+            }));
   }
 
   Future<bool> _isDeviceConnected(String identifier) async {

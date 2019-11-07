@@ -14,7 +14,7 @@ class SensorTagTestScenario {
         .connect()
         .then((_) => _peripheralTestOperations.cancelTransaction())
         .then((_) => _peripheralTestOperations.discovery())
-//        .then((_) => _peripheralTestOperations.testRequestingMtu())
+        .then((_) => _peripheralTestOperations.testRequestingMtu())
         .then((_) => _peripheralTestOperations.testReadingRssi())
         .then((_) => _peripheralTestOperations
             .readWriteMonitorCharacteristicForPeripheral())

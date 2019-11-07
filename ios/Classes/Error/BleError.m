@@ -20,6 +20,10 @@
     return self;
 }
 
+- (NSString *)jsonStringRepresentation {
+    return [BlemulatorJSONStringifier jsonStringFromJSONObject:[self jsonObjectRepresentation]];
+}
+
 - (NSDictionary *)jsonObjectRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithInt:_errorCode], @"errorCode",

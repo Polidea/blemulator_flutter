@@ -65,7 +65,7 @@
 }
 
 - (void)dispatchDartValueHandlerReadError:(BleError *)bleError transactionId:(NSString *)transactionId {
-    [self.delegate dispatchEvent:BleEvent.readEvent value:[NSArray arrayWithObjects:[bleError jsonObjectRepresentation],
+    [self.delegate dispatchEvent:BleEvent.readEvent value:[NSArray arrayWithObjects:[bleError jsonStringRepresentation],
                                                            [NSNull null],
                                                            transactionId != nil ? transactionId : [NSNull null],
                                                            nil]];
@@ -402,11 +402,16 @@
 
 // MARK: - Adapter Methods - MTU
 
-- (void)requestMTUForDevice:(NSString * _Nonnull)deviceIdentifier mtu:(NSInteger)mtu
+- (void)requestMTUForDevice:(NSString * _Nonnull)deviceIdentifier
+                        mtu:(NSInteger)mtu
               transactionId:(NSString * _Nonnull)transactionId
                     resolve:(Resolve)resolve
                      reject:(Reject)reject {
     NSLog(@"SimulatedAdapter.requestMTUForDevice");
+    [self.dartMethodCaller requestMTUForDevice:deviceIdentifier
+                                          name:[self.knownPeripherals objectForKey:deviceIdentifier].name
+                                       resolve:resolve
+                                        reject:reject];
 }
 
 // MARK: - Adapter Methods - RSSI

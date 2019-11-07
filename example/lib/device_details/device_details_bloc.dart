@@ -91,6 +91,14 @@ class DeviceDetailsBloc {
     });
   }
 
+  void requestMtu() {
+    _clearLogs();
+    _deviceController.stream.listen((bleDevice) async {
+      PeripheralTestOperations(_bleManager, bleDevice.peripheral, log, logError)
+          .testRequestingMtu();
+    });
+  }
+
   void discovery() {
     _clearLogs();
     _deviceController.stream.listen((bleDevice) async {
