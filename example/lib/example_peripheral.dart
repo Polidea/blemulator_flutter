@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -139,9 +140,39 @@ class BooleanCharacteristic extends SimulatedCharacteristic {
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed, "Unsupported value"));
-    } else {
+    } else {!
       return super.write(value); //this propagates value through the blemulator,
       // allowing you to react to changes done to this characteristic
     }
+  }
+}
+
+
+class SimulatedDev1 extends SimulatedPeripheral {
+
+  static const String ssidChar =
+      "F000AA02-0451-4000-B000-000000000000";
+  static const String ssidServ =
+      "F000AA03-0451-4000-B000-000000000000";
+
+  SimulatedDev1(String name, String id) :
+        super(
+          name: name,
+          id: id,
+          advertisementInterval: Duration(milliseconds: 800),
+          services: [
+            SimulatedService(
+                uuid: ssidServ,
+                isAdvertised: true,
+                characteristics: [
+                  SimulatedCharacteristic(
+                      uuid: ssidChar,
+                      value: utf8.encode('{SSID: "test"}')
+                  )
+                ]
+            )
+          ]
+      ) {
+    scanInfo.localName = name;
   }
 }

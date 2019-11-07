@@ -238,6 +238,7 @@ public class DartMethodCaller {
                             (List<Map<String, Object>>) mappedService.get(SimulationArgumentName.CHARACTERISTICS))
             );
         }
+        Log.d(TAG, "Parse discovery response, services: " + services);
         return new DeviceContainer(deviceIdentifier, deviceName, services, characteristics);
     }
 

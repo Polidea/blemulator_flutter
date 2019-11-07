@@ -315,10 +315,11 @@ public class SimulatedAdapter implements BleAdapter {
 
     @Override
     public Characteristic[] getCharacteristicsForService(int serviceIdentifier) throws BleError {
-        Log.i(TAG, "discoverAllServicesAndCharacteristicsForDevice");
+        Log.i(TAG, "getCharacteristicsForService");
 
 
         for (DeviceContainer deviceContainer : knownPeripherals.values()) {
+            Log.i(TAG, "Device services: " + deviceContainer.getServices());
             for (Service service : deviceContainer.getServices()) {
                 if (service.getId() == serviceIdentifier) {
                     return deviceContainer

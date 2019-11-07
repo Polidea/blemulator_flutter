@@ -1,5 +1,6 @@
 part of test_scenarios;
 
+
 typedef TestedFunction = Future<void> Function();
 
 class PeripheralTestOperations {
@@ -80,44 +81,53 @@ class PeripheralTestOperations {
 
   Future<void> readCharacteristicForPeripheral() async {
     await _tryCatch(() async {
-      log("Reading temperature config");
+      log("Reading ssid");
       CharacteristicWithValue readValue = await peripheral.readCharacteristic(
-          SensorTagTemperatureUuids.temperatureService,
-          SensorTagTemperatureUuids.temperatureDataCharacteristic);
-      log("Temperature config value: \n${_convertToTemperature(readValue.value)}C");
+          SimulatedDev1.ssidServ,
+          SimulatedDev1.ssidChar);
+      Fimber.d('characteristic value: ${readValue.value}');
+      var tmp = utf8.decode(readValue.value);
+      Fimber.d('decoded characteristic value: ${tmp}');
+      log("Temperature ssid: \n${_convertToTemperature(readValue.value)}C");
     });
   }
 
   Future<void> readCharacteristicForService() async {
     await _tryCatch(() async {
-      log("Reading temperature config");
+      log("Reading ssid char");
       Service service = await peripheral.services().then((services) =>
           services.firstWhere((service) =>
               service.uuid ==
-              SensorTagTemperatureUuids.temperatureService.toLowerCase()));
+                  SimulatedDev1.ssidServ.toLowerCase()));
       CharacteristicWithValue readValue = await service.readCharacteristic(
-          SensorTagTemperatureUuids.temperatureDataCharacteristic);
-      log("Temperature config value: \n${_convertToTemperature(readValue.value)}C");
+          SimulatedDev1.ssidChar);
+      Fimber.d('SSID characteristic value: ${readValue.value}');
+      var tmp = utf8.decode(readValue.value);
+      Fimber.d('decoded SSID characteristic value: ${tmp}');
+      log("SSID: \n${_convertToTemperature(readValue.value)}C");
     });
   }
 
   Future<void> readCharacteristic() async {
     await _tryCatch(() async {
-      log("Reading temperature config");
+      log("Reading SSID");
       Service service = await peripheral.services().then((services) =>
           services.firstWhere((service) =>
               service.uuid ==
-              SensorTagTemperatureUuids.temperatureService.toLowerCase()));
+                  SimulatedDev1.ssidServ.toLowerCase()));
 
       List<Characteristic> characteristics = await service.characteristics();
       Characteristic characteristic = characteristics.firstWhere(
           (characteristic) =>
               characteristic.uuid ==
-              SensorTagTemperatureUuids.temperatureDataCharacteristic
+                  SimulatedDev1.ssidChar
                   .toLowerCase());
 
       Uint8List readValue = await characteristic.read();
-      log("Temperature config value: \n${_convertToTemperature(readValue)}C");
+      Fimber.d('SSID characteristic value: $readValue');
+      var decodedValue = utf8.decode(readValue);
+      Fimber.d('decoded SSID characteristic value: $decodedValue');
+      log("SSID: \n${_convertToTemperature(readValue)}C");
     });
   }
 

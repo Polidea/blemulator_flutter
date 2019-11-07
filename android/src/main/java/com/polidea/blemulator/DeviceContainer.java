@@ -1,5 +1,7 @@
 package com.polidea.blemulator;
 
+import android.util.Log;
+
 import com.polidea.multiplatformbleadapter.Characteristic;
 import com.polidea.multiplatformbleadapter.Service;
 
@@ -18,6 +20,8 @@ public class DeviceContainer {
         this.name = name;
         this.services = services;
         this.characteristics = characteristics;
+
+        Log.d("DeviceContainer", "create with name: " + name + ", services: " + services);
     }
 
     public boolean isConnected() {
