@@ -79,8 +79,12 @@ abstract class SimulatedPeripheral {
   Stream<ScanResult> onScan({bool allowDuplicates = true}) async* {
     do {
       await Future.delayed(advertisementInterval);
-      yield ScanResult(scanInfo, this);
+      yield scanResult();
     } while (allowDuplicates);
+  }
+
+  ScanResult scanResult() {
+    return ScanResult(scanInfo, this);
   }
 
   Future<bool> onConnectRequest() async {
