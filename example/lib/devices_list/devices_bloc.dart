@@ -49,6 +49,9 @@ class DevicesBloc {
     Fimber.d("Init devices bloc");
     bleDevices.clear();
     Blemulator().addSimulatedPeripheral(SensorTag());
+    Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
+    Blemulator()
+        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
     Blemulator().simulate();
     _bleManager
         .createClient(

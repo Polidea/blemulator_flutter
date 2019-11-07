@@ -319,14 +319,17 @@ public class SimulatedAdapter implements BleAdapter {
 
 
         for (DeviceContainer deviceContainer : knownPeripherals.values()) {
-            for (Service service : deviceContainer.getServices()) {
-                if (service.getId() == serviceIdentifier) {
-                    return deviceContainer
-                            .getCharacteristics()
-                            .get(service.getUuid().toString().toUpperCase())
-                            .toArray(new Characteristic[0]);
+            if (deviceContainer.getServices() != null) {
+                for (Service service : deviceContainer.getServices()) {
+                    if (service.getId() == serviceIdentifier) {
+                        return deviceContainer
+                                .getCharacteristics()
+                                .get(service.getUuid().toString().toUpperCase())
+                                .toArray(new Characteristic[0]);
+                    }
                 }
             }
+
         }
 
         throw new BleError(BleErrorCode.ServiceNotFound, "Service with id " + serviceIdentifier + " not found", 0);
