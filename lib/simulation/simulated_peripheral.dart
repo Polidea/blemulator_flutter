@@ -61,7 +61,7 @@ abstract class SimulatedPeripheral {
         .map((service) => service.uuid));
 
     _services = Map.fromIterable(
-        services.map((service) => service..peripheralId = this.id),
+        services,
         key: (service) => service.id);
     _characteristics = Map();
     for (SimulatedService service in services) {
