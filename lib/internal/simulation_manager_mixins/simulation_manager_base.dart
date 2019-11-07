@@ -6,13 +6,13 @@ abstract class SimulationManagerBase {
 
   SimulationManagerBase(this._bridge);
 
-  SimulatedPeripheral _peripheralWithServiceId(int id) =>
+  SimulatedPeripheral _findPeripheralWithServiceId(int id) =>
       _peripherals.values.firstWhere(
         (peripheral) => peripheral.hasService(id),
         orElse: () => null,
       );
 
-  SimulatedPeripheral _peripheralWithCharacteristicId(int id) =>
+  SimulatedPeripheral _findPeripheralWithCharacteristicId(int id) =>
       _peripherals.values.firstWhere(
         (peripheral) => peripheral.hasCharacteristic(id),
         orElse: () => null,
