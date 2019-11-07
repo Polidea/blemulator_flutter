@@ -65,7 +65,7 @@
 }
 
 - (void)dispatchDartValueHandlerReadError:(BleError *)bleError transactionId:(NSString *)transactionId {
-    [self.delegate dispatchEvent:BleEvent.readEvent value:[NSArray arrayWithObjects:[bleError jsonObjectRepresentation],
+    [self.delegate dispatchEvent:BleEvent.readEvent value:[NSArray arrayWithObjects:[bleError jsonStringRepresentation],
                                                            [NSNull null],
                                                            transactionId != nil ? transactionId : [NSNull null],
                                                            nil]];
