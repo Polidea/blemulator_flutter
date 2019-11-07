@@ -45,6 +45,17 @@ mixin ErrorChecksMixin on SimulationManagerBase {
     }
   }
 
+  Future<void> _errorIfDiscoveryNotDone(SimulatedPeripheral peripheral) async {
+    if (!peripheral.discoveryDone) {
+      return Future.error(
+        SimulatedBleError(
+          BleErrorCode.CharacteristicsNotDiscovered,
+          "Discovery was not done on peripheral ${peripheral.id}",
+        ),
+      );
+    }
+  }
+
   Future<void> _errorIfUnknown(String identifier) async {
     if (_peripherals[identifier] == null) {
       return Future.error(

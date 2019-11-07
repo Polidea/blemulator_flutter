@@ -39,6 +39,7 @@ abstract class SimulatedPeripheral {
       _connectionStateStreamController;
 
   bool _isConnected = false;
+  bool _discoveryDone = false;
 
   SimulatedPeripheral({
     @required this.name,
@@ -105,7 +106,11 @@ abstract class SimulatedPeripheral {
         .add(FlutterBLELib.PeripheralConnectionState.disconnected);
   }
 
-  Future<void> onDiscovery() async {}
+  Future<void> onDiscovery() async {
+    _discoveryDone = true;
+  }
+
+  bool get discoveryDone => _discoveryDone;
 
   bool isConnected() => _isConnected;
 
