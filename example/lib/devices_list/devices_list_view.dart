@@ -9,7 +9,6 @@ import 'package:blemulator_example/model/ble_device.dart';
 import 'devices_bloc.dart';
 import 'devices_bloc_provider.dart';
 
-
 typedef DeviceTapListener = void Function();
 
 class DevicesListScreen extends StatefulWidget {
@@ -74,11 +73,10 @@ class DeviceListScreenState extends State<DevicesListScreen> {
       body: StreamBuilder<List<BleDevice>>(
         initialData: _devicesBloc.visibleDevices.value,
         stream: _devicesBloc.visibleDevices,
-        builder: (context, snapshot) =>
-          RefreshIndicator(
-            onRefresh: _devicesBloc.refresh,
-            child: DevicesList(_devicesBloc, snapshot.data),
-          ),
+        builder: (context, snapshot) => RefreshIndicator(
+          onRefresh: _devicesBloc.refresh,
+          child: DevicesList(_devicesBloc, snapshot.data),
+        ),
       ),
     );
   }

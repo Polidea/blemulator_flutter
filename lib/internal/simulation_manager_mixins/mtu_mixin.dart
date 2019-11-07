@@ -1,7 +1,6 @@
 part of internal;
 
 mixin PeripheralMtuMixin on SimulationManagerBaseWithErrorChecks {
-
   Future<int> requestMtuForDevice(String identifier, int requestedMtu) async {
     await _errorIfUnknown(identifier);
     await _errorIfNotConnected(identifier);

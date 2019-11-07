@@ -11,30 +11,29 @@ abstract class BleDevice {
   bool _isConnected = false;
   Peripheral peripheral;
 
-  bool get isConnected =>
-      _isConnected;
+  bool get isConnected => _isConnected;
 
   DeviceCategory get category => _category;
 
   BleDevice(this.name, this.id, this.peripheral) {
     _category = _nameToCategory(name);
-    if(this.name == null) {
-
-    }
+    if (this.name == null) {}
   }
 
   factory BleDevice.connected(BleDevice bleDevice) {
-    return ConnectedBleDevice(bleDevice.name, bleDevice.id, bleDevice.peripheral);
+    return ConnectedBleDevice(
+        bleDevice.name, bleDevice.id, bleDevice.peripheral);
   }
 
-  factory BleDevice.notConnected(String name, String id, Peripheral peripheral) {
+  factory BleDevice.notConnected(
+      String name, String id, Peripheral peripheral) {
     return DisconnectedBleDevice(name, id, peripheral);
   }
 
   DeviceCategory _nameToCategory(String name) {
     if (name == "SensorTag") {
       return DeviceCategory.sensorTag;
-    } else if (name!= null && name.startsWith("Hex")) {
+    } else if (name != null && name.startsWith("Hex")) {
       return DeviceCategory.hex;
     } else {
       return DeviceCategory.other;
@@ -46,11 +45,11 @@ abstract class BleDevice {
 
   @override
   bool operator ==(other) =>
-      other is BleDevice
-          && this.name != null
-          && other.name != null
-          && compareAsciiLowerCase(this.name, other.name) == 0
-          && this.id == other.id;
+      other is BleDevice &&
+      this.name != null &&
+      other.name != null &&
+      compareAsciiLowerCase(this.name, other.name) == 0 &&
+      this.id == other.id;
 
   @override
   String toString() {
@@ -77,13 +76,11 @@ class DisconnectedBleDevice extends BleDevice {
 }
 
 class ConnectedBleDevice extends BleDevice {
-
   ConnectedBleDevice(String name, String id, Peripheral peripheral)
       : super(name ?? "", id, peripheral);
 
   @override
-  void abandon() {
-  }
+  void abandon() {}
 }
 
 enum DeviceCategory { sensorTag, hex, other }
