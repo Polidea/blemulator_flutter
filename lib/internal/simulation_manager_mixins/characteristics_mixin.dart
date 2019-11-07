@@ -47,6 +47,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         _findPeripheralWithCharacteristicId(characteristicIdentifier);
     await _errorIfPeripheralNull(peripheral);
     await _errorIfNotConnected(peripheral.id);
+    await _errorIfDiscoveryNotDone(peripheral);
 
     SimulatedCharacteristic targetCharacteristic =
         await _findCharacteristicForId(characteristicIdentifier);
@@ -65,8 +66,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     String characteristicUUID,
   ) async {
     await _errorIfNotConnected(peripheralId);
-
     SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
+    await _errorIfDiscoveryNotDone(targetPeripheral);
 
     SimulatedCharacteristic targetCharacteristic = targetPeripheral
         .getCharacteristicForService(serviceUuid, characteristicUUID);
@@ -86,10 +87,15 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     SimulatedCharacteristic targetCharacteristic =
         _findCharacteristicForServiceId(serviceIdentifier, characteristicUUID);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
     await _errorIfNotConnected(
         _findPeripheralWithServiceId(serviceIdentifier).id);
+
+    await _errorIfDiscoveryNotDone(
+        _findPeripheralWithServiceId(serviceIdentifier));
+
+    await _errorIfCharacteristicIsNull(
+        targetCharacteristic, characteristicUUID);
+
     await _errorIfCharacteristicNotReadable(targetCharacteristic);
     Uint8List value = await targetCharacteristic.read();
     await _errorIfDisconnected(
@@ -107,6 +113,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
 
     await _errorIfPeripheralNull(peripheral);
     await _errorIfNotConnected(peripheral.id);
+    await _errorIfDiscoveryNotDone(peripheral);
 
     SimulatedCharacteristic targetCharacteristic =
         await _findCharacteristicForId(characteristicIdentifier);
@@ -133,6 +140,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
   }) async {
     await _errorIfNotConnected(peripheralId);
     SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
+    await _errorIfDiscoveryNotDone(targetPeripheral);
 
     SimulatedCharacteristic targetCharacteristic = targetPeripheral
         .getCharacteristicForService(serviceUuid, characteristicUUID);
@@ -163,6 +171,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         targetCharacteristic, characteristicUUID);
     await _errorIfNotConnected(
         _findPeripheralWithServiceId(serviceIdentifier).id);
+    await _errorIfDiscoveryNotDone(
+        _findPeripheralWithServiceId(serviceIdentifier));
     if (withResponse) {
       await _errorIfCharacteristicNotWritableWithResponse(targetCharacteristic);
     } else {
@@ -186,7 +196,10 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         targetCharacteristic, characteristicIdentifier.toString());
     await _errorIfNotConnected(
         _findPeripheralWithCharacteristicId(characteristicIdentifier).id);
+    await _errorIfDiscoveryNotDone(
+        _findPeripheralWithCharacteristicId(characteristicIdentifier));
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
+
     _monitoringSubscriptions.putIfAbsent(
       transactionId,
       () => _CharacteristicMonitoringSubscription(
@@ -242,8 +255,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
   ) async {
     await _errorIfUnknown(peripheralId);
     await _errorIfNotConnected(peripheralId);
-    SimulatedPeripheral targetPeripheral = _peripherals.values
-        .firstWhere((peripheral) => peripheral.id == peripheralId);
+    SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
+    await _errorIfDiscoveryNotDone(targetPeripheral);
 
     SimulatedCharacteristic targetCharacteristic = targetPeripheral
         .getCharacteristicForService(serviceUuid, characteristicUUID);
@@ -302,10 +315,12 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     SimulatedCharacteristic targetCharacteristic =
         _findCharacteristicForServiceId(serviceIdentifier, characteristicUUID);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
     await _errorIfNotConnected(
         _findPeripheralWithServiceId(serviceIdentifier).id);
+    await _errorIfDiscoveryNotDone(
+        _findPeripheralWithServiceId(serviceIdentifier));
+    await _errorIfCharacteristicIsNull(
+        targetCharacteristic, characteristicUUID);
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
     _monitoringSubscriptions.putIfAbsent(
       transactionId,
