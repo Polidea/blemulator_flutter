@@ -274,7 +274,8 @@ class PlatformToDartBridge {
       );
 
   Future<int> _readRssiForDevice(MethodCall call) {
-    return _manager._readRssiForDevice(call.arguments[ArgumentName.id] as String);
+    return _manager
+        ._readRssiForDevice(call.arguments[ArgumentName.id] as String);
   }
 
   Future<int> _requestMtuForDevice(MethodCall call) {

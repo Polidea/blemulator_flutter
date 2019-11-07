@@ -13,8 +13,10 @@ abstract class PlatformMethodName {
 abstract class SimulationPlatformMethodName {
   static const String publishScanResult = "publishScanResult";
   static const String publishConnectionState = "publishConnectionState";
-  static const String publishCharacteristicUpdate = "publishCharacteristicUpdate";
-  static const String publishCharacteristicMonitoringError = "publishCharacteristicMonitoringError";
+  static const String publishCharacteristicUpdate =
+      "publishCharacteristicUpdate";
+  static const String publishCharacteristicMonitoringError =
+      "publishCharacteristicMonitoringError";
 }
 
 abstract class DartMethodName {
@@ -50,8 +52,7 @@ abstract class DartMethodName {
       "monitorCharacteristicForDevice";
   static const String monitorCharacteristicForService =
       "monitorCharacteristicForService";
-  static const String cancelTransaction =
-      "cancelTransaction";
+  static const String cancelTransaction = "cancelTransaction";
   static const String readRssi = "rssi";
   static const String requestMtu = "requestMtu";
 }
@@ -101,7 +102,6 @@ abstract class Metadata {
   static const String errorCode = "errorCode";
   static const String reason = "reason";
   static const String transactionId = "transactionId";
-
 }
 
 abstract class ArgumentName {
