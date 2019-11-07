@@ -246,10 +246,12 @@
                            reject:(NS_NOESCAPE Reject)reject {
     NSLog(@"SimulatedAdapter.characteristicsForService");
     for (DeviceContainer *container in [self.knownPeripherals allValues]) {
-        for (Service *service in container.services) {
-            if (service.objectId == serviceIdentifier) {
-                resolve([container characteristicsJsonRepresentationForService:[service.uuid UUIDString]]);
-                return;
+        if (container.services != nil) {
+            for (Service *service in container.services) {
+                if (service.objectId == serviceIdentifier) {
+                    resolve([container characteristicsJsonRepresentationForService:[service.uuid UUIDString]]);
+                    return;
+                }
             }
         }
     }
