@@ -589,10 +589,31 @@ public class DartMethodCaller {
         });
     }
 
-    public void cancelTransaction(final String transactionId) {
+    public void cancelTransaction(final String transactionId,
+                                  final OnSuccessCallback<Void> onSuccessCallback) {
         Log.i(TAG, "cancelTransaction");
         dartMethodChannel.invokeMethod(DartMethodName.CANCEL_TRANSACTION, new HashMap<String, String>() {{
             put(ArgumentName.TRANSACTION_ID, transactionId);
-        }});
+        }}, new MethodChannel.Result() {
+            @Override
+            public void success(@Nullable Object o) {
+                if (onSuccessCallback != null) {
+                    onSuccessCallback.onSuccess(null);
+                }
+            }
+
+            @Override
+            public void error(String s, @Nullable String jsonBody, @Nullable Object o) {
+                Log.e(TAG, "Error while cancelling transaction with id: " + transactionId + "}. " + jsonBody);
+                if (onSuccessCallback != null) {
+                    onSuccessCallback.onSuccess(null);
+                }
+            }
+
+            @Override
+            public void notImplemented() {
+                Log.e(TAG, "cancelTransaction not implemented");
+            }
+        });
     }
 }
