@@ -2,7 +2,6 @@ part of blemulator;
 
 /// Entry point for using the simulator
 class Blemulator {
-
   static Blemulator _instance = Blemulator._internal();
 
   DartToPlatformBridge _toPlatformBridge;
@@ -22,7 +21,6 @@ class Blemulator {
   ///
   /// Must be called before BleManager.createClient()!
   Future<void> simulate() => _toPlatformBridge.simulate();
-
 
   /// Adds peripheral to simulation
   void addSimulatedPeripheral(SimulatedPeripheral peripheral) {

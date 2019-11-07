@@ -4,12 +4,11 @@ import 'package:rxdart/rxdart.dart';
 class MissingPickedDeviceException implements Exception {}
 
 class DeviceRepository {
-
   static BleDevice _bleDevice;
   BehaviorSubject<BleDevice> _deviceController;
 
-  static final DeviceRepository _deviceRepository = DeviceRepository
-      ._internal();
+  static final DeviceRepository _deviceRepository =
+      DeviceRepository._internal();
 
   factory DeviceRepository() {
     return _deviceRepository;
@@ -24,8 +23,8 @@ class DeviceRepository {
     _deviceController.add(_bleDevice);
   }
 
-  ValueObservable<BleDevice> get pickedDevice => _deviceController.stream.shareValueSeeded(_bleDevice);
+  ValueObservable<BleDevice> get pickedDevice =>
+      _deviceController.stream.shareValueSeeded(_bleDevice);
 
   bool get hasPickedDevice => _bleDevice != null;
-
 }
