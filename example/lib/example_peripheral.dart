@@ -140,7 +140,7 @@ class BooleanCharacteristic extends SimulatedCharacteristic {
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed, "Unsupported value"));
-    } else {!
+    } else {
       return super.write(value); //this propagates value through the blemulator,
       // allowing you to react to changes done to this characteristic
     }
