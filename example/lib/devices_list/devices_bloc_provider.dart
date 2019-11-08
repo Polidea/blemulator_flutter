@@ -11,7 +11,7 @@ class DevicesBlocProvider extends InheritedWidget {
     DevicesBloc devicesBloc,
     Widget child,
   })  : devicesBloc = devicesBloc ??
-            DevicesBloc(DeviceRepository(), BleManager.getInstance()),
+            DevicesBloc(DeviceRepository(), BleManager()),
         super(key: key, child: child);
 
   @override

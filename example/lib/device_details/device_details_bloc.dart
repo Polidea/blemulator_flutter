@@ -64,7 +64,7 @@ class DeviceDetailsBloc {
 
   void init() {
     Fimber.d("init bloc");
-    _bleManager.stopDeviceScan();
+    _bleManager.stopPeripheralScan();
   }
 
   Future<void> disconnect() async {
