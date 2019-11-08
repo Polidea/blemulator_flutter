@@ -27,9 +27,7 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
     //TODO notify bridge?
   }
 
-  Future<void> _createClient() async {
-    print("entered create client");
-  }
+  Future<void> _createClient() async {}
 
   Future<void> _destroyClient() async {}
 
@@ -37,7 +35,6 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
     _peripherals.values.forEach((peripheral) {
       _scanSubscriptions
           .add(peripheral.onScan(allowDuplicates: true).listen((scanResult) {
-        print(scanResult);
         return _bridge.publishScanResult(scanResult);
       }));
     });
