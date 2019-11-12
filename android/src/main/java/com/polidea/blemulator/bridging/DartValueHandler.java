@@ -72,7 +72,6 @@ public class DartValueHandler implements MethodChannel.MethodCallHandler {
     }
 
     private void publishScanResult(MethodCall call, MethodChannel.Result result) {
-        Log.d(TAG, "new scan result");
         HashMap<UUID, byte[]> serviceData = null;
         HashMap<String, byte[]> stringServiceData = call.argument(SimulationArgumentName.SERVICE_DATA);
         if (stringServiceData != null) {
