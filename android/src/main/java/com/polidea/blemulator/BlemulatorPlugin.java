@@ -1,7 +1,7 @@
 package com.polidea.blemulator;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.polidea.blemulator.bridging.DartMethodCaller;
 import com.polidea.blemulator.bridging.DartValueHandler;

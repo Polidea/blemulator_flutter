@@ -1,6 +1,6 @@
 package com.polidea.blemulator.bridging;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.polidea.blemulator.DeviceContainer;

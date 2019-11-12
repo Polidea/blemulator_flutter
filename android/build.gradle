@@ -2,7 +2,7 @@ group 'com.polidea.blemulator'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    ext.kotlin_version = '1.3.0'
     repositories {
         google()
         jcenter()
@@ -33,7 +33,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 18
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
