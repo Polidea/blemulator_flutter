@@ -2,15 +2,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
-class DevicesListBloc extends Bloc<DevicesListEvent, DevicesListState> {
+class PeripheralListBloc extends Bloc<PeripheralListEvent, PeripheralListState> {
   // TODO: Get reference to DeviceRepository once it's implemented
 
   @override
-  DevicesListState get initialState => InitialDevicesListState();
+  PeripheralListState get initialState => InitialPeripheralListState();
 
   @override
-  Stream<DevicesListState> mapEventToState(
-    DevicesListEvent event,
+  Stream<PeripheralListState> mapEventToState(
+    PeripheralListEvent event,
   ) async* {
     if (event is StartScanning) {
       // TODO: Logic to start scanning

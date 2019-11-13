@@ -1,9 +1,9 @@
-import 'package:blemulator_example/develop/devices_list/bloc.dart';
+import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DevicesListScreen extends StatelessWidget {
+class PeripheralListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildTestLayout(context);
@@ -15,9 +15,9 @@ class DevicesListScreen extends StatelessWidget {
         title: Text('Test Screen'),
       ),
       body: Container(
-        child: BlocListener<DevicesListBloc, DevicesListState>(
-          listener: (context, state) => _devicesListStateListener(context, state),
-          child: BlocBuilder<DevicesListBloc, DevicesListState>(
+        child: BlocListener<PeripheralListBloc, PeripheralListState>(
+          listener: (context, state) => _peripheralListStateListener(context, state),
+          child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
               builder: (context, state) {
             return Row(
               children: <Widget>[
@@ -37,7 +37,7 @@ class DevicesListScreen extends StatelessWidget {
     );
   }
 
-  void _devicesListStateListener(BuildContext context, DevicesListState state) {
+  void _peripheralListStateListener(BuildContext context, PeripheralListState state) {
     if (state is ScanningStarted) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
@@ -54,12 +54,12 @@ class DevicesListScreen extends StatelessWidget {
   }
 
   void _startScanning(BuildContext context) {
-    final devicesListBloc = BlocProvider.of<DevicesListBloc>(context);
-    devicesListBloc.add(StartScanning());
+    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+    peripheralListBloc.add(StartScanning());
   }
 
   void _stopScanning(BuildContext context) {
-    final devicesListBloc = BlocProvider.of<DevicesListBloc>(context);
-    devicesListBloc.add(StopScanning());
+    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+    peripheralListBloc.add(StopScanning());
   }
 }
