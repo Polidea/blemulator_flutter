@@ -1,7 +1,8 @@
+import 'package:blemulator_example/develop/devices_list/bloc.dart';
+import 'package:blemulator_example/develop/devices_list/devices_list_screen.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:blemulator_example/devices_list/devices_bloc_provider.dart';
-import 'package:blemulator_example/devices_list/devices_list_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'device_details/device_detail_view.dart';
 import 'device_details/devices_details_bloc_provider.dart';
@@ -24,7 +25,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
-        "/": (context) => DevicesBlocProvider(child: DevicesListScreen()),
+        "/": (context) => BlocProvider(
+              builder: (context) => DevicesListBloc(),
+              child: DevicesListScreen(),
+            ),
         "/details": (context) =>
             DeviceDetailsBlocProvider(child: DeviceDetailsView()),
       },
