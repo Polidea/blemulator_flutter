@@ -15,42 +15,23 @@ class PeripheralListScreen extends StatelessWidget {
         title: Text('Test Screen'),
       ),
       body: Container(
-        child: BlocListener<PeripheralListBloc, PeripheralListState>(
-          listener: (context, state) => _peripheralListStateListener(context, state),
-          child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
-              builder: (context, state) {
-            return Row(
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('Start scanning'),
-                  onPressed: () => _startScanning(context),
-                ),
-                RaisedButton(
-                  child: Text('Stop scanning'),
-                  onPressed: () => _stopScanning(context),
-                ),
-              ],
-            );
-          }),
-        ),
+        child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
+            builder: (context, state) {
+          return Row(
+            children: <Widget>[
+              RaisedButton(
+                child: Text('Start scanning'),
+                onPressed: () => _startScanning(context),
+              ),
+              RaisedButton(
+                child: Text('Stop scanning'),
+                onPressed: () => _stopScanning(context),
+              ),
+            ],
+          );
+        }),
       ),
     );
-  }
-
-  void _peripheralListStateListener(BuildContext context, PeripheralListState state) {
-    if (state is ScanningStarted) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Scanning started'),
-        ),
-      );
-    } else if (state is ScanningStopped) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Scanning stopped'),
-        ),
-      );
-    }
   }
 
   void _startScanning(BuildContext context) {

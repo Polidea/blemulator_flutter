@@ -6,7 +6,7 @@ class PeripheralListBloc extends Bloc<PeripheralListEvent, PeripheralListState> 
   // TODO: Get reference to DeviceRepository once it's implemented
 
   @override
-  PeripheralListState get initialState => InitialPeripheralListState();
+  PeripheralListState get initialState => PeripheralListState([], false);
 
   @override
   Stream<PeripheralListState> mapEventToState(
@@ -14,10 +14,8 @@ class PeripheralListBloc extends Bloc<PeripheralListEvent, PeripheralListState> 
   ) async* {
     if (event is StartScanning) {
       // TODO: Logic to start scanning
-      yield ScanningStarted();
     } else if (event is StopScanning) {
       // TODO: Logic to stop scanning
-      yield ScanningStopped();
     } else if (event is PickDevice) {
       // TODO: Logic to pick a device
     } else if (event is ConnectToDevice) {
