@@ -39,8 +39,8 @@ class PeripheralListBloc
       StartPeripheralScan event) async* {
     _peripheralListRepository.startPeripheralScan(
         scanEventOutput: (BlePeripheral peripheral) {
-          add(NewPeripheralScan(peripheral));
-        });
+      add(NewPeripheralScan(peripheral));
+    });
     _setScanningEnabled(true);
     yield PeripheralListState(_peripherals, _scanningEnabled);
   }
@@ -57,6 +57,9 @@ class PeripheralListBloc
       NewPeripheralScan event) async* {
     if (!_peripherals.contains(event.peripheral)) {
       _peripherals.add(event.peripheral);
+    } else {
+      // TODO: - since we are using RSSI on the list screen,
+      // we should replace exisiting peripheral with the newly received one
     }
     yield PeripheralListState(_peripherals, _scanningEnabled);
   }

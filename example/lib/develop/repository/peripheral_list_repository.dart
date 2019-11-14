@@ -19,7 +19,7 @@ class PeripheralListRepository {
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
     Blemulator().simulate();
     // TODO: WIP - TEMPORARY PLACEMENT end
-    
+
     _bleManager.createClient();
   }
 
