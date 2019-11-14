@@ -10,7 +10,7 @@ PODS:
 
 DEPENDENCIES:
   - blemulator (from `.symlinks/plugins/blemulator/ios`)
-  - Flutter (from `.symlinks/flutter/ios-release`)
+  - Flutter (from `.symlinks/flutter/ios`)
   - flutter_ble_lib (from `.symlinks/plugins/flutter_ble_lib/ios`)
 
 SPEC REPOS:
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
   blemulator:
     :path: ".symlinks/plugins/blemulator/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios-release"
+    :path: ".symlinks/flutter/ios"
   flutter_ble_lib:
     :path: ".symlinks/plugins/flutter_ble_lib/ios"
 

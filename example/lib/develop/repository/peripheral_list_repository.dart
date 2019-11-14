@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
+import 'package:blemulator_example/example_peripheral.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:blemulator/blemulator.dart';
 
 typedef void ScanEventOutputFunction(BlePeripheral peripheral);
 
@@ -10,6 +12,14 @@ class PeripheralListRepository {
   StreamSubscription _scanEventsSubscription;
 
   PeripheralListRepository(this._bleManager) {
+    // TODO: WIP - TEMPORARY PLACEMENT start
+    Blemulator().addSimulatedPeripheral(SensorTag());
+    Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
+    Blemulator()
+        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+    Blemulator().simulate();
+    // TODO: WIP - TEMPORARY PLACEMENT end
+    
     _bleManager.createClient();
   }
 
