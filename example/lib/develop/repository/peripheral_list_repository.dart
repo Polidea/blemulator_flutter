@@ -42,4 +42,8 @@ class PeripheralListRepository {
     _scanEventsSubscription.cancel();
     return _bleManager.stopPeripheralScan();
   }
+
+  void dispose() {
+    _scanEventsSubscription.cancel();
+  }
 }

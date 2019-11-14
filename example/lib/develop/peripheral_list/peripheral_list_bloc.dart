@@ -71,4 +71,10 @@ class PeripheralListBloc
   void _clearPeripherals() {
     _peripherals.clear();
   }
+
+  @override
+  Future<void> close() {
+    _peripheralListRepository.dispose();
+    return super.close();
+  }
 }
