@@ -36,11 +36,11 @@ class PeripheralListScreen extends StatelessWidget {
 
   void _startScanning(BuildContext context) {
     final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
-    peripheralListBloc.add(StartScanning());
+    peripheralListBloc.add(StartPeripheralScan());
   }
 
   void _stopScanning(BuildContext context) {
     final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
-    peripheralListBloc.add(StopScanning());
+    peripheralListBloc.add(StopPeripheralScan());
   }
 }

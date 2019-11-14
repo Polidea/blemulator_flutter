@@ -2,24 +2,24 @@ abstract class PeripheralListEvent {
   const PeripheralListEvent();
 }
 
-class StartScanning extends PeripheralListEvent {}
+class StartPeripheralScan extends PeripheralListEvent {}
 
-class StopScanning extends PeripheralListEvent {}
+class StopPeripheralScan extends PeripheralListEvent {}
 
-class PickDevice extends PeripheralListEvent {
+class PickPeripheral extends PeripheralListEvent {
   final String id;
 
-  const PickDevice(this.id);
+  const PickPeripheral(this.id);
 }
 
-class ConnectToDevice extends PeripheralListEvent {
+class ConnectToPeripheral extends PeripheralListEvent {
   final String id;
 
-  const ConnectToDevice(this.id);
+  const ConnectToPeripheral(this.id);
 }
 
-class DisconnectFromDevice extends PeripheralListEvent {
+class DisconnectFromPeripheral extends PeripheralListEvent {
   final String id;
 
-  const DisconnectFromDevice(this.id);
+  const DisconnectFromPeripheral(this.id);
 }

@@ -12,15 +12,15 @@ class PeripheralListBloc extends Bloc<PeripheralListEvent, PeripheralListState> 
   Stream<PeripheralListState> mapEventToState(
     PeripheralListEvent event,
   ) async* {
-    if (event is StartScanning) {
+    if (event is StartPeripheralScan) {
       // TODO: Logic to start scanning
-    } else if (event is StopScanning) {
+    } else if (event is StopPeripheralScan) {
       // TODO: Logic to stop scanning
-    } else if (event is PickDevice) {
+    } else if (event is PickPeripheral) {
       // TODO: Logic to pick a device
-    } else if (event is ConnectToDevice) {
+    } else if (event is ConnectToPeripheral) {
       // TODO: Logic to connect to device
-    } else if (event is DisconnectFromDevice) {
+    } else if (event is DisconnectFromPeripheral) {
       // TODO: Logic to disconnect from device
     }
   }
