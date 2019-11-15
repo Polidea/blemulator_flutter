@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
-import 'package:blemulator_example/develop/repository/peripherals_repository.dart';
+import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
 class PeripheralListBloc
     extends Bloc<PeripheralListEvent, PeripheralListState> {
-  PeripheralsRepository _peripheralListRepository;
+  BleAdapter _bleAdapter;
 
-  PeripheralListBloc(this._peripheralListRepository);
+  PeripheralListBloc(this._bleAdapter);
 
   @override
   PeripheralListState get initialState => PeripheralListState([], false);
@@ -34,8 +34,7 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapStartPeripheralScanToState(
       StartPeripheralScan event) async* {
-    _peripheralListRepository.startPeripheralScan(
-        scanEventOutput: (BlePeripheral peripheral) {
+    _bleAdapter.startPeripheralScan((BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
     yield PeripheralListState(state.peripherals, true);
@@ -43,7 +42,7 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
       StopPeripheralScan event) async* {
-    await _peripheralListRepository.stopPeripheralScan();
+    await _bleAdapter.stopPeripheralScan();
     yield PeripheralListState(state.peripherals, false);
   }
 
@@ -62,7 +61,7 @@ class PeripheralListBloc
 
   @override
   Future<void> close() {
-    _peripheralListRepository.dispose();
+    _bleAdapter.dispose();
     return super.close();
   }
 }

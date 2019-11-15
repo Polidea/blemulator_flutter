@@ -7,11 +7,11 @@ import 'package:blemulator/blemulator.dart';
 
 typedef void ScanEventOutputFunction(BlePeripheral peripheral);
 
-class PeripheralsRepository {
+class BleAdapter {
   BleManager _bleManager;
   StreamSubscription _scanEventsSubscription;
 
-  PeripheralsRepository(this._bleManager) {
+  BleAdapter(this._bleManager) {
     // TODO: WIP - TEMPORARY PLACEMENT start
     Blemulator().addSimulatedPeripheral(SensorTag());
     Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
@@ -23,7 +23,7 @@ class PeripheralsRepository {
     _bleManager.createClient();
   }
 
-  void startPeripheralScan({ScanEventOutputFunction scanEventOutput}) {
+  void startPeripheralScan(ScanEventOutputFunction scanEventOutput) {
     _scanEventsSubscription =
         _bleManager.startPeripheralScan().listen((ScanResult scanResult) {
       if (scanResult.advertisementData.localName != null) {
