@@ -19,19 +19,17 @@ class PeripheralListScreen extends StatelessWidget {
               return previousState.scanningEnabled != state.scanningEnabled;
             },
             builder: (context, state) {
-              if (state.scanningEnabled) {
-                return IconButton(
-                  icon: Icon(Icons.bluetooth_disabled),
-                  tooltip: 'Disable Bluettoh scanning',
-                  onPressed: () => _stopScanning(peripheralListBloc),
-                );
-              } else {
-                return IconButton(
-                  icon: Icon(Icons.bluetooth_searching),
-                  tooltip: 'Enable Bluettoh scanning',
-                  onPressed: () => _startScanning(peripheralListBloc),
-                );
-              }
+              return IconButton(
+                icon: Icon(state.scanningEnabled
+                    ? Icons.bluetooth_disabled
+                    : Icons.bluetooth_searching),
+                tooltip: state.scanningEnabled
+                    ? 'Disable Bluetooth scanning'
+                    : 'Enable Bluetooth scanning',
+                onPressed: () => state.scanningEnabled
+                    ? _stopScanning(peripheralListBloc)
+                    : _startScanning(peripheralListBloc),
+              );
             },
           )
         ],
