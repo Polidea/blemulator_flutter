@@ -55,6 +55,9 @@ class PeripheralRowView extends StatelessWidget {
             ),
           ],
         ),
+        // Apply design guidelines properly for both platforms:
+        // iOS - list rows with disclosure indicator
+        // Android - list rows without disclosure indicator
         if (Platform.isIOS)
           Icon(Icons.chevron_right),
       ],
