@@ -30,14 +30,14 @@ class PeripheralListScreen extends StatelessWidget {
       body: Container(
         child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
             builder: (context, state) {
-              return ListView.builder(
-                itemCount: state.peripherals.length,
-                itemBuilder: (context, index) {
-                  return _buildRow(context, state.peripherals[index]);
-                },
-                padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-              );
-            }),
+          return ListView.builder(
+            itemCount: state.peripherals.length,
+            itemBuilder: (context, index) {
+              return _buildRow(context, state.peripherals[index]);
+            },
+            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+          );
+        }),
       ),
       backgroundColor: CustomColors.systemGroupedBackground,
     );
@@ -51,13 +51,13 @@ class PeripheralListScreen extends StatelessWidget {
         child: Container(
           color: CustomColors.rowBackground,
           child: ListTile(
-            leading: _buildListTileLeading(context),
+            leading: _buildListTileLeading(),
             title: Text(peripheral.name),
             subtitle: Text(
               peripheral.id,
               maxLines: 1,
             ),
-            trailing: _buildListTileTrailing(context, peripheral),
+            trailing: _buildListTileTrailing(peripheral),
             dense: true,
           ),
         ),
@@ -65,14 +65,13 @@ class PeripheralListScreen extends StatelessWidget {
     );
   }
 
-  static Widget _buildListTileLeading(BuildContext context) {
+  static Widget _buildListTileLeading() {
     return CircleAvatar(
       child: Icon(Icons.bluetooth),
     );
   }
 
-  static Widget _buildListTileTrailing(
-      BuildContext context, BlePeripheral peripheral) {
+  static Widget _buildListTileTrailing(BlePeripheral peripheral) {
     if (Platform.isIOS) {
       return Row(
         children: <Widget>[
