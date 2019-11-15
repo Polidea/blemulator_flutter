@@ -6,8 +6,6 @@ class BlePeripheral extends Equatable {
   int rssi;
   bool isConnected;
 
-  String get rssiString => '${rssi ?? '-'}dbm';
-
   BlePeripheral(this.name, this.id, this.rssi, this.isConnected);
 
   @override

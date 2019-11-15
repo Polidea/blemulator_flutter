@@ -52,7 +52,7 @@ class PeripheralRowView extends StatelessWidget {
             ),
             SizedBox(height: 4.0),
             Text(
-              _peripheral.rssiString,
+              '${_peripheral.rssi ?? '-'}dbm',
               style: TextStyle(fontSize: 12),
             ),
           ],
