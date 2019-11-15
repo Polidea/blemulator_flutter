@@ -6,15 +6,12 @@ import './bloc.dart';
 
 class PeripheralListBloc
     extends Bloc<PeripheralListEvent, PeripheralListState> {
-  List<BlePeripheral> _peripherals = <BlePeripheral>[];
-  bool _scanningEnabled = false;
   PeripheralListRepository _peripheralListRepository;
 
   PeripheralListBloc(this._peripheralListRepository);
 
   @override
-  PeripheralListState get initialState =>
-      PeripheralListState(_peripherals, _scanningEnabled);
+  PeripheralListState get initialState => PeripheralListState([], false);
 
   @override
   Stream<PeripheralListState> mapEventToState(
@@ -41,34 +38,26 @@ class PeripheralListBloc
         scanEventOutput: (BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
-    _setScanningEnabled(true);
-    yield PeripheralListState(_peripherals, _scanningEnabled);
+    yield PeripheralListState(state.peripherals, true);
   }
 
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
       StopPeripheralScan event) async* {
     await _peripheralListRepository.stopPeripheralScan();
-    _setScanningEnabled(false);
-    yield PeripheralListState(_peripherals, _scanningEnabled);
+    yield PeripheralListState(state.peripherals, false);
   }
 
   Stream<PeripheralListState> _mapNewPeripheralScanToState(
       NewPeripheralScan event) async* {
-    if (!_peripherals.contains(event.peripheral)) {
-      _peripherals.add(event.peripheral);
+    List<BlePeripheral> updatedPeripherals = state.peripherals;
+    if (!updatedPeripherals.contains(event.peripheral)) {
+      updatedPeripherals = List.from(state.peripherals);
+      updatedPeripherals.add(event.peripheral);
     } else {
       // TODO: - since we are using RSSI on the list screen,
       // we should replace exisiting peripheral with the newly received one
     }
-    yield PeripheralListState(_peripherals, _scanningEnabled);
-  }
-
-  void _setScanningEnabled(bool scanningEnabled) {
-    _scanningEnabled = scanningEnabled;
-  }
-
-  void _clearPeripherals() {
-    _peripherals.clear();
+    yield PeripheralListState(updatedPeripherals, state.scanningEnabled);
   }
 
   @override
