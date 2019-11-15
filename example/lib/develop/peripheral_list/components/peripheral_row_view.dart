@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
-import 'package:blemulator_example/develop/peripheral_list/components/connection_state_view.dart';
-import 'package:blemulator_example/develop/peripheral_list/components/rssi_view.dart';
 import 'package:blemulator_example/develop/util/custom_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -46,12 +44,16 @@ class PeripheralRowView extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ConnectionStateView(
-              isConnected: _peripheral.isConnected,
+            Icon(
+              _peripheral.isConnected
+                  ? Icons.bluetooth_connected
+                  : Icons.bluetooth,
+              color: _peripheral.isConnected ? Colors.green : Colors.red,
             ),
             SizedBox(height: 4.0),
-            RssiView(
-              rssiValue: _peripheral.rssiString,
+            Text(
+              _peripheral.rssiString,
+              style: TextStyle(fontSize: 12),
             ),
           ],
         ),
