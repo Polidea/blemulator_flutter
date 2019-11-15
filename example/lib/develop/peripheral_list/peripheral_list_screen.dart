@@ -15,7 +15,6 @@ class PeripheralListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bluetooth peripherals'),
-        // TODO: - replace with a toggle button based on state.scanningEnabled
         actions: <Widget>[
           BlocBuilder<PeripheralListBloc, PeripheralListState>(
             condition: (previousState, state) {
