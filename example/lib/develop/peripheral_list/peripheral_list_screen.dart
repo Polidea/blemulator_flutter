@@ -38,15 +38,19 @@ class PeripheralListScreen extends StatelessWidget {
       ),
       body: Container(
         child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
-            builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.peripherals.length,
-            itemBuilder: (context, index) {
-              return PeripheralRowView(state.peripherals[index]);
-            },
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-          );
-        }),
+          condition: (previousState, state) {
+            return previousState.peripherals != state.peripherals;
+          },
+          builder: (context, state) {
+            return ListView.builder(
+              itemCount: state.peripherals.length,
+              itemBuilder: (context, index) {
+                return PeripheralRowView(state.peripherals[index]);
+              },
+              padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            );
+          },
+        ),
       ),
       backgroundColor: CustomColors.systemGroupedBackground,
     );
