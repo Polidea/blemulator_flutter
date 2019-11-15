@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
-import 'package:blemulator_example/develop/repository/peripheral_list_repository.dart';
+import 'package:blemulator_example/develop/repository/peripherals_repository.dart';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
 class PeripheralListBloc
     extends Bloc<PeripheralListEvent, PeripheralListState> {
-  PeripheralListRepository _peripheralListRepository;
+  PeripheralsRepository _peripheralListRepository;
 
   PeripheralListBloc(this._peripheralListRepository);
 
