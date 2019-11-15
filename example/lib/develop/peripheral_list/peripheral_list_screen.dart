@@ -12,10 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PeripheralListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _buildTestLayout(context);
-  }
-
-  Widget _buildTestLayout(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bluetooth peripherals'),
@@ -34,14 +30,14 @@ class PeripheralListScreen extends StatelessWidget {
       body: Container(
         child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
             builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.peripherals.length,
-            itemBuilder: (context, index) {
-              return _buildRow(context, state.peripherals[index]);
-            },
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-          );
-        }),
+              return ListView.builder(
+                itemCount: state.peripherals.length,
+                itemBuilder: (context, index) {
+                  return _buildRow(context, state.peripherals[index]);
+                },
+                padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+              );
+            }),
       ),
       backgroundColor: CustomColors.systemGroupedBackground,
     );
