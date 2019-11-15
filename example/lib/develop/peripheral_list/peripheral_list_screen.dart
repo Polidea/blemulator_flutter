@@ -17,14 +17,26 @@ class PeripheralListScreen extends StatelessWidget {
         title: Text('Bluetooth peripherals'),
         // TODO: - replace with a toggle button based on state.scanningEnabled
         actions: <Widget>[
-          MaterialButton(
-            child: Text('Start scanning'),
-            onPressed: () => _startScanning(context),
-          ),
-          MaterialButton(
-            child: Text('Stop scanning'),
-            onPressed: () => _stopScanning(context),
-          ),
+          BlocBuilder<PeripheralListBloc, PeripheralListState>(
+            condition: (previousState, state) {
+              return previousState.scanningEnabled != state.scanningEnabled;
+            },
+            builder: (context, state) {
+              if (state.scanningEnabled) {
+                return IconButton(
+                  icon: Icon(Icons.bluetooth_disabled),
+                  tooltip: 'Disable Bluettoh scanning',
+                  onPressed: () => _stopScanning(context),
+                );
+              } else {
+                return IconButton(
+                  icon: Icon(Icons.bluetooth_searching),
+                  tooltip: 'Enable Bluettoh scanning',
+                  onPressed: () => _startScanning(context),
+                );
+              }
+            },
+          )
         ],
       ),
       body: Container(
