@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PeripheralListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Bluetooth peripherals'),
@@ -21,13 +23,13 @@ class PeripheralListScreen extends StatelessWidget {
                 return IconButton(
                   icon: Icon(Icons.bluetooth_disabled),
                   tooltip: 'Disable Bluettoh scanning',
-                  onPressed: () => _stopScanning(context),
+                  onPressed: () => _stopScanning(peripheralListBloc),
                 );
               } else {
                 return IconButton(
                   icon: Icon(Icons.bluetooth_searching),
                   tooltip: 'Enable Bluettoh scanning',
-                  onPressed: () => _startScanning(context),
+                  onPressed: () => _startScanning(peripheralListBloc),
                 );
               }
             },
@@ -50,13 +52,11 @@ class PeripheralListScreen extends StatelessWidget {
     );
   }
 
-  void _startScanning(BuildContext context) {
-    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+  void _startScanning(PeripheralListBloc peripheralListBloc) {
     peripheralListBloc.add(StartPeripheralScan());
   }
 
-  void _stopScanning(BuildContext context) {
-    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+  void _stopScanning(PeripheralListBloc peripheralListBloc) {
     peripheralListBloc.add(StopPeripheralScan());
   }
 }
