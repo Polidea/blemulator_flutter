@@ -49,7 +49,6 @@ class PeripheralListBloc
       StopPeripheralScan event) async* {
     await _peripheralListRepository.stopPeripheralScan();
     _setScanningEnabled(false);
-    _clearPeripherals();
     yield PeripheralListState(_peripherals, _scanningEnabled);
   }
 
