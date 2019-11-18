@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         "/": (context) => BlocProvider(
               builder: (context) =>
-                  PeripheralListBloc(BleAdapter(BleManager())),
+                  PeripheralListBloc(BleAdapter()),
               child: PeripheralListScreen(),
             ),
         "/details": (context) =>
