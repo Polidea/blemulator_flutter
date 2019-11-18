@@ -30,6 +30,9 @@ class BleAdapter {
   }
 
   void startPeripheralScan(ScanEventOutputFunction scanEventOutput) {
+    if (_scanEventsSubscription != null) {
+      _scanEventsSubscription.cancel();
+    }
     _scanEventsSubscription =
         _bleManager.startPeripheralScan().listen((ScanResult scanResult) {
       if (scanResult.advertisementData.localName != null) {
