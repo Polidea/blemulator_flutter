@@ -7,6 +7,9 @@ class PeripheralListState extends Equatable {
 
   const PeripheralListState(this.peripherals, this.scanningEnabled);
 
+  const PeripheralListState.initial(
+      {this.peripherals = const [], this.scanningEnabled = false});
+
   @override
   List<Object> get props => [peripherals, scanningEnabled];
 }

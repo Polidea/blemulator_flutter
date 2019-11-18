@@ -11,7 +11,7 @@ class PeripheralListBloc
   PeripheralListBloc(this._bleAdapter);
 
   @override
-  PeripheralListState get initialState => PeripheralListState([], false);
+  PeripheralListState get initialState => PeripheralListState.initial();
 
   @override
   Stream<PeripheralListState> mapEventToState(
