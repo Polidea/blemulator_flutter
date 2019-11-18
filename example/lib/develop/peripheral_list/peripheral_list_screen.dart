@@ -21,8 +21,8 @@ class PeripheralListScreen extends StatelessWidget {
             builder: (context, state) {
               return IconButton(
                 icon: Icon(state.scanningEnabled
-                    ? Icons.bluetooth_disabled
-                    : Icons.bluetooth_searching),
+                    ? Icons.bluetooth_searching
+                    : Icons.bluetooth_disabled),
                 tooltip: state.scanningEnabled
                     ? 'Disable Bluetooth scanning'
                     : 'Enable Bluetooth scanning',
