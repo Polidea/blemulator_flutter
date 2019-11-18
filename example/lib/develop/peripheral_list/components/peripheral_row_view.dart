@@ -45,14 +45,12 @@ class PeripheralRowView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              _peripheral.isConnected
-                  ? Icons.bluetooth_connected
-                  : Icons.bluetooth,
-              color: _peripheral.isConnected ? Colors.green : Colors.red,
+              Icons.signal_cellular_4_bar,
+              color: _colorForRssi(_peripheral.rssi),
             ),
             SizedBox(height: 4.0),
             Text(
-              '${_peripheral.rssi ?? '-'}dbm',
+              '${_peripheral.rssi ?? '-'} dbm',
               style: TextStyle(fontSize: 12),
             ),
           ],
@@ -65,5 +63,11 @@ class PeripheralRowView extends StatelessWidget {
       ],
       mainAxisSize: MainAxisSize.min,
     );
+  }
+
+  Color _colorForRssi(int rssi) {
+    return rssi > -60
+        ? Colors.blue
+        : rssi > -90 ? Colors.orange : Colors.red;
   }
 }
