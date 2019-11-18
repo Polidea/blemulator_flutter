@@ -52,9 +52,6 @@ class PeripheralListBloc
     if (!updatedPeripherals.contains(event.peripheral)) {
       updatedPeripherals = List.from(state.peripherals);
       updatedPeripherals.add(event.peripheral);
-    } else {
-      // TODO: - since we are using RSSI on the list screen,
-      // we should replace exisiting peripheral with the newly received one
     }
     yield PeripheralListState(updatedPeripherals, state.scanningEnabled);
   }
