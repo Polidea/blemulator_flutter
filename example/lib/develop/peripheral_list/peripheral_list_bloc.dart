@@ -59,9 +59,9 @@ class PeripheralListBloc
     yield PeripheralListState(updatedPeripherals, state.scanningEnabled);
   }
 
-  void _cancelBlePeripheralSubscription() {
+  void _cancelBlePeripheralSubscription() async {
     if (_blePeripheralsSubscription != null) {
-      _blePeripheralsSubscription.cancel();
+      await _blePeripheralsSubscription.cancel();
     }
   }
 

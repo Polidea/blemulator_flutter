@@ -11,15 +11,18 @@ class MockBleAdapter extends Mock implements BleAdapter {}
 void main() {
   PeripheralListBloc peripheralListBloc;
   MockBleAdapter bleAdapter;
+  StreamController<BlePeripheral> peripheralsStreamController;
 
   setUp(() {
     bleAdapter = MockBleAdapter();
     peripheralListBloc = PeripheralListBloc(bleAdapter);
+    peripheralsStreamController = StreamController();
   });
 
   tearDown(() {
     peripheralListBloc.close();
     bleAdapter = null;
+    peripheralsStreamController.close();
   });
 
   test('initial state is correct', () {
@@ -44,6 +47,8 @@ void main() {
       () {
         // given
         final PeripheralListEvent event = StartPeripheralScan();
+        when(bleAdapter.startPeripheralScan())
+            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(event);
@@ -64,6 +69,8 @@ void main() {
         // given
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final PeripheralListEvent stopScanningEvent = StopPeripheralScan();
+        when(bleAdapter.startPeripheralScan())
+            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
@@ -87,15 +94,12 @@ void main() {
         // given
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
-        final StreamController<BlePeripheral> peripheralsStream =
-            StreamController();
         when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStream.stream);
+            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
-        peripheralsStream.sink.add(samplePeripheral);
-        peripheralsStream.close();
+        peripheralsStreamController.sink.add(samplePeripheral);
 
         // then
         final expectedResponse = [
@@ -115,16 +119,13 @@ void main() {
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
         final differentSamplePeripheral = SampleBlePeripheral.different();
-        final StreamController<BlePeripheral> peripheralsStream =
-        StreamController();
         when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStream.stream);
+            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
-        peripheralsStream.sink.add(samplePeripheral);
-        peripheralsStream.sink.add(differentSamplePeripheral);
-        peripheralsStream.close();
+        peripheralsStreamController.sink.add(samplePeripheral);
+        peripheralsStreamController.sink.add(differentSamplePeripheral);
 
         // then
         final expectedResponse = [
@@ -146,23 +147,23 @@ void main() {
       // given
       final PeripheralListEvent startScanningEvent = StartPeripheralScan();
       final samplePeripheral = SampleBlePeripheral();
-      final StreamController<BlePeripheral> peripheralsStream =
-      StreamController();
+      final differentSamplePeripheral = SampleBlePeripheral.different();
       when(bleAdapter.startPeripheralScan())
-          .thenAnswer((_) => peripheralsStream.stream);
+          .thenAnswer((_) => peripheralsStreamController.stream);
 
 
       // when
       peripheralListBloc.add(startScanningEvent);
-      peripheralsStream.sink.add(samplePeripheral);
-      peripheralsStream.close();
+      peripheralsStreamController.sink.add(samplePeripheral);
+      peripheralsStreamController.sink.add(samplePeripheral);
+      peripheralsStreamController.sink.add(differentSamplePeripheral);
 
       // then
       final expectedResponse = [
         PeripheralListState.initial(),
         PeripheralListState([], true),
         PeripheralListState([samplePeripheral], true),
-        emitsDone
+        PeripheralListState([samplePeripheral, differentSamplePeripheral], true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
     },
