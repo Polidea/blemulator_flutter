@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
 import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
@@ -85,12 +87,15 @@ void main() {
         // given
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
-        final PeripheralListEvent newScanEvent =
-            NewPeripheralScan(samplePeripheral);
+        final StreamController<BlePeripheral> peripheralsStream =
+            StreamController();
+        when(bleAdapter.startPeripheralScan())
+            .thenAnswer((_) => peripheralsStream.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
-        peripheralListBloc.add(newScanEvent);
+        peripheralsStream.sink.add(samplePeripheral);
+        peripheralsStream.close();
 
         // then
         final expectedResponse = [
@@ -110,15 +115,16 @@ void main() {
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
         final differentSamplePeripheral = SampleBlePeripheral.different();
-        final PeripheralListEvent newScanEvent =
-            NewPeripheralScan(samplePeripheral);
-        final PeripheralListEvent differentNewScanEvent =
-            NewPeripheralScan(differentSamplePeripheral);
+        final StreamController<BlePeripheral> peripheralsStream =
+        StreamController();
+        when(bleAdapter.startPeripheralScan())
+            .thenAnswer((_) => peripheralsStream.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
-        peripheralListBloc.add(newScanEvent);
-        peripheralListBloc.add(differentNewScanEvent);
+        peripheralsStream.sink.add(samplePeripheral);
+        peripheralsStream.sink.add(differentSamplePeripheral);
+        peripheralsStream.close();
 
         // then
         final expectedResponse = [
@@ -140,14 +146,16 @@ void main() {
       // given
       final PeripheralListEvent startScanningEvent = StartPeripheralScan();
       final samplePeripheral = SampleBlePeripheral();
-      final PeripheralListEvent newScanEvent =
-          NewPeripheralScan(samplePeripheral);
+      final StreamController<BlePeripheral> peripheralsStream =
+      StreamController();
+      when(bleAdapter.startPeripheralScan())
+          .thenAnswer((_) => peripheralsStream.stream);
+
 
       // when
       peripheralListBloc.add(startScanningEvent);
-      peripheralListBloc.add(newScanEvent);
-      peripheralListBloc.add(newScanEvent);
-      peripheralListBloc.close();
+      peripheralsStream.sink.add(samplePeripheral);
+      peripheralsStream.close();
 
       // then
       final expectedResponse = [

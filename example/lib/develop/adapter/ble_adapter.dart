@@ -11,7 +11,6 @@ class BleAdapter {
   static BleAdapter _instance;
 
   BleManager _bleManager;
-  StreamSubscription _scanEventsSubscription;
 
   factory BleAdapter(BleManager bleManager) {
     if (_instance == null) {
@@ -35,30 +34,25 @@ class BleAdapter {
     _bleManager.createClient();
   }
 
-  void startPeripheralScan(ScanEventOutputFunction scanEventOutput) {
-    if (_scanEventsSubscription != null) {
-      _scanEventsSubscription.cancel();
-    }
-    _scanEventsSubscription =
-        _bleManager.startPeripheralScan().listen((ScanResult scanResult) {
-      if (scanResult.advertisementData.localName != null) {
-        final peripheral = BlePeripheral(
-          scanResult.peripheral.name,
-          scanResult.peripheral.identifier,
-          scanResult.rssi,
-          false,
-        );
-        scanEventOutput(peripheral);
-      }
-    });
+  Stream<BlePeripheral> startPeripheralScan() {
+    return _bleManager.startPeripheralScan().transform(
+      new StreamTransformer<ScanResult, BlePeripheral>.fromHandlers(
+        handleData: (ScanResult scanResult, EventSink<BlePeripheral> sink) {
+          if (scanResult.advertisementData.localName != null) {
+            final peripheral = BlePeripheral(
+              scanResult.peripheral.name,
+              scanResult.peripheral.identifier,
+              scanResult.rssi,
+              false,
+            );
+            sink.add(peripheral);
+          }
+        },
+      ),
+    );
   }
 
   Future<void> stopPeripheralScan() {
-    _scanEventsSubscription.cancel();
     return _bleManager.stopPeripheralScan();
-  }
-
-  void dispose() {
-    _scanEventsSubscription.cancel();
   }
 }

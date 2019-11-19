@@ -7,6 +7,7 @@ import './bloc.dart';
 class PeripheralListBloc
     extends Bloc<PeripheralListEvent, PeripheralListState> {
   BleAdapter _bleAdapter;
+  StreamSubscription _blePeripheralsSubscription;
 
   PeripheralListBloc(this._bleAdapter);
 
@@ -34,7 +35,8 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapStartPeripheralScanToState(
       StartPeripheralScan event) async* {
-    _bleAdapter.startPeripheralScan((BlePeripheral peripheral) {
+    _blePeripheralsSubscription =
+        _bleAdapter.startPeripheralScan().listen((BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
     yield PeripheralListState(state.peripherals, true);
@@ -42,6 +44,7 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
       StopPeripheralScan event) async* {
+    _cancelBlePeripheralSubscription();
     await _bleAdapter.stopPeripheralScan();
     yield PeripheralListState(state.peripherals, false);
   }
@@ -56,9 +59,15 @@ class PeripheralListBloc
     yield PeripheralListState(updatedPeripherals, state.scanningEnabled);
   }
 
+  void _cancelBlePeripheralSubscription() {
+    if (_blePeripheralsSubscription != null) {
+      _blePeripheralsSubscription.cancel();
+    }
+  }
+
   @override
   Future<void> close() {
-    _bleAdapter.dispose();
+    _cancelBlePeripheralSubscription();
     return super.close();
   }
 }
