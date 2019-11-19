@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
 import 'package:blemulator_example/develop/model/ble_peripheral.dart';
 import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockBleAdapter extends Mock implements BleAdapter {}
+import '../mock/mock_ble_adapter.dart';
 
 void main() {
   PeripheralListBloc peripheralListBloc;

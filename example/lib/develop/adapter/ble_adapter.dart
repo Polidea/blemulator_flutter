@@ -11,10 +11,11 @@ class BleAdapter {
   static BleAdapter _instance;
 
   BleManager _bleManager;
+  Blemulator _blemulator;
 
-  factory BleAdapter(BleManager bleManager) {
+  factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
-      _instance = BleAdapter._internal(bleManager);
+      _instance = BleAdapter._internal(bleManager, blemulator);
     } else {
       throw Exception('Constructor of BleAdapter called multiple times. '
           'Use BleAdapterInjector.inject() for injecting BleAdapter.');
@@ -22,16 +23,9 @@ class BleAdapter {
     return _instance;
   }
 
-  BleAdapter._internal(this._bleManager) {
-    // TODO: WIP - TEMPORARY PLACEMENT start
-    Blemulator().addSimulatedPeripheral(SensorTag());
-    Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
-    Blemulator()
-        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
-    Blemulator().simulate();
-    // TODO: WIP - TEMPORARY PLACEMENT end
-
-    _bleManager.createClient();
+  BleAdapter._internal(this._bleManager, this._blemulator) {
+    _setupSimulation();
+    _createClient();
   }
 
   Stream<BlePeripheral> startPeripheralScan() {
@@ -54,5 +48,17 @@ class BleAdapter {
 
   Future<void> stopPeripheralScan() {
     return _bleManager.stopPeripheralScan();
+  }
+
+  void _createClient() {
+    _bleManager.createClient();
+  }
+
+  void _setupSimulation() {
+    _blemulator.addSimulatedPeripheral(SensorTag());
+    _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
+    _blemulator
+        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+    _blemulator.simulate();
   }
 }
