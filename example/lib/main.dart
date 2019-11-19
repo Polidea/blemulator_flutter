@@ -1,4 +1,4 @@
-import 'package:blemulator_example/develop/di/ble_adapter_factory.dart';
+import 'package:blemulator_example/develop/di/ble_adapter_injector.dart';
 import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
 import 'package:blemulator_example/develop/peripheral_list/peripheral_list_screen.dart';
 import 'package:fimber/fimber.dart';
