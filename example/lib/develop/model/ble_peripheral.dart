@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class BlePeripheral extends Equatable {
-  String name;
-  String id;
-  int rssi;
-  bool isConnected;
+  final String name;
+  final String id;
+  final int rssi;
+  final bool isConnected;
 
   BlePeripheral(this.name, this.id, this.rssi, this.isConnected);
 
