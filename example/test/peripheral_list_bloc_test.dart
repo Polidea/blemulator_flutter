@@ -17,6 +17,9 @@ void main() {
     bleAdapter = MockBleAdapter();
     peripheralListBloc = PeripheralListBloc(bleAdapter);
     peripheralsStreamController = StreamController();
+    
+    when(bleAdapter.startPeripheralScan())
+        .thenAnswer((_) => peripheralsStreamController.stream);
   });
 
   tearDown(() {
@@ -47,8 +50,6 @@ void main() {
       () {
         // given
         final PeripheralListEvent event = StartPeripheralScan();
-        when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(event);
@@ -69,8 +70,6 @@ void main() {
         // given
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final PeripheralListEvent stopScanningEvent = StopPeripheralScan();
-        when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
@@ -94,8 +93,6 @@ void main() {
         // given
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
-        when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
@@ -119,8 +116,6 @@ void main() {
         final PeripheralListEvent startScanningEvent = StartPeripheralScan();
         final samplePeripheral = SampleBlePeripheral();
         final differentSamplePeripheral = SampleBlePeripheral.different();
-        when(bleAdapter.startPeripheralScan())
-            .thenAnswer((_) => peripheralsStreamController.stream);
 
         // when
         peripheralListBloc.add(startScanningEvent);
@@ -148,9 +143,6 @@ void main() {
       final PeripheralListEvent startScanningEvent = StartPeripheralScan();
       final samplePeripheral = SampleBlePeripheral();
       final differentSamplePeripheral = SampleBlePeripheral.different();
-      when(bleAdapter.startPeripheralScan())
-          .thenAnswer((_) => peripheralsStreamController.stream);
-
 
       // when
       peripheralListBloc.add(startScanningEvent);
