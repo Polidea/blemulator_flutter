@@ -8,16 +8,22 @@ import 'package:blemulator/blemulator.dart';
 typedef void ScanEventOutputFunction(BlePeripheral peripheral);
 
 class BleAdapter {
-  static final BleAdapter _bleAdapter = BleAdapter._internal();
+  static BleAdapter _instance;
 
-  BleManager _bleManager = BleManager();
+  BleManager _bleManager;
   StreamSubscription _scanEventsSubscription;
 
-  factory BleAdapter() {
-    return _bleAdapter;
+  factory BleAdapter(BleManager bleManager) {
+    if (_instance == null) {
+      _instance = BleAdapter._internal(bleManager);
+    } else {
+      throw Exception('Constructor of BleAdapter called multiple times. '
+          'Use BleAdapterInjector.inject() for injecting BleAdapter.');
+    }
+    return _instance;
   }
 
-  BleAdapter._internal() {
+  BleAdapter._internal(this._bleManager) {
     // TODO: WIP - TEMPORARY PLACEMENT start
     Blemulator().addSimulatedPeripheral(SensorTag());
     Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));

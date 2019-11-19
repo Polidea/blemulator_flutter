@@ -1,9 +1,8 @@
+import 'package:blemulator_example/develop/di/ble_adapter_factory.dart';
 import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
 import 'package:blemulator_example/develop/peripheral_list/peripheral_list_screen.dart';
-import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'device_details/device_detail_view.dart';
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         "/": (context) => BlocProvider(
               builder: (context) =>
-                  PeripheralListBloc(BleAdapter()),
+                  PeripheralListBloc(BleAdapterInjector.inject),
               child: PeripheralListScreen(),
             ),
         "/details": (context) =>
