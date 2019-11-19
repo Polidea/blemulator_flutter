@@ -24,12 +24,6 @@ class PeripheralListBloc
       yield* _mapStopPeripheralScanToState(event);
     } else if (event is NewPeripheralScan) {
       yield* _mapNewPeripheralScanToState(event);
-    } else if (event is PickPeripheral) {
-      // TODO: Logic to pick a device
-    } else if (event is ConnectToPeripheral) {
-      // TODO: Logic to connect to device
-    } else if (event is DisconnectFromPeripheral) {
-      // TODO: Logic to disconnect from device
     }
   }
 

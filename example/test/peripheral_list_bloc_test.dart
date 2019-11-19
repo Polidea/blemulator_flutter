@@ -17,7 +17,7 @@ void main() {
     bleAdapter = MockBleAdapter();
     peripheralListBloc = PeripheralListBloc(bleAdapter);
     peripheralsStreamController = StreamController();
-    
+
     when(bleAdapter.startPeripheralScan())
         .thenAnswer((_) => peripheralsStreamController.stream);
   });

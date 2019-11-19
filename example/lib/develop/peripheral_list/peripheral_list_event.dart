@@ -13,21 +13,3 @@ class NewPeripheralScan extends PeripheralListEvent {
 
   const NewPeripheralScan(this.peripheral);
 }
-
-class PickPeripheral extends PeripheralListEvent {
-  final String id;
-
-  const PickPeripheral(this.id);
-}
-
-class ConnectToPeripheral extends PeripheralListEvent {
-  final String id;
-
-  const ConnectToPeripheral(this.id);
-}
-
-class DisconnectFromPeripheral extends PeripheralListEvent {
-  final String id;
-
-  const DisconnectFromPeripheral(this.id);
-}
