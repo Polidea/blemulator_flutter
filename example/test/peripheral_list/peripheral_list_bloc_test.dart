@@ -46,22 +46,21 @@ void main() {
 
   group('Scanning Control', () {
     test(
-      'emits state with scanningEnabled = true for StartPeripheralScan event',
-      () {
-        // given
-        final PeripheralListEvent event = StartPeripheralScan();
+        'emits state with scanningEnabled = true for StartPeripheralScan event',
+        () {
+      // given
+      final PeripheralListEvent event = StartPeripheralScan();
 
-        // when
-        peripheralListBloc.add(event);
+      // when
+      peripheralListBloc.add(event);
 
-        // then
-        final expectedResponse = [
-          PeripheralListState.initial(),
-          PeripheralListState([], true)
-        ];
-        expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
-      },
-    );
+      // then
+      final expectedResponse = [
+        PeripheralListState.initial(),
+        PeripheralListState([], true)
+      ];
+      expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
+    });
 
     test(
       'emits state with scanningEnabled = false for StopPeripheralScan event'
@@ -87,58 +86,28 @@ void main() {
   });
 
   group('Scanning events', () {
-    test(
-      'emits state with updated peripherals for NewPeripheralScan event',
-      () {
-        // given
-        final PeripheralListEvent startScanningEvent = StartPeripheralScan();
-        final samplePeripheral = SampleBlePeripheral();
+    test('emits state with updated peripherals for NewPeripheralScan event',
+        () {
+      // given
+      final PeripheralListEvent startScanningEvent = StartPeripheralScan();
+      final samplePeripheral = SampleBlePeripheral();
 
-        // when
-        peripheralListBloc.add(startScanningEvent);
-        peripheralsStreamController.sink.add(samplePeripheral);
+      // when
+      peripheralListBloc.add(startScanningEvent);
+      peripheralsStreamController.sink.add(samplePeripheral);
 
-        // then
-        final expectedResponse = [
-          PeripheralListState.initial(),
-          PeripheralListState([], true),
-          PeripheralListState([samplePeripheral], true)
-        ];
-        expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
-      },
-    );
+      // then
+      final expectedResponse = [
+        PeripheralListState.initial(),
+        PeripheralListState([], true),
+        PeripheralListState([samplePeripheral], true)
+      ];
+      expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
+    });
 
     test(
-      'emits state with updated peripherals for NewPeripheralScan events'
-      'that contain different peripherals',
-      () {
-        // given
-        final PeripheralListEvent startScanningEvent = StartPeripheralScan();
-        final samplePeripheral = SampleBlePeripheral();
-        final differentSamplePeripheral = SampleBlePeripheral.different();
-
-        // when
-        peripheralListBloc.add(startScanningEvent);
-        peripheralsStreamController.sink.add(samplePeripheral);
-        peripheralsStreamController.sink.add(differentSamplePeripheral);
-
-        // then
-        final expectedResponse = [
-          PeripheralListState.initial(),
-          PeripheralListState([], true),
-          PeripheralListState([samplePeripheral], true),
-          PeripheralListState(
-              [samplePeripheral, differentSamplePeripheral], true)
-        ];
-        expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
-      },
-    );
-  });
-
-  test(
-    'does not emit state with updated peripherals for NewPeripheralScan event'
-    'that contains identical peripheral',
-    () {
+        'emits state with updated peripherals for NewPeripheralScan events'
+        'that contain different peripherals', () {
       // given
       final PeripheralListEvent startScanningEvent = StartPeripheralScan();
       final samplePeripheral = SampleBlePeripheral();
@@ -146,7 +115,6 @@ void main() {
 
       // when
       peripheralListBloc.add(startScanningEvent);
-      peripheralsStreamController.sink.add(samplePeripheral);
       peripheralsStreamController.sink.add(samplePeripheral);
       peripheralsStreamController.sink.add(differentSamplePeripheral);
 
@@ -158,8 +126,32 @@ void main() {
         PeripheralListState([samplePeripheral, differentSamplePeripheral], true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
-    },
-  );
+    });
+  });
+
+  test(
+      'does not emit state with updated peripherals for NewPeripheralScan event'
+      'that contains identical peripheral', () {
+    // given
+    final PeripheralListEvent startScanningEvent = StartPeripheralScan();
+    final samplePeripheral = SampleBlePeripheral();
+    final differentSamplePeripheral = SampleBlePeripheral.different();
+
+    // when
+    peripheralListBloc.add(startScanningEvent);
+    peripheralsStreamController.sink.add(samplePeripheral);
+    peripheralsStreamController.sink.add(samplePeripheral);
+    peripheralsStreamController.sink.add(differentSamplePeripheral);
+
+    // then
+    final expectedResponse = [
+      PeripheralListState.initial(),
+      PeripheralListState([], true),
+      PeripheralListState([samplePeripheral], true),
+      PeripheralListState([samplePeripheral, differentSamplePeripheral], true)
+    ];
+    expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
+  });
 }
 
 class SampleBlePeripheral extends BlePeripheral {
