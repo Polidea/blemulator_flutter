@@ -58,12 +58,13 @@ void main() {
     reset(blemulator);
   });
 
-  test('Calling BleAdapter constructor multiple times throws an error', () {
+  test('calling BleAdapter constructor more than once should throw an error',
+      () {
     expect(() => BleAdapter(bleManager, blemulator), throwsException);
   });
 
   group('Scanning', () {
-    test('startPeripheralScan calls bleManager.startPeripheralScan', () {
+    test('start scanning should cause library to start scanning', () {
       // when
       bleAdapter.startPeripheralScan();
 
@@ -71,7 +72,7 @@ void main() {
       verify(bleManager.startPeripheralScan()).called(1);
     });
 
-    test('stopPeripheralScan calls bleManager.stopPeripheralScan', () {
+    test('stop scanning should cause library to stop scanning', () {
       // when
       bleAdapter.stopPeripheralScan();
 
@@ -79,7 +80,7 @@ void main() {
       verify(bleManager.stopPeripheralScan()).called(1);
     });
 
-    test('ScanResult is transformed to BlePeripheral', () {
+    test('should emit peripheral upon receiving scan result', () {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
@@ -99,7 +100,9 @@ void main() {
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
 
-    test('ScanResult with no localName is not returned on the stream', () {
+    test(
+        'should not emit peripheral upon receiving scan result without localName',
+        () {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
@@ -113,7 +116,7 @@ void main() {
 
       when(advertisementData.localName).thenReturn(null);
       fireScanResultFromManager(scanResult);
-      
+
       when(advertisementData.localName).thenReturn(peripheralLocalName);
       fireScanResultFromManager(scanResult);
 
