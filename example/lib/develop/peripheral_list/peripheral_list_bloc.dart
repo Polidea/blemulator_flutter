@@ -33,14 +33,16 @@ class PeripheralListBloc
         _bleAdapter.startPeripheralScan().listen((BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
-    yield PeripheralListState(state.peripherals, true);
+    yield PeripheralListState(
+        peripherals: state.peripherals, scanningEnabled: true);
   }
 
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
       StopPeripheralScan event) async* {
     _cancelBlePeripheralSubscription();
     await _bleAdapter.stopPeripheralScan();
-    yield PeripheralListState(state.peripherals, false);
+    yield PeripheralListState(
+        peripherals: state.peripherals, scanningEnabled: false);
   }
 
   Stream<PeripheralListState> _mapNewPeripheralScanToState(
@@ -50,7 +52,9 @@ class PeripheralListBloc
       updatedPeripherals = List.from(state.peripherals);
       updatedPeripherals.add(event.peripheral);
     }
-    yield PeripheralListState(updatedPeripherals, state.scanningEnabled);
+    yield PeripheralListState(
+        peripherals: updatedPeripherals,
+        scanningEnabled: state.scanningEnabled);
   }
 
   void _cancelBlePeripheralSubscription() async {
