@@ -5,7 +5,7 @@ import 'package:blemulator_example/develop/peripheral_list/bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mock/mock_ble_adapter.dart';
+import '../mock/mocks.dart';
 
 void main() {
   PeripheralListBloc peripheralListBloc;

@@ -6,11 +6,7 @@ import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mock/mock_advertisement_data.dart';
-import '../mock/mock_ble_manager.dart';
-import '../mock/mock_blemulator.dart';
-import '../mock/mock_peripheral.dart';
-import '../mock/mock_scan_result.dart';
+import '../mock/mocks.dart';
 
 void main() {
   const peripheralName = 'Test peripheral name';
@@ -112,10 +108,7 @@ void main() {
       // then
       final expectedBlePeripheral = BlePeripheral(
           peripheralName, peripheralIdentifier, peripheralRssi, false);
-      final expectedResponse = [
-        expectedBlePeripheral,
-        expectedBlePeripheral
-      ];
+      final expectedResponse = [expectedBlePeripheral, expectedBlePeripheral];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
   });
