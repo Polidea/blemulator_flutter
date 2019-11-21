@@ -21,6 +21,14 @@ void main() {
         .thenAnswer((_) => peripheralsStreamController.stream);
   });
 
+  void receiveEvent(PeripheralListEvent event) {
+    peripheralListBloc.add(event);
+  }
+
+  void firePeripheralFromAdapter(BlePeripheral peripheral) {
+    peripheralsStreamController.sink.add(peripheral);
+  }
+
   tearDown(() {
     peripheralListBloc.close();
     bleAdapter = null;
@@ -51,7 +59,7 @@ void main() {
       final PeripheralListEvent event = StartPeripheralScan();
 
       // when
-      peripheralListBloc.add(event);
+      receiveEvent(event);
 
       // then
       final expectedResponse = [
@@ -70,8 +78,8 @@ void main() {
         final PeripheralListEvent stopScanningEvent = StopPeripheralScan();
 
         // when
-        peripheralListBloc.add(startScanningEvent);
-        peripheralListBloc.add(stopScanningEvent);
+        receiveEvent(startScanningEvent);
+        receiveEvent(stopScanningEvent);
 
         // then
         final expectedResponse = [
@@ -92,8 +100,9 @@ void main() {
       final samplePeripheral = SampleBlePeripheral();
 
       // when
-      peripheralListBloc.add(startScanningEvent);
-      peripheralsStreamController.sink.add(samplePeripheral);
+      receiveEvent(startScanningEvent);
+
+      firePeripheralFromAdapter(samplePeripheral);
 
       // then
       final expectedResponse = [
@@ -114,9 +123,10 @@ void main() {
       final differentSamplePeripheral = SampleBlePeripheral.different();
 
       // when
-      peripheralListBloc.add(startScanningEvent);
-      peripheralsStreamController.sink.add(samplePeripheral);
-      peripheralsStreamController.sink.add(differentSamplePeripheral);
+      receiveEvent(startScanningEvent);
+
+      firePeripheralFromAdapter(samplePeripheral);
+      firePeripheralFromAdapter(differentSamplePeripheral);
 
       // then
       final expectedResponse = [
@@ -141,10 +151,11 @@ void main() {
     final differentSamplePeripheral = SampleBlePeripheral.different();
 
     // when
-    peripheralListBloc.add(startScanningEvent);
-    peripheralsStreamController.sink.add(samplePeripheral);
-    peripheralsStreamController.sink.add(samplePeripheral);
-    peripheralsStreamController.sink.add(differentSamplePeripheral);
+    receiveEvent(startScanningEvent);
+
+    firePeripheralFromAdapter(samplePeripheral);
+    firePeripheralFromAdapter(samplePeripheral);
+    firePeripheralFromAdapter(differentSamplePeripheral);
 
     // then
     final expectedResponse = [
