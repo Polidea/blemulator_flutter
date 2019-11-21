@@ -26,6 +26,28 @@ void main() {
         .thenAnswer((_) => scanResultStreamController.stream);
   });
 
+  MockPeripheral setupMockPeripheral() {
+    MockPeripheral peripheral = MockPeripheral();
+    when(peripheral.name).thenReturn(peripheralName);
+    when(peripheral.identifier).thenReturn(peripheralIdentifier);
+    return peripheral;
+  }
+
+  MockAdvertisementData setupMockAdvertisementData() {
+    MockAdvertisementData advertisementData = MockAdvertisementData();
+    when(advertisementData.localName).thenReturn(peripheralLocalName);
+    return advertisementData;
+  }
+
+  MockScanResult setupMockScanResult(
+      MockPeripheral peripheral, MockAdvertisementData advertisementData) {
+    MockScanResult scanResult = MockScanResult();
+    when(scanResult.peripheral).thenReturn(peripheral);
+    when(scanResult.advertisementData).thenReturn(advertisementData);
+    when(scanResult.rssi).thenReturn(peripheralRssi);
+    return scanResult;
+  }
+
   tearDown(() {
     scanResultStreamController.close();
     reset(bleManager);
@@ -57,17 +79,10 @@ void main() {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
-      MockPeripheral peripheral = MockPeripheral();
-      when(peripheral.name).thenReturn(peripheralName);
-      when(peripheral.identifier).thenReturn(peripheralIdentifier);
-
-      MockAdvertisementData advertisementData = MockAdvertisementData();
-      when(advertisementData.localName).thenReturn(peripheralLocalName);
-
-      MockScanResult scanResult = MockScanResult();
-      when(scanResult.peripheral).thenReturn(peripheral);
-      when(scanResult.advertisementData).thenReturn(advertisementData);
-      when(scanResult.rssi).thenReturn(peripheralRssi);
+      MockPeripheral peripheral = setupMockPeripheral();
+      MockAdvertisementData advertisementData = setupMockAdvertisementData();
+      MockScanResult scanResult =
+          setupMockScanResult(peripheral, advertisementData);
 
       // when
       scanResultStreamController.sink.add(scanResult);
@@ -84,17 +99,10 @@ void main() {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
-      MockPeripheral peripheral = MockPeripheral();
-      when(peripheral.name).thenReturn(peripheralName);
-      when(peripheral.identifier).thenReturn(peripheralIdentifier);
-
-      MockAdvertisementData advertisementData = MockAdvertisementData();
-      when(advertisementData.localName).thenReturn(peripheralLocalName);
-
-      MockScanResult scanResult = MockScanResult();
-      when(scanResult.peripheral).thenReturn(peripheral);
-      when(scanResult.advertisementData).thenReturn(advertisementData);
-      when(scanResult.rssi).thenReturn(peripheralRssi);
+      MockPeripheral peripheral = setupMockPeripheral();
+      MockAdvertisementData advertisementData = setupMockAdvertisementData();
+      MockScanResult scanResult =
+          setupMockScanResult(peripheral, advertisementData);
 
       // when
       scanResultStreamController.sink.add(scanResult);
