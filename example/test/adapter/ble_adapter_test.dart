@@ -60,7 +60,8 @@ void main() {
 
   test('calling BleAdapter constructor more than once should throw an error',
       () {
-    expect(() => BleAdapter(bleManager, blemulator), throwsException);
+    expect(() => BleAdapter(bleManager, blemulator),
+        throwsA(isInstanceOf<BleAdapterConstructorException>()));
   });
 
   group('Scanning', () {

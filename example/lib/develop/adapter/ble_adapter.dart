@@ -5,7 +5,19 @@ import 'package:blemulator_example/example_peripheral.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
-typedef void ScanEventOutputFunction(BlePeripheral peripheral);
+abstract class BleAdapterException implements Exception {
+  final String _message;
+
+  String get message => _message;
+
+  BleAdapterException(this._message);
+}
+
+class BleAdapterConstructorException extends BleAdapterException {
+  BleAdapterConstructorException()
+      : super('Constructor of BleAdapter called multiple times. '
+            'Use BleAdapterInjector.inject() for injecting BleAdapter.');
+}
 
 class BleAdapter {
   static BleAdapter _instance;
@@ -17,8 +29,7 @@ class BleAdapter {
     if (_instance == null) {
       _instance = BleAdapter._internal(bleManager, blemulator);
     } else {
-      throw Exception('Constructor of BleAdapter called multiple times. '
-          'Use BleAdapterInjector.inject() for injecting BleAdapter.');
+      throw BleAdapterConstructorException();
     }
     return _instance;
   }
