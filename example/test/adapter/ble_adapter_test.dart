@@ -32,10 +32,8 @@ void main() {
     reset(blemulator);
   });
 
-  group('Initialization', () {
-    test('Calling BleAdapter constructor multiple times throws an error', () {
-      expect(() => BleAdapter(bleManager, blemulator), throwsException);
-    });
+  test('Calling BleAdapter constructor multiple times throws an error', () {
+    expect(() => BleAdapter(bleManager, blemulator), throwsException);
   });
 
   group('Scanning', () {
