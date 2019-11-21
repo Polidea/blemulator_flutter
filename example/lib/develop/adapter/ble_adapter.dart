@@ -25,7 +25,7 @@ class BleAdapter {
 
   BleAdapter._internal(this._bleManager, this._blemulator) {
     _setupSimulation();
-    _createClient();
+    _bleManager.createClient();
   }
 
   Stream<BlePeripheral> startPeripheralScan() {
@@ -48,10 +48,6 @@ class BleAdapter {
 
   Future<void> stopPeripheralScan() {
     return _bleManager.stopPeripheralScan();
-  }
-
-  void _createClient() {
-    _bleManager.createClient();
   }
 
   void _setupSimulation() {
