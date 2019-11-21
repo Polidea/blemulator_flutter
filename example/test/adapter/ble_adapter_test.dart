@@ -48,6 +48,10 @@ void main() {
     return scanResult;
   }
 
+  void fireScanResultFromManager(MockScanResult scanResult) {
+    scanResultStreamController.sink.add(scanResult);
+  }
+
   tearDown(() {
     scanResultStreamController.close();
     reset(bleManager);
@@ -85,7 +89,7 @@ void main() {
           setupMockScanResult(peripheral, advertisementData);
 
       // when
-      scanResultStreamController.sink.add(scanResult);
+      fireScanResultFromManager(scanResult);
 
       // then
       final expectedResponse = [
@@ -105,11 +109,13 @@ void main() {
           setupMockScanResult(peripheral, advertisementData);
 
       // when
-      scanResultStreamController.sink.add(scanResult);
+      fireScanResultFromManager(scanResult);
+
       when(advertisementData.localName).thenReturn(null);
-      scanResultStreamController.sink.add(scanResult);
+      fireScanResultFromManager(scanResult);
+      
       when(advertisementData.localName).thenReturn(peripheralLocalName);
-      scanResultStreamController.sink.add(scanResult);
+      fireScanResultFromManager(scanResult);
 
       // then
       final expectedBlePeripheral = BlePeripheral(
