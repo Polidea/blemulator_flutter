@@ -16,7 +16,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
             length: 3,
             child: Scaffold(
               appBar: AppBar(
-                title: Text('Perpipheral details'),
+                title: Text(state.peripheral.name),
                 bottom: TabBar(tabs: [
                   Tab(
                     icon: Icon(Icons.table_chart),
@@ -44,7 +44,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Perpipheral details'),
+              title: Text(state.peripheral.name),
             ),
             body: PeripheralDetailsView(),
           );
