@@ -1,12 +1,11 @@
 import 'package:blemulator_example/di/ble_adapter_injector.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_details_screen.dart';
 import 'package:blemulator_example/peripheral_list/bloc.dart';
 import 'package:blemulator_example/peripheral_list/peripheral_list_screen.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'device_details/device_detail_view.dart';
-import 'device_details/devices_details_bloc_provider.dart';
 
 void main() {
   Fimber.plantTree(DebugTree());
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
               child: PeripheralListScreen(),
             ),
         "/details": (context) =>
-            DeviceDetailsBlocProvider(child: DeviceDetailsView()),
+            PeripheralDetailsScreen(),
       },
       navigatorObservers: [routeObserver],
     );
