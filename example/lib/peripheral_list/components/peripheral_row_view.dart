@@ -26,10 +26,15 @@ class PeripheralRowView extends StatelessWidget {
             ),
             trailing: _buildListTileTrailing(),
             dense: true,
+            onTap: () => _handleTap(context),
           ),
         ),
       ),
     );
+  }
+
+  void _handleTap(BuildContext context) {
+    Navigator.pushNamed(context, '/details');
   }
 
   Widget _buildListTileLeading() {
