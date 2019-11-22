@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:blemulator_example/develop/model/ble_peripheral.dart';
-import 'package:blemulator_example/develop/util/custom_colors.dart';
+import 'package:blemulator_example/model/ble_peripheral.dart';
+import 'package:blemulator_example/util/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class PeripheralRowView extends StatelessWidget {

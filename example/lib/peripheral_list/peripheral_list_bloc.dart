@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:blemulator_example/develop/model/ble_peripheral.dart';
-import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
+import 'package:blemulator_example/model/ble_peripheral.dart';
+import 'package:blemulator_example/adapter/ble_adapter.dart';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
 

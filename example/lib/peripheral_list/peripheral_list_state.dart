@@ -1,4 +1,4 @@
-import 'package:blemulator_example/develop/model/ble_peripheral.dart';
+import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 

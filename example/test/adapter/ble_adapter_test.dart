@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:blemulator_example/develop/adapter/ble_adapter.dart';
-import 'package:blemulator_example/develop/model/ble_peripheral.dart';
+import 'package:blemulator_example/adapter/ble_adapter.dart';
+import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
