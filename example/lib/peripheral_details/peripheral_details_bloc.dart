@@ -19,4 +19,10 @@ class PeripheralDetailsBloc
   Stream<PeripheralDetailsState> mapEventToState(
     PeripheralDetailsEvent event,
   ) async* {}
+
+  @override
+  Future<void> close() {
+    _blePeripheralRepository.blePeripheral = null;
+    return super.close();
+  }
 }
