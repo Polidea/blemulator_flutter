@@ -10,32 +10,38 @@ class PeripheralListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bluetooth peripherals'),
-        actions: <Widget>[
-          BlocBuilder<PeripheralListBloc, PeripheralListState>(
-            condition: (previousState, state) {
-              return previousState.scanningEnabled != state.scanningEnabled;
-            },
-            builder: (context, state) {
-              return IconButton(
-                icon: Icon(state.scanningEnabled
-                    ? Icons.bluetooth_searching
-                    : Icons.bluetooth_disabled),
-                tooltip: state.scanningEnabled
-                    ? 'Disable Bluetooth scanning'
-                    : 'Enable Bluetooth scanning',
-                onPressed: () => state.scanningEnabled
-                    ? _stopScanning(peripheralListBloc)
-                    : _startScanning(peripheralListBloc),
-              );
-            },
-          )
-        ],
-      ),
-      body: Container(
-        child: BlocBuilder<PeripheralListBloc, PeripheralListState>(
+    return BlocListener<PeripheralListBloc, PeripheralListState>(
+      condition: (previousState, state) {
+        return (state is NavigateToPeripheralDetails);
+      },
+      listener: (context, state) {
+        Navigator.of(context).pushNamed('/details');
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Bluetooth peripherals'),
+          actions: <Widget>[
+            BlocBuilder<PeripheralListBloc, PeripheralListState>(
+              condition: (previousState, state) {
+                return previousState.scanningEnabled != state.scanningEnabled;
+              },
+              builder: (context, state) {
+                return IconButton(
+                  icon: Icon(state.scanningEnabled
+                      ? Icons.bluetooth_searching
+                      : Icons.bluetooth_disabled),
+                  tooltip: state.scanningEnabled
+                      ? 'Disable Bluetooth scanning'
+                      : 'Enable Bluetooth scanning',
+                  onPressed: () => state.scanningEnabled
+                      ? _stopScanning(peripheralListBloc)
+                      : _startScanning(peripheralListBloc),
+                );
+              },
+            )
+          ],
+        ),
+        body: BlocBuilder<PeripheralListBloc, PeripheralListState>(
           condition: (previousState, state) {
             return previousState.peripherals != state.peripherals;
           },
@@ -49,8 +55,8 @@ class PeripheralListScreen extends StatelessWidget {
             );
           },
         ),
+        backgroundColor: CustomColors.systemGroupedBackground,
       ),
-      backgroundColor: CustomColors.systemGroupedBackground,
     );
   }
 

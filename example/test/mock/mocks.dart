@@ -1,9 +1,13 @@
 import 'package:blemulator/blemulator.dart';
 import 'package:blemulator_example/adapter/ble_adapter.dart';
+import 'package:blemulator_example/repository/peripheral_repository.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:mockito/mockito.dart';
 
 class MockBleAdapter extends Mock implements BleAdapter {}
+
+class MockBlePeripheralRepository extends Mock
+    implements BlePeripheralRepository {}
 
 class MockBleManager extends Mock implements BleManager {}
 

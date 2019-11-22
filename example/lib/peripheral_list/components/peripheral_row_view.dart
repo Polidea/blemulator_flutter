@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
+import 'package:blemulator_example/peripheral_list/bloc.dart';
+import 'package:blemulator_example/peripheral_list/peripheral_list_bloc.dart';
 import 'package:blemulator_example/util/custom_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PeripheralRowView extends StatelessWidget {
   final BlePeripheral _peripheral;
@@ -11,6 +14,8 @@ class PeripheralRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
       child: ClipRRect(
@@ -26,15 +31,15 @@ class PeripheralRowView extends StatelessWidget {
             ),
             trailing: _buildListTileTrailing(),
             dense: true,
-            onTap: () => _handleTap(context),
+            onTap: () => _handleTap(peripheralListBloc),
           ),
         ),
       ),
     );
   }
 
-  void _handleTap(BuildContext context) {
-    Navigator.pushNamed(context, '/details');
+  void _handleTap(PeripheralListBloc peripheralListBloc) {
+    peripheralListBloc.add(PickPeripheral(_peripheral));
   }
 
   Widget _buildListTileLeading() {
@@ -71,8 +76,6 @@ class PeripheralRowView extends StatelessWidget {
   }
 
   Color _colorForRssi(int rssi) {
-    return rssi > -60
-        ? Colors.blue
-        : rssi > -90 ? Colors.orange : Colors.red;
+    return rssi > -60 ? Colors.blue : rssi > -90 ? Colors.orange : Colors.red;
   }
 }

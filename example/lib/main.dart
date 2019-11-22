@@ -2,10 +2,10 @@ import 'package:blemulator_example/di/ble_adapter_injector.dart';
 import 'package:blemulator_example/peripheral_details/peripheral_details_screen.dart';
 import 'package:blemulator_example/peripheral_list/bloc.dart';
 import 'package:blemulator_example/peripheral_list/peripheral_list_screen.dart';
+import 'package:blemulator_example/repository/peripheral_repository.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 void main() {
   Fimber.plantTree(DebugTree());
@@ -26,12 +26,11 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
         "/": (context) => BlocProvider(
-              builder: (context) =>
-                  PeripheralListBloc(BleAdapterInjector.inject),
+              builder: (context) => PeripheralListBloc(
+                  BleAdapterInjector.inject, BlePeripheralRepository()),
               child: PeripheralListScreen(),
             ),
-        "/details": (context) =>
-            PeripheralDetailsScreen(),
+        "/details": (context) => PeripheralDetailsScreen(),
       },
       navigatorObservers: [routeObserver],
     );

@@ -10,11 +10,12 @@ import '../mock/mocks.dart';
 void main() {
   PeripheralListBloc peripheralListBloc;
   MockBleAdapter bleAdapter;
+  MockBlePeripheralRepository blePeripheralRepository;
   StreamController<BlePeripheral> peripheralsStreamController;
 
   setUp(() {
     bleAdapter = MockBleAdapter();
-    peripheralListBloc = PeripheralListBloc(bleAdapter);
+    peripheralListBloc = PeripheralListBloc(bleAdapter, blePeripheralRepository);
     peripheralsStreamController = StreamController();
 
     when(bleAdapter.startPeripheralScan())
@@ -47,7 +48,7 @@ void main() {
     // then
     expectLater(
       peripheralListBloc,
-      emitsInOrder([PeripheralListState.initial(), emitsDone]),
+      emitsInOrder([InitialPeripheralList(), emitsDone]),
     );
   });
 
@@ -63,8 +64,8 @@ void main() {
 
       // then
       final expectedResponse = [
-        PeripheralListState.initial(),
-        PeripheralListState(peripherals: [], scanningEnabled: true)
+        InitialPeripheralList(),
+        PeripheralList(peripherals: [], scanningEnabled: true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
     });
@@ -83,9 +84,9 @@ void main() {
 
         // then
         final expectedResponse = [
-          PeripheralListState.initial(),
-          PeripheralListState(peripherals: [], scanningEnabled: true),
-          PeripheralListState(peripherals: [], scanningEnabled: false)
+          InitialPeripheralList(),
+          PeripheralList(peripherals: [], scanningEnabled: true),
+          PeripheralList(peripherals: [], scanningEnabled: false)
         ];
         expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
       },
@@ -106,9 +107,9 @@ void main() {
 
       // then
       final expectedResponse = [
-        PeripheralListState.initial(),
-        PeripheralListState(peripherals: [], scanningEnabled: true),
-        PeripheralListState(
+        InitialPeripheralList(),
+        PeripheralList(peripherals: [], scanningEnabled: true),
+        PeripheralList(
             peripherals: [samplePeripheral], scanningEnabled: true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
@@ -130,11 +131,11 @@ void main() {
 
       // then
       final expectedResponse = [
-        PeripheralListState.initial(),
-        PeripheralListState(peripherals: [], scanningEnabled: true),
-        PeripheralListState(
+        InitialPeripheralList(),
+        PeripheralList(peripherals: [], scanningEnabled: true),
+        PeripheralList(
             peripherals: [samplePeripheral], scanningEnabled: true),
-        PeripheralListState(
+        PeripheralList(
             peripherals: [samplePeripheral, differentSamplePeripheral],
             scanningEnabled: true),
       ];
@@ -159,11 +160,11 @@ void main() {
 
     // then
     final expectedResponse = [
-      PeripheralListState.initial(),
-      PeripheralListState(peripherals: [], scanningEnabled: true),
-      PeripheralListState(
+      InitialPeripheralList(),
+      PeripheralList(peripherals: [], scanningEnabled: true),
+      PeripheralList(
           peripherals: [samplePeripheral], scanningEnabled: true),
-      PeripheralListState(
+      PeripheralList(
           peripherals: [samplePeripheral, differentSamplePeripheral],
           scanningEnabled: true),
     ];

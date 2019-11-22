@@ -1,10 +1,12 @@
+import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-abstract class PeripheralDetailsState extends Equatable {
-  const PeripheralDetailsState();
-}
+class PeripheralDetailsState extends Equatable {
+  final BlePeripheral peripheral;
 
-class InitialPeripheralDetailsState extends PeripheralDetailsState {
+  const PeripheralDetailsState({@required this.peripheral});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [peripheral];
 }
