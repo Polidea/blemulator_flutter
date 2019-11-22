@@ -1,4 +1,6 @@
+import 'package:blemulator_example/adapter/ble_adapter.dart';
 import 'package:blemulator_example/di/ble_adapter_injector.dart';
+import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/peripheral_details/peripheral_details_screen.dart';
 import 'package:blemulator_example/peripheral_list/bloc.dart';
 import 'package:blemulator_example/peripheral_list/peripheral_list_screen.dart';
@@ -30,7 +32,11 @@ class MyApp extends StatelessWidget {
                   BleAdapterInjector.inject, BlePeripheralRepository()),
               child: PeripheralListScreen(),
             ),
-        "/details": (context) => PeripheralDetailsScreen(),
+        "/details": (context) => BlocProvider(
+              builder: (context) => PeripheralDetailsBloc(
+                  BleAdapterInjector.inject, BlePeripheralRepository()),
+              child: PeripheralDetailsScreen(),
+            ),
       },
       navigatorObservers: [routeObserver],
     );
