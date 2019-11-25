@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mock/mocks.dart';
+import '../mock/sample_ble_peripheral.dart';
 
 void main() {
   PeripheralListBloc peripheralListBloc;
@@ -35,6 +36,7 @@ void main() {
   tearDown(() {
     peripheralListBloc.close();
     bleAdapter = null;
+    blePeripheralRepository = null;
     peripheralsStreamController.close();
   });
 
@@ -188,20 +190,4 @@ void main() {
     ];
     expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
   });
-}
-
-class SampleBlePeripheral extends BlePeripheral {
-  SampleBlePeripheral({
-    String name = 'Sample peripheral',
-    String id = 'peripheral id',
-    int rssi = -30,
-    bool isConnected = false,
-  }) : super(name, id, rssi, isConnected);
-
-  SampleBlePeripheral.different({
-    String name = 'Different sample peripheral',
-    String id = 'different peripheral id',
-    int rssi = -30,
-    bool isConnected = false,
-  }) : super(name, id, rssi, isConnected);
 }
