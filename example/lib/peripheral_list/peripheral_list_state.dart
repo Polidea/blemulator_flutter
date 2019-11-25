@@ -19,11 +19,11 @@ class InitialPeripheralList extends PeripheralListState {
 }
 
 class PeripheralList extends PeripheralListState {
-  const PeripheralList({@required peripherals, @required scanningEnabled})
+  const PeripheralList({@required List<BlePeripheral> peripherals, @required bool scanningEnabled})
       : super(peripherals: peripherals, scanningEnabled: scanningEnabled);
 }
 
 class NavigateToPeripheralDetails extends PeripheralListState {
-  const NavigateToPeripheralDetails({@required peripherals, @required scanningEnabled})
+  const NavigateToPeripheralDetails({@required List<BlePeripheral> peripherals, @required bool scanningEnabled})
       : super(peripherals: peripherals, scanningEnabled: scanningEnabled);
 }
