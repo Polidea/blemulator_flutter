@@ -11,14 +11,12 @@ import '../mock/sample_ble_peripheral.dart';
 void main() {
   PeripheralListBloc peripheralListBloc;
   MockBleAdapter bleAdapter;
-  MockBlePeripheralRepository blePeripheralRepository;
   StreamController<BlePeripheral> peripheralsStreamController;
 
   setUp(() {
     bleAdapter = MockBleAdapter();
-    blePeripheralRepository = MockBlePeripheralRepository();
     peripheralListBloc =
-        PeripheralListBloc(bleAdapter, blePeripheralRepository);
+        PeripheralListBloc(bleAdapter);
     peripheralsStreamController = StreamController();
 
     when(bleAdapter.startPeripheralScan())
@@ -36,7 +34,6 @@ void main() {
   tearDown(() {
     peripheralListBloc.close();
     bleAdapter = null;
-    blePeripheralRepository = null;
     peripheralsStreamController.close();
   });
 
@@ -52,7 +49,7 @@ void main() {
     // then
     expectLater(
       peripheralListBloc,
-      emitsInOrder([InitialPeripheralList(), emitsDone]),
+      emitsInOrder([PeripheralListState.initial(), emitsDone]),
     );
   });
 
@@ -68,8 +65,8 @@ void main() {
 
       // then
       final expectedResponse = [
-        InitialPeripheralList(),
-        PeripheralList(peripherals: [], scanningEnabled: true)
+        PeripheralListState.initial(),
+        PeripheralListState(peripherals: [], scanningEnabled: true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
     });
@@ -88,9 +85,9 @@ void main() {
 
         // then
         final expectedResponse = [
-          InitialPeripheralList(),
-          PeripheralList(peripherals: [], scanningEnabled: true),
-          PeripheralList(peripherals: [], scanningEnabled: false)
+          PeripheralListState.initial(),
+          PeripheralListState(peripherals: [], scanningEnabled: false),
+          PeripheralListState(peripherals: [], scanningEnabled: true),
         ];
         expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
       },
@@ -111,9 +108,9 @@ void main() {
 
       // then
       final expectedResponse = [
-        InitialPeripheralList(),
-        PeripheralList(peripherals: [], scanningEnabled: true),
-        PeripheralList(peripherals: [samplePeripheral], scanningEnabled: true)
+        PeripheralListState.initial(),
+        PeripheralListState(peripherals: [], scanningEnabled: true),
+        PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
     });
@@ -134,10 +131,10 @@ void main() {
 
       // then
       final expectedResponse = [
-        InitialPeripheralList(),
-        PeripheralList(peripherals: [], scanningEnabled: true),
-        PeripheralList(peripherals: [samplePeripheral], scanningEnabled: true),
-        PeripheralList(
+        PeripheralListState.initial(),
+        PeripheralListState(peripherals: [], scanningEnabled: true),
+        PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true),
+        PeripheralListState(
             peripherals: [samplePeripheral, differentSamplePeripheral],
             scanningEnabled: true),
       ];
@@ -162,31 +159,12 @@ void main() {
 
     // then
     final expectedResponse = [
-      InitialPeripheralList(),
-      PeripheralList(peripherals: [], scanningEnabled: true),
-      PeripheralList(peripherals: [samplePeripheral], scanningEnabled: true),
-      PeripheralList(
+      PeripheralListState.initial(),
+      PeripheralListState(peripherals: [], scanningEnabled: true),
+      PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true),
+      PeripheralListState(
           peripherals: [samplePeripheral, differentSamplePeripheral],
           scanningEnabled: true),
-    ];
-    expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
-  });
-
-  test(
-      'emits NavigateToPeripheralDetails state '
-      'upon receiving PickPeripheral event', () {
-    // given
-    final samplePeripheral = SampleBlePeripheral();
-    final PeripheralListEvent pickPeripheralEvent =
-        PickPeripheral(samplePeripheral);
-
-    // when
-    receiveEvent(pickPeripheralEvent);
-
-    // then
-    final expectedResponse = [
-      InitialPeripheralList(),
-      isInstanceOf<NavigateToPeripheralDetails>()
     ];
     expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
   });
