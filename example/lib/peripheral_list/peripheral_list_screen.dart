@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PeripheralListScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
