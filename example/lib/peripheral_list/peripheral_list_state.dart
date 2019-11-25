@@ -26,4 +26,8 @@ class PeripheralList extends PeripheralListState {
 class NavigateToPeripheralDetails extends PeripheralListState {
   const NavigateToPeripheralDetails({@required List<BlePeripheral> peripherals, @required bool scanningEnabled})
       : super(peripherals: peripherals, scanningEnabled: scanningEnabled);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other);
 }
