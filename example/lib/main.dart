@@ -35,20 +35,17 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case PeripheralListScreen.routeName:
               return NavigatorRouteFactory.build<PeripheralListBloc>(
-                context,
                 PeripheralListBloc(BleAdapterInjector.inject),
                 PeripheralListScreen(),
               );
             case PeripheralDetailsScreen.routeName:
               return NavigatorRouteFactory.build<PeripheralDetailsBloc>(
-                context,
                 PeripheralDetailsBloc(
                     BleAdapterInjector.inject, settings.arguments),
                 PeripheralDetailsScreen(),
               );
             default:
               return NavigatorRouteFactory.build<PeripheralListBloc>(
-                context,
                 PeripheralListBloc(BleAdapterInjector.inject),
                 PeripheralListScreen(),
               );
