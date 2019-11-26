@@ -26,15 +26,4 @@ void main() {
   test('initial state contains peripheral provided in the constructor', () {
     expect(peripheralDetailsBloc.initialState.peripheral, peripheral);
   });
-
-  test('close does not emit new states', () {
-    // when
-    peripheralDetailsBloc.close();
-
-    // then
-    expectLater(
-      peripheralDetailsBloc,
-      emitsInOrder([PeripheralDetailsState(peripheral: peripheral), emitsDone]),
-    );
-  });
 }
