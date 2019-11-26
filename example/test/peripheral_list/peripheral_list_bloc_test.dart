@@ -86,8 +86,8 @@ void main() {
         // then
         final expectedResponse = [
           PeripheralListState.initial(),
-          PeripheralListState(peripherals: [], scanningEnabled: false),
           PeripheralListState(peripherals: [], scanningEnabled: true),
+          PeripheralListState(peripherals: [], scanningEnabled: false),
         ];
         expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
       },
