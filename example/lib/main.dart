@@ -1,5 +1,6 @@
 import 'package:blemulator_example/di/ble_adapter_injector.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
+import 'package:blemulator_example/navigation/navigator_route_factory.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/peripheral_details/peripheral_details_screen.dart';
 import 'package:blemulator_example/peripheral_list/bloc.dart';
@@ -33,37 +34,24 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case PeripheralListScreen.routeName:
-              {
-                return MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                    builder: (context) =>
-                        PeripheralListBloc(BleAdapterInjector.inject),
-                    child: PeripheralListScreen(),
-                  ),
-                );
-              }
-              break;
+              return NavigatorRouteFactory.build<PeripheralListBloc>(
+                context,
+                PeripheralListBloc(BleAdapterInjector.inject),
+                PeripheralListScreen(),
+              );
             case PeripheralDetailsScreen.routeName:
-              {
-                return MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          builder: (context) => PeripheralDetailsBloc(
-                              BleAdapterInjector.inject, settings.arguments),
-                          child: PeripheralDetailsScreen(),
-                        ));
-              }
-              break;
+              return NavigatorRouteFactory.build<PeripheralDetailsBloc>(
+                context,
+                PeripheralDetailsBloc(
+                    BleAdapterInjector.inject, settings.arguments),
+                PeripheralDetailsScreen(),
+              );
             default:
-              {
-                return MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                    builder: (context) =>
-                        PeripheralListBloc(BleAdapterInjector.inject),
-                    child: PeripheralListScreen(),
-                  ),
-                );
-              }
-              break;
+              return NavigatorRouteFactory.build<PeripheralListBloc>(
+                context,
+                PeripheralListBloc(BleAdapterInjector.inject),
+                PeripheralListScreen(),
+              );
           }
         },
       ),
