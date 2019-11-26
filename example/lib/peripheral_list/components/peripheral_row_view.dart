@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
-import 'package:blemulator_example/peripheral_list/bloc.dart';
-import 'package:blemulator_example/peripheral_list/peripheral_list_bloc.dart';
 import 'package:blemulator_example/util/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +13,6 @@ class PeripheralRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
     final navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
 
     return Padding(
@@ -33,16 +30,14 @@ class PeripheralRowView extends StatelessWidget {
             ),
             trailing: _buildListTileTrailing(),
             dense: true,
-            onTap: () => _handleTap(navigatorBloc),
+            onTap: () => _onRowTap(navigatorBloc),
           ),
         ),
       ),
     );
   }
 
-  void _handleTap(NavigatorBloc navigatorBloc) {
-//    peripheralListBloc.add(PickPeripheral(_peripheral));
-    print('elo');
+  void _onRowTap(NavigatorBloc navigatorBloc) {
     navigatorBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
   }
 
