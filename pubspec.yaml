@@ -1,6 +1,6 @@
 name: blemulator
 description: Flutter plugin for simulating BLE peripherals on FlutterBleLib
-version: 1.0.0-dev.4
+version: 1.0.0-dev.5
 author: "Polidea <hello@polidea.com>"
 homepage: https://github.com/Polidea/blemulator_flutter
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_ble_lib: ^2.0.0-dev.6
+  flutter_ble_lib: ^2.0.0-dev.7
 
 dev_dependencies:
   flutter_test:
