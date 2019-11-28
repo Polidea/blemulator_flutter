@@ -271,7 +271,7 @@ public class SimulatedAdapter implements BleAdapter {
 
     @Override
     public Service[] getServicesForDevice(String deviceIdentifier) throws BleError {
-        Log.i(TAG, "discoverAllServicesAndCharacteristicsForDevice");
+        Log.i(TAG, "getServicesForDevice");
         if (knownPeripherals.get(deviceIdentifier) == null) {
             throw new BleError(BleErrorCode.DeviceNotFound, "Device unknown", 0);
         }
@@ -292,7 +292,7 @@ public class SimulatedAdapter implements BleAdapter {
     @Override
     public Characteristic[] getCharacteristicsForDevice(String deviceIdentifier,
                                                         String serviceUUID) throws BleError {
-        Log.i(TAG, "discoverAllServicesAndCharacteristicsForDevice");
+        Log.i(TAG, "getCharacteristicsForDevice");
 
         if (knownPeripherals.get(deviceIdentifier) == null) {
             throw new BleError(BleErrorCode.DeviceNotFound, "Device unknown", 0);
@@ -315,7 +315,7 @@ public class SimulatedAdapter implements BleAdapter {
 
     @Override
     public Characteristic[] getCharacteristicsForService(int serviceIdentifier) throws BleError {
-        Log.i(TAG, "discoverAllServicesAndCharacteristicsForDevice");
+        Log.i(TAG, "getCharacteristicForService");
 
 
         for (DeviceContainer deviceContainer : knownPeripherals.values()) {
@@ -324,7 +324,7 @@ public class SimulatedAdapter implements BleAdapter {
                     if (service.getId() == serviceIdentifier) {
                         return deviceContainer
                                 .getCharacteristics()
-                                .get(service.getUuid().toString().toUpperCase())
+                                .get(service.getUuid().toString().toUpperCase()) //HERE; TODO remove mark
                                 .toArray(new Characteristic[0]);
                     }
                 }
