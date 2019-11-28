@@ -122,7 +122,7 @@ class ExampleCharacteristic extends SimulatedCharacteristic {
             convenienceName: convenienceName);
 
   @override
-  Future<void> write(Uint8List value) {
+  Future<void> write(Uint8List value, { bool sendNotification = true }) {
     int valueAsInt = value[0];
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
