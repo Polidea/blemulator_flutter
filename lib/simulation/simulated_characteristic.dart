@@ -33,9 +33,9 @@ class SimulatedCharacteristic {
 
   Future<Uint8List> read() async => _value;
 
-  Future<void> write(Uint8List value) async {
+  Future<void> write(Uint8List value, {bool sendNotification = true}) async {
     this._value = value;
-    if (_streamController?.hasListener == true)
+    if (sendNotification && _streamController?.hasListener == true)
       _streamController.sink.add(value);
   }
 

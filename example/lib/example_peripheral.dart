@@ -98,6 +98,16 @@ class TemperatureService extends SimulatedService {
             convenienceName: convenienceName) {
     characteristicByUuid(_temperatureConfigUuid).monitor().listen((value) {
       _readingTemperature = value[0] == 1;
+
+      if (_readingTemperature) {
+        SimulatedCharacteristic temperatureDataCharacteristic =
+            characteristicByUuid(_temperatureDataUuid);
+
+        temperatureDataCharacteristic.write(
+          Uint8List.fromList([0, 0, 100, Random().nextInt(255)]),
+          sendNotification: false,
+        );
+      }
     });
 
     _emitTemperature();
@@ -116,7 +126,7 @@ class TemperatureService extends SimulatedService {
       if (temperatureDataCharacteristic.isNotifying) {
         if (_readingTemperature) {
           temperatureDataCharacteristic
-              .write(Uint8List.fromList([0, 0, 200, Random().nextInt(255)]));
+              .write(Uint8List.fromList([0, 0, 100, Random().nextInt(255)]));
         } else {
           temperatureDataCharacteristic.write(Uint8List.fromList([0, 0, 0, 0]));
         }
@@ -134,7 +144,7 @@ class BooleanCharacteristic extends SimulatedCharacteristic {
             convenienceName: convenienceName);
 
   @override
-  Future<void> write(Uint8List value) {
+  Future<void> write(Uint8List value, {bool sendNotification = true}) {
     int valueAsInt = value[0];
     if (valueAsInt != 0 && valueAsInt != 1) {
       return Future.error(SimulatedBleError(
