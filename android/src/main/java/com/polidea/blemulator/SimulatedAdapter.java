@@ -324,7 +324,7 @@ public class SimulatedAdapter implements BleAdapter {
                     if (service.getId() == serviceIdentifier) {
                         return deviceContainer
                                 .getCharacteristics()
-                                .get(service.getUuid().toString().toUpperCase()) //HERE; TODO remove mark
+                                .get(service.getUuid().toString().toUpperCase())
                                 .toArray(new Characteristic[0]);
                     }
                 }
