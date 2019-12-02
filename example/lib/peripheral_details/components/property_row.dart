@@ -1,3 +1,4 @@
+import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
 class PropertyRow extends StatelessWidget {
@@ -45,10 +46,8 @@ class PropertyRow extends StatelessWidget {
                     if (title != null)
                       Text(
                         title,
-                        style: TextStyle(
+                        style: CustomTextStyle.cardTitle.copyWith(
                           color: titleColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                   ],
@@ -63,10 +62,7 @@ class PropertyRow extends StatelessWidget {
                     if (value != null)
                       Text(
                         value,
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: CustomTextStyle.cardValue,
                       ),
                     if (value != null && valueCompanion != null)
                       SizedBox(
@@ -75,11 +71,8 @@ class PropertyRow extends StatelessWidget {
                     if (valueCompanion != null)
                       Text(
                         valueCompanion,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: CustomTextStyle.cardValueCompanion
+                            .copyWith(color: Colors.grey),
                       ),
                   ],
                 ),
