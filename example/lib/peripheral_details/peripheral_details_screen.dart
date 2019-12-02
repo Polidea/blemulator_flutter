@@ -1,5 +1,6 @@
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';
+import 'package:blemulator_example/peripheral_details/components/peripheral_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,6 +52,6 @@ class PeripheralDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildDetailsView() {
-    return Text('Details');
+    return PeripheralDetailsView();
   }
 }

@@ -27,6 +27,14 @@ class MyApp extends StatelessWidget {
           primaryColor: CustomColors.primary,
           accentColor: CustomColors.accent,
           scaffoldBackgroundColor: CustomColors.scaffoldBackground,
+          cardTheme: CardTheme(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8.0),
+              ),
+            ),
+          ),
         ),
         initialRoute: RouteName.home,
         onGenerateRoute: (settings) => Router.generateRoute(settings),
