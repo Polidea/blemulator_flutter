@@ -1,16 +1,16 @@
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class NavigatorEvent extends Equatable {
-  const NavigatorEvent();
+abstract class NavigationEvent extends Equatable {
+  const NavigationEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class NavigatorPop extends NavigatorEvent {}
+class NavigatorPop extends NavigationEvent {}
 
-class NavigateToPeripheralDetails extends NavigatorEvent {
+class NavigateToPeripheralDetails extends NavigationEvent {
   final BlePeripheral peripheral;
 
   const NavigateToPeripheralDetails({this.peripheral});

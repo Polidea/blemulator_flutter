@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import './bloc.dart';
 
-class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
+class NavigatorBloc extends Bloc<NavigationEvent, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;
 
   NavigatorBloc({this.navigatorKey});
@@ -14,7 +14,7 @@ class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
 
   @override
   Stream<dynamic> mapEventToState(
-    NavigatorEvent event,
+    NavigationEvent event,
   ) async* {
     if (event is NavigatorPop) {
       navigatorKey.currentState.pop();
