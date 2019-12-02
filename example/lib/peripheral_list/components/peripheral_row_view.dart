@@ -75,6 +75,12 @@ class PeripheralRowView extends StatelessWidget {
   }
 
   Color _colorForRssi(int rssi) {
-    return rssi > -60 ? Colors.blue : rssi > -90 ? Colors.orange : Colors.red;
+    if (rssi > -60) {
+      return Colors.blue;
+    } else if (rssi > -90) {
+      return Colors.orange;
+    } else {
+      return Colors.red;
+    }
   }
 }
