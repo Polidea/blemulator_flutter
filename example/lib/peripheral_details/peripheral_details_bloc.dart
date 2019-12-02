@@ -7,13 +7,13 @@ import './bloc.dart';
 class PeripheralDetailsBloc
     extends Bloc<PeripheralDetailsEvent, PeripheralDetailsState> {
   BleAdapter _bleAdapter;
-  final BlePeripheral _initialPeripheral;
+  final BlePeripheral _chosenPeripheral;
 
-  PeripheralDetailsBloc(this._bleAdapter, this._initialPeripheral);
+  PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral);
 
   @override
   PeripheralDetailsState get initialState =>
-      PeripheralDetailsState(peripheral: _initialPeripheral);
+      PeripheralDetailsState(peripheral: _chosenPeripheral);
 
   @override
   Stream<PeripheralDetailsState> mapEventToState(
