@@ -6,10 +6,8 @@ class BlePeripheral extends Equatable {
   final int rssi;
   final bool isConnected;
 
-  BlePeripheralCategory get category {
-    return KnownBlePeripheralCategory.isSensorTag(name) ? BlePeripheralCategory
-        .sensorTag : BlePeripheralCategory.other;
-  }
+  BlePeripheralCategory get category =>
+      BlePeripheralCategoryResolver.categoryForName(name);
 
   BlePeripheral(this.name, this.id, this.rssi, this.isConnected);
 
@@ -19,10 +17,16 @@ class BlePeripheral extends Equatable {
 
 enum BlePeripheralCategory { sensorTag, other }
 
-class KnownBlePeripheralCategory {
-  static final String sensorTag = 'SensorTag';
+class BlePeripheralCategoryResolver {
+  static const String sensorTag = 'SensorTag';
 
-  static bool isSensorTag(String blePeripheralName) {
+  static BlePeripheralCategory categoryForName(String blePeripheralName) {
+    return _isSensorTag(blePeripheralName)
+        ? BlePeripheralCategory.sensorTag
+        : BlePeripheralCategory.other;
+  }
+
+  static bool _isSensorTag(String blePeripheralName) {
     return blePeripheralName == sensorTag;
   }
 }
