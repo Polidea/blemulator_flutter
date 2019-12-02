@@ -1,6 +1,7 @@
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/navigation/route_name.dart';
 import 'package:blemulator_example/navigation/router.dart';
+import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,9 +23,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: 'FlutterBleLib example',
-        theme: new ThemeData(
-          primaryColor: new Color(0xFF0A3D91),
-          accentColor: new Color(0xFFCC0000),
+        theme: ThemeData(
+          primaryColor: CustomColors.primary,
+          accentColor: CustomColors.accent,
+          scaffoldBackgroundColor: CustomColors.scaffoldBackground,
         ),
         initialRoute: RouteName.home,
         onGenerateRoute: (settings) => Router.generateRoute(settings),

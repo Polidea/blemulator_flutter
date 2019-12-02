@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
-import 'package:blemulator_example/util/custom_colors.dart';
+import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +20,7 @@ class PeripheralRowView extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Container(
-          color: CustomColors.rowBackground,
+          color: CustomColors.rowCardBackground,
           child: ListTile(
             leading: _buildListTileLeading(),
             title: Text(_peripheral.name),
