@@ -7,7 +7,7 @@ import './bloc.dart';
 class NavigatorBloc extends Bloc<NavigationEvent, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  NavigatorBloc({this.navigatorKey});
+  NavigatorBloc({@required this.navigatorKey});
 
   @override
   dynamic get initialState => 0;
