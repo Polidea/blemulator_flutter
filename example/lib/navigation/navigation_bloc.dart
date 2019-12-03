@@ -10,7 +10,9 @@ class NavigationBloc extends Bloc<NavigationEvent, void> {
   NavigationBloc({@required this.navigatorKey});
 
   @override
-  void get initialState => null;
+  void get initialState {
+    return;
+  }
 
   @override
   Stream<dynamic> mapEventToState(
