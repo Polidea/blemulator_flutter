@@ -107,28 +107,33 @@ class PropertyRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: <Widget>[
-              if (value != null)
-                Text(
-                  value,
-                  style: CustomTextStyle.cardValue,
-                ),
-              if (value != null && valueCompanion != null)
-                SizedBox(
-                  width: 2.0,
-                ),
-              if (valueCompanion != null)
-                Text(
-                  valueCompanion,
-                  style: CustomTextStyle.cardValueCompanion
-                      .copyWith(color: Colors.grey),
-                ),
-            ],
+        Expanded(
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: <Widget>[
+                if (value != null)
+                  Expanded(
+                    child: Text(
+                      value,
+                      style: CustomTextStyle.cardValue,
+                    ),
+                  ),
+                if (value != null && valueCompanion != null)
+                  SizedBox(
+                    width: 2.0,
+                  ),
+                if (valueCompanion != null)
+                  Text(
+                    valueCompanion,
+                    style: CustomTextStyle.cardValueCompanion
+                        .copyWith(color: Colors.grey),
+                  ),
+              ],
+            ),
           ),
         ),
         if (accessoryPosition == PropertyRowAccessoryPosition.valueRow &&
