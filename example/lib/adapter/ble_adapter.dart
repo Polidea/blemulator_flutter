@@ -49,6 +49,8 @@ class BleAdapter {
               scanResult.peripheral.identifier,
               scanResult.rssi,
               false,
+              BlePeripheralCategoryResolver.categoryForName(
+                  scanResult.peripheral.name),
             );
             sink.add(peripheral);
           }

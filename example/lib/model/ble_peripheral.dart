@@ -5,11 +5,9 @@ class BlePeripheral extends Equatable {
   final String id;
   final int rssi;
   final bool isConnected;
+  final BlePeripheralCategory category;
 
-  BlePeripheralCategory get category =>
-      BlePeripheralCategoryResolver.categoryForName(name);
-
-  BlePeripheral(this.name, this.id, this.rssi, this.isConnected);
+  BlePeripheral(this.name, this.id, this.rssi, this.isConnected, this.category);
 
   @override
   List<Object> get props => [name, id];
