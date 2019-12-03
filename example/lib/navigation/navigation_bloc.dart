@@ -4,13 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import './bloc.dart';
 
-class NavigatorBloc extends Bloc<NavigationEvent, dynamic> {
+class NavigationBloc extends Bloc<NavigationEvent, void> {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  NavigatorBloc({@required this.navigatorKey});
+  NavigationBloc({@required this.navigatorKey});
 
   @override
-  dynamic get initialState => 0;
+  void get initialState => null;
 
   @override
   Stream<dynamic> mapEventToState(

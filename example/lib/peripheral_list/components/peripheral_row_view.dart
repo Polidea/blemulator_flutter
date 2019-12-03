@@ -13,7 +13,7 @@ class PeripheralRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
+    final navigatorBloc = BlocProvider.of<NavigationBloc>(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
@@ -37,7 +37,7 @@ class PeripheralRowView extends StatelessWidget {
     );
   }
 
-  void _onRowTap(NavigatorBloc navigatorBloc) {
+  void _onRowTap(NavigationBloc navigatorBloc) {
     navigatorBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
   }
 
