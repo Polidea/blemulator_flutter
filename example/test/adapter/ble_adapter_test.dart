@@ -96,7 +96,11 @@ void main() {
       // then
       final expectedResponse = [
         BlePeripheral(
-            peripheralName, peripheralIdentifier, peripheralRssi, false)
+            peripheralName,
+            peripheralIdentifier,
+            peripheralRssi,
+            false,
+            BlePeripheralCategoryResolver.categoryForName(peripheralName))
       ];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
@@ -123,7 +127,8 @@ void main() {
 
       // then
       final expectedBlePeripheral = BlePeripheral(
-          peripheralName, peripheralIdentifier, peripheralRssi, false);
+          peripheralName, peripheralIdentifier, peripheralRssi, false,
+          BlePeripheralCategoryResolver.categoryForName(peripheralName));
       final expectedResponse = [expectedBlePeripheral, expectedBlePeripheral];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });

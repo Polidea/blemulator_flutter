@@ -49,6 +49,8 @@ class BleAdapter {
               scanResult.peripheral.identifier,
               scanResult.rssi,
               false,
+              BlePeripheralCategoryResolver.categoryForName(
+                  scanResult.peripheral.name),
             );
             sink.add(peripheral);
           }
@@ -66,6 +68,8 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
     _blemulator
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+    _blemulator.addSimulatedPeripheral(
+        SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
     _blemulator.simulate();
   }
 }

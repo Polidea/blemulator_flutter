@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mock/mocks.dart';
+import '../mock/sample_ble_peripheral.dart';
 
 void main() {
   PeripheralListBloc peripheralListBloc;
@@ -14,7 +15,8 @@ void main() {
 
   setUp(() {
     bleAdapter = MockBleAdapter();
-    peripheralListBloc = PeripheralListBloc(bleAdapter);
+    peripheralListBloc =
+        PeripheralListBloc(bleAdapter);
     peripheralsStreamController = StreamController();
 
     when(bleAdapter.startPeripheralScan())
@@ -85,7 +87,7 @@ void main() {
         final expectedResponse = [
           PeripheralListState.initial(),
           PeripheralListState(peripherals: [], scanningEnabled: true),
-          PeripheralListState(peripherals: [], scanningEnabled: false)
+          PeripheralListState(peripherals: [], scanningEnabled: false),
         ];
         expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
       },
@@ -108,8 +110,7 @@ void main() {
       final expectedResponse = [
         PeripheralListState.initial(),
         PeripheralListState(peripherals: [], scanningEnabled: true),
-        PeripheralListState(
-            peripherals: [samplePeripheral], scanningEnabled: true)
+        PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true)
       ];
       expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
     });
@@ -132,8 +133,7 @@ void main() {
       final expectedResponse = [
         PeripheralListState.initial(),
         PeripheralListState(peripherals: [], scanningEnabled: true),
-        PeripheralListState(
-            peripherals: [samplePeripheral], scanningEnabled: true),
+        PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true),
         PeripheralListState(
             peripherals: [samplePeripheral, differentSamplePeripheral],
             scanningEnabled: true),
@@ -161,28 +161,11 @@ void main() {
     final expectedResponse = [
       PeripheralListState.initial(),
       PeripheralListState(peripherals: [], scanningEnabled: true),
-      PeripheralListState(
-          peripherals: [samplePeripheral], scanningEnabled: true),
+      PeripheralListState(peripherals: [samplePeripheral], scanningEnabled: true),
       PeripheralListState(
           peripherals: [samplePeripheral, differentSamplePeripheral],
           scanningEnabled: true),
     ];
     expectLater(peripheralListBloc, emitsInOrder(expectedResponse));
   });
-}
-
-class SampleBlePeripheral extends BlePeripheral {
-  SampleBlePeripheral({
-    String name = 'Sample peripheral',
-    String id = 'peripheral id',
-    int rssi = -30,
-    bool isConnected = false,
-  }) : super(name, id, rssi, isConnected);
-
-  SampleBlePeripheral.different({
-    String name = 'Different sample peripheral',
-    String id = 'different peripheral id',
-    int rssi = -30,
-    bool isConnected = false,
-  }) : super(name, id, rssi, isConnected);
 }

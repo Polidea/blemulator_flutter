@@ -13,3 +13,9 @@ class NewPeripheralScan extends PeripheralListEvent {
 
   const NewPeripheralScan(this.peripheral);
 }
+
+class PickPeripheral extends PeripheralListEvent {
+  final BlePeripheral peripheral;
+
+  const PickPeripheral(this.peripheral);
+}
