@@ -8,7 +8,7 @@ abstract class NavigationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class NavigatorPop extends NavigationEvent {}
+class Pop extends NavigationEvent {}
 
 class NavigateToPeripheralDetails extends NavigationEvent {
   final BlePeripheral peripheral;

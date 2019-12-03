@@ -16,7 +16,7 @@ class NavigatorBloc extends Bloc<NavigationEvent, dynamic> {
   Stream<dynamic> mapEventToState(
     NavigationEvent event,
   ) async* {
-    if (event is NavigatorPop) {
+    if (event is Pop) {
       navigatorKey.currentState.pop();
     } else if (event is NavigateToPeripheralDetails) {
       navigatorKey.currentState
