@@ -47,7 +47,7 @@ class PropertyRow extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              _buildMainColumn(),
+              Expanded(child: _buildMainColumn()),
               _buildAccessory(),
             ],
           );
