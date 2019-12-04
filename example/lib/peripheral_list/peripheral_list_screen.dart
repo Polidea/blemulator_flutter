@@ -43,7 +43,7 @@ class PeripheralListScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return PeripheralRowView(state.peripherals[index]);
             },
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            padding: EdgeInsets.all(8.0),
           );
         },
       ),

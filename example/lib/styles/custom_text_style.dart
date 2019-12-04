@@ -6,8 +6,13 @@ abstract class CustomTextStyle {
     fontWeight: FontWeight.w600,
   );
 
-  static const cardValue = TextStyle(
+  static const cardValueBig = TextStyle(
     fontSize: 26.0,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const cardValueRegular = TextStyle(
+    fontSize: 20.0,
     fontWeight: FontWeight.w600,
   );
 

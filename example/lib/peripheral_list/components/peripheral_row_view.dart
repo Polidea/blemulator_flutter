@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
+import 'package:blemulator_example/peripheral_details/components/property_row.dart';
 import 'package:blemulator_example/styles/custom_colors.dart';
+import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +15,20 @@ class PeripheralRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigatorBloc = BlocProvider.of<NavigationBloc>(context);
+
+    return PropertyRow(
+      title: 'Category',
+      titleIcon: Icons.bluetooth,
+      titleColor: Theme.of(context).primaryColor,
+      value: _peripheral.name,
+      accessory: _buildListTileTrailing(),
+      accessoryPosition: PropertyRowAccessoryPosition.full,
+      onTap: () => _onRowTap(navigatorBloc),
+    );
+  }
+
+  Widget build1(BuildContext context) {
     final navigatorBloc = BlocProvider.of<NavigationBloc>(context);
 
     return Padding(

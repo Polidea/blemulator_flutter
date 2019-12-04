@@ -10,6 +10,7 @@ class PropertyRow extends StatelessWidget {
   final Widget rowAccessory;
   final Widget titleAccessory;
   final Widget valueAccessory;
+  final GestureTapCallback onTap;
 
   PropertyRow({
     @required this.title,
@@ -20,16 +21,17 @@ class PropertyRow extends StatelessWidget {
     this.rowAccessory,
     this.titleAccessory,
     this.valueAccessory,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: _buildCardBody(),
-      ),
+      child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          onTap: onTap,
+          child: _buildCardBody()),
     );
   }
 
