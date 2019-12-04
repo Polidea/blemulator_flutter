@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
-import 'package:blemulator_example/peripheral_details/components/property_row.dart';
-import 'package:blemulator_example/styles/custom_colors.dart';
-import 'package:blemulator_example/styles/custom_text_style.dart';
+import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,34 +20,9 @@ class PeripheralRowView extends StatelessWidget {
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
-      accessory: _buildListTileTrailing(),
+      accessory: _buildAccessory(),
       accessoryPosition: PropertyRowAccessoryPosition.full,
       onTap: () => _onRowTap(navigatorBloc),
-    );
-  }
-
-  Widget build1(BuildContext context) {
-    final navigatorBloc = BlocProvider.of<NavigationBloc>(context);
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Container(
-          color: CustomColors.rowCardBackground,
-          child: ListTile(
-            leading: _buildListTileLeading(),
-            title: Text(_peripheral.name),
-            subtitle: Text(
-              _peripheral.id,
-              maxLines: 1,
-            ),
-            trailing: _buildListTileTrailing(),
-            dense: true,
-            onTap: () => _onRowTap(navigatorBloc),
-          ),
-        ),
-      ),
     );
   }
 
@@ -57,13 +30,7 @@ class PeripheralRowView extends StatelessWidget {
     navigatorBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
   }
 
-  Widget _buildListTileLeading() {
-    return CircleAvatar(
-      child: Icon(Icons.bluetooth),
-    );
-  }
-
-  Widget _buildListTileTrailing() {
+  Widget _buildAccessory() {
     return Row(
       children: <Widget>[
         Column(
