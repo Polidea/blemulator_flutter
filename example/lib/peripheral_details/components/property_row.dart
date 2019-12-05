@@ -7,7 +7,7 @@ class PropertyRow extends StatelessWidget {
   final IconData titleIcon;
   final Color titleColor;
   final String valueCompanion;
-  final Widget accessory;
+  final Widget rowAccessory;
   final Widget titleAccessory;
   final Widget valueAccessory;
 
@@ -17,7 +17,7 @@ class PropertyRow extends StatelessWidget {
     this.titleColor,
     @required this.value,
     this.valueCompanion,
-    this.accessory,
+    this.rowAccessory,
     this.titleAccessory,
     this.valueAccessory,
   });
@@ -34,12 +34,12 @@ class PropertyRow extends StatelessWidget {
   }
 
   Widget _buildCardBody() {
-    if (accessory != null) {
+    if (rowAccessory != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(child: _buildMainColumn()),
-          accessory,
+          rowAccessory,
         ],
       );
     } else {
