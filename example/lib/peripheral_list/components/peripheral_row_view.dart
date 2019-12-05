@@ -20,8 +20,7 @@ class PeripheralRowView extends StatelessWidget {
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
-      accessory: _buildAccessory(),
-      accessoryPosition: PropertyRowAccessoryPosition.full,
+      rowAccessory: _buildAccessory(),
       onTap: () => _onRowTap(navigatorBloc),
     );
   }
