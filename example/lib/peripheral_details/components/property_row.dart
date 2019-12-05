@@ -1,56 +1,49 @@
 import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
-enum PropertyRowAccessoryPosition {
-  titleRow,
-  valueRow,
-  full,
-}
-
 class PropertyRow extends StatelessWidget {
-  final IconData titleIcon;
   final String title;
-  final Color titleColor;
   final String value;
+  final IconData titleIcon;
+  final Color titleColor;
   final String valueCompanion;
   final Widget accessory;
-  final PropertyRowAccessoryPosition accessoryPosition;
+  final Widget titleAccessory;
+  final Widget valueAccessory;
 
   PropertyRow({
+    @required this.title,
     this.titleIcon,
-    this.title,
     this.titleColor,
-    this.value = '',
+    @required this.value,
     this.valueCompanion,
     this.accessory,
-    this.accessoryPosition = PropertyRowAccessoryPosition.full,
+    this.titleAccessory,
+    this.valueAccessory,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
-      child: _buildCardBody(),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: _buildCardBody(),
+      ),
     );
   }
 
   Widget _buildCardBody() {
-    switch (accessoryPosition) {
-      case PropertyRowAccessoryPosition.titleRow:
-      case PropertyRowAccessoryPosition.valueRow:
-        return _buildMainColumn();
-      case PropertyRowAccessoryPosition.full:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(child: _buildMainColumn()),
-            _buildAccessory(),
-          ],
-        );
-      // default case is needed to avoid flutter analyzer warning
-      // even though switch is in fact exhaustive
-      default:
-        return null;
+    if (accessory != null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(child: _buildMainColumn()),
+          accessory,
+        ],
+      );
+    } else {
+      return _buildMainColumn();
     }
   }
 
@@ -59,8 +52,10 @@ class PropertyRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTitleRow(),
-        SizedBox(height: 16.0),
-        _buildValueRow(),
+        Padding(
+          padding: const EdgeInsets.only(top: 14.0),
+          child: _buildValueRow(),
+        ),
       ],
     );
   }
@@ -68,35 +63,27 @@ class PropertyRow extends StatelessWidget {
   Widget _buildTitleRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0),
-          child: Row(
-            children: <Widget>[
-              if (titleIcon != null)
-                Icon(
-                  titleIcon,
-                  color: titleColor,
-                  size: 20.0,
-                ),
-              if (titleIcon != null && title != null)
-                SizedBox(
-                  width: 4.0,
-                ),
-              if (title != null)
-                Text(
-                  title,
-                  style: CustomTextStyle.cardTitle.copyWith(
-                    color: titleColor,
-                  ),
-                ),
-            ],
+        if (titleIcon != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Icon(
+              titleIcon,
+              color: titleColor,
+              size: 20.0,
+            ),
+          ),
+        Expanded(
+          child: Text(
+            title ?? '',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: CustomTextStyle.cardTitle.copyWith(
+              color: titleColor,
+            ),
           ),
         ),
-        if (accessoryPosition == PropertyRowAccessoryPosition.titleRow &&
-            accessory != null)
-          _buildAccessory(),
+        if (titleAccessory != null) titleAccessory,
       ],
     );
   }
@@ -104,63 +91,46 @@ class PropertyRow extends StatelessWidget {
   Widget _buildValueRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Expanded(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: <Widget>[
-                if (value != null)
-                  Expanded(
-                    child: Text(
-                      value,
-                      style: CustomTextStyle.cardValue,
-                    ),
-                  ),
-                if (value != null && valueCompanion != null)
-                  SizedBox(
-                    width: 2.0,
-                  ),
-                if (valueCompanion != null)
-                  Text(
-                    valueCompanion,
-                    style: CustomTextStyle.cardValueCompanion
-                        .copyWith(color: Colors.grey),
-                  ),
-              ],
-            ),
-          ),
-        ),
-        if (accessoryPosition == PropertyRowAccessoryPosition.valueRow &&
-            accessory != null)
-          _buildAccessory(),
+        _buildValue(),
+        if (valueAccessory != null) valueAccessory,
       ],
     );
   }
 
-  Widget _buildAccessory() {
-    return Padding(
-      padding: _accessoryEdgeInsets(),
-      child: accessory,
-    );
-  }
-
-  EdgeInsetsGeometry _accessoryEdgeInsets() {
-    switch (accessoryPosition) {
-      case PropertyRowAccessoryPosition.titleRow:
-        return EdgeInsets.only(top: 8.0, right: 8.0);
-      case PropertyRowAccessoryPosition.valueRow:
-        return EdgeInsets.only(right: 8.0, bottom: 8.0);
-      case PropertyRowAccessoryPosition.full:
-        return EdgeInsets.only(top: 8.0, right: 8.0, bottom: 8.0);
-      // default case is needed to avoid flutter analyzer warning
-      // even though switch is in fact exhaustive
-      default:
-        return null;
+  Widget _buildValue() {
+    if (valueCompanion != null) {
+      return Expanded(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: <Widget>[
+            Flexible(
+              fit: FlexFit.loose,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Text(
+                  value ?? '',
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  style: CustomTextStyle.cardValue,
+                ),
+              ),
+            ),
+            Text(
+              valueCompanion,
+              style: CustomTextStyle.cardValueCompanion
+                  .copyWith(color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Text(
+          value ?? '',
+          style: CustomTextStyle.cardValue,
+        ),
+      );
     }
   }
 }
