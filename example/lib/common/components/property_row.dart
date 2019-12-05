@@ -31,7 +31,10 @@ class PropertyRow extends StatelessWidget {
       child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           onTap: onTap,
-          child: _buildCardBody()),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: _buildCardBody(),
+          )),
     );
   }
 
