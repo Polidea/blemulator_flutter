@@ -47,6 +47,8 @@ class PropertyRow extends StatelessWidget {
             _buildAccessory(),
           ],
         );
+      // default case is needed to avoid flutter analyzer warning
+      // even though switch is in fact exhaustive
       default:
         return null;
     }
@@ -155,6 +157,8 @@ class PropertyRow extends StatelessWidget {
         return EdgeInsets.only(right: 8.0, bottom: 8.0);
       case PropertyRowAccessoryPosition.full:
         return EdgeInsets.only(top: 8.0, right: 8.0, bottom: 8.0);
+      // default case is needed to avoid flutter analyzer warning
+      // even though switch is in fact exhaustive
       default:
         return null;
     }
