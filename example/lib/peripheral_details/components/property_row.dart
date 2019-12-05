@@ -38,20 +38,17 @@ class PropertyRow extends StatelessWidget {
     switch (accessoryPosition) {
       case PropertyRowAccessoryPosition.titleRow:
       case PropertyRowAccessoryPosition.valueRow:
-        {
-          return _buildMainColumn();
-        }
+        return _buildMainColumn();
       case PropertyRowAccessoryPosition.full:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(child: _buildMainColumn()),
+            _buildAccessory(),
+          ],
+        );
       default:
-        {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(child: _buildMainColumn()),
-              _buildAccessory(),
-            ],
-          );
-        }
+        return null;
     }
   }
 
@@ -153,18 +150,13 @@ class PropertyRow extends StatelessWidget {
   EdgeInsetsGeometry _accessoryEdgeInsets() {
     switch (accessoryPosition) {
       case PropertyRowAccessoryPosition.titleRow:
-        {
-          return EdgeInsets.only(top: 8.0, right: 8.0);
-        }
+        return EdgeInsets.only(top: 8.0, right: 8.0);
       case PropertyRowAccessoryPosition.valueRow:
-        {
-          return EdgeInsets.only(right: 8.0, bottom: 8.0);
-        }
+        return EdgeInsets.only(right: 8.0, bottom: 8.0);
       case PropertyRowAccessoryPosition.full:
+        return EdgeInsets.only(top: 8.0, right: 8.0, bottom: 8.0);
       default:
-        {
-          return EdgeInsets.only(top: 8.0, right: 8.0, bottom: 8.0);
-        }
+        return null;
     }
   }
 }
