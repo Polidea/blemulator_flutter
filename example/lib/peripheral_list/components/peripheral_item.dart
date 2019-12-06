@@ -6,10 +6,10 @@ import 'package:blemulator_example/util/ble_peripheral_category_stringifier.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PeripheralRowView extends StatelessWidget {
+class PeripheralItem extends StatelessWidget {
   final BlePeripheral _peripheral;
 
-  PeripheralRowView(this._peripheral);
+  PeripheralItem(this._peripheral);
 
   @override
   Widget build(BuildContext context) {
