@@ -2,7 +2,7 @@ import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
-import 'package:blemulator_example/util/ble_peripheral_category_stringifier.dart';
+import 'package:blemulator_example/util/signal_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,7 @@ class PeripheralItem extends StatelessWidget {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return PropertyRow(
-      title: BlePeripheralCategoryStringifier.name(_peripheral.category),
+      title: _categoryDisplayName(_peripheral.category),
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
@@ -51,14 +51,28 @@ class PeripheralItem extends StatelessWidget {
   }
 
   Color _colorForRssi(int rssi) {
-    if (rssi == null) return Colors.red;
+    if (rssi == null) return Colors.grey;
 
-    if (rssi > -60) {
-      return Colors.green;
-    } else if (rssi > -90) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
+    switch (parseRssi(rssi)) {
+      case SignalLevel.high:
+        return Colors.green;
+      case SignalLevel.medium:
+        return Colors.orange;
+      case SignalLevel.low:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String _categoryDisplayName(BlePeripheralCategory category) {
+    switch (category) {
+      case BlePeripheralCategory.sensorTag:
+        return 'SensorTag';
+      case BlePeripheralCategory.other:
+        return 'Other';
+      default:
+        return 'Unknown';
     }
   }
 }
