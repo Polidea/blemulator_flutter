@@ -25,6 +25,8 @@ class BleAdapter {
   BleManager _bleManager;
   Blemulator _blemulator;
 
+  Map<String, ScanResult> _scanResults = {};
+
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
       _instance = BleAdapter._internal(bleManager, blemulator);
@@ -40,23 +42,15 @@ class BleAdapter {
   }
 
   Stream<BlePeripheral> startPeripheralScan() {
-    return _bleManager.startPeripheralScan().transform(
-      new StreamTransformer<ScanResult, BlePeripheral>.fromHandlers(
-        handleData: (ScanResult scanResult, EventSink<BlePeripheral> sink) {
-          if (scanResult.advertisementData.localName != null) {
-            final peripheral = BlePeripheral(
-              scanResult.peripheral.name,
-              scanResult.peripheral.identifier,
-              scanResult.rssi,
-              false,
-              BlePeripheralCategoryResolver.categoryForName(
-                  scanResult.peripheral.name),
-            );
-            sink.add(peripheral);
-          }
-        },
-      ),
-    );
+    return _bleManager.startPeripheralScan().map((scanResult) {
+      _scanResults.update(
+        scanResult.peripheral.identifier,
+        (_) => scanResult,
+        ifAbsent: () => scanResult,
+      );
+      return BlePeripheral.fromScanResult(scanResult);
+      ;
+    });
   }
 
   Future<void> stopPeripheralScan() {
@@ -68,6 +62,7 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
     _blemulator
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+    // Primitive override, since SensorTag is only recognized by name currently
     _blemulator.addSimulatedPeripheral(
         SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
     _blemulator.simulate();

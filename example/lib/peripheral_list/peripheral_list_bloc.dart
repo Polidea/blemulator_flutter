@@ -34,7 +34,8 @@ class PeripheralListBloc
         _bleAdapter.startPeripheralScan().listen((BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
-    yield PeripheralListState(peripherals: state.peripherals, scanningEnabled: true);
+    yield PeripheralListState(
+        peripherals: state.peripherals, scanningEnabled: true);
   }
 
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
@@ -47,10 +48,17 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapNewPeripheralScanToState(
       NewPeripheralScan event) async* {
-    List<BlePeripheral> updatedPeripherals = state.peripherals;
-    if (!updatedPeripherals.contains(event.peripheral)) {
-      updatedPeripherals = List.from(state.peripherals);
-      updatedPeripherals.add(event.peripheral);
+    Map<String, BlePeripheral> updatedPeripherals = state.peripherals;
+    String peripheralId = event.peripheral.id;
+
+    if (updatedPeripherals.containsKey(peripheralId)) {
+      if (updatedPeripherals[peripheralId] != event.peripheral) {
+        updatedPeripherals = Map.from(state.peripherals);
+        updatedPeripherals[peripheralId] = event.peripheral;
+      }
+    } else {
+      updatedPeripherals = Map.from(state.peripherals);
+      updatedPeripherals.addEntries([MapEntry(peripheralId, event.peripheral)]);
     }
     yield PeripheralListState(
         peripherals: updatedPeripherals,

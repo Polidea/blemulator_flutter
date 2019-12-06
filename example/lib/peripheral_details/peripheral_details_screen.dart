@@ -14,7 +14,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
             length: 3,
             child: Scaffold(
               appBar: AppBar(
-                title: Text(state.peripheral.name),
+                title: _buildAppBarTitle(state.peripheral),
                 bottom: TabBar(tabs: [
                   Tab(
                     icon: Icon(Icons.table_chart),
@@ -42,13 +42,17 @@ class PeripheralDetailsScreen extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: Text(state.peripheral.name),
+              title: _buildAppBarTitle(state.peripheral),
             ),
             body: _buildDetailsView(),
           );
         }
       },
     );
+  }
+
+  Widget _buildAppBarTitle(BlePeripheral peripheral) {
+    return Text(peripheral.name);
   }
 
   Widget _buildDetailsView() {
