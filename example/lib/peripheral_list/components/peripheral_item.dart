@@ -13,7 +13,7 @@ class PeripheralItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigatorBloc = BlocProvider.of<NavigationBloc>(context);
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return PropertyRow(
       title: BlePeripheralCategoryStringifier.name(_peripheral.category),
@@ -42,12 +42,12 @@ class PeripheralItem extends StatelessWidget {
         ],
         mainAxisSize: MainAxisSize.min,
       ),
-      onTap: () => _onRowTap(navigatorBloc),
+      onTap: () => _onRowTap(navigationBloc),
     );
   }
 
-  void _onRowTap(NavigationBloc navigatorBloc) {
-    navigatorBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
+  void _onRowTap(NavigationBloc navigationBloc) {
+    navigationBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
   }
 
   Color _colorForRssi(int rssi) {
