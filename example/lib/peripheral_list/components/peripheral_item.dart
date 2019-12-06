@@ -28,7 +28,7 @@ class PeripheralItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Text(
-            '${_peripheral.rssi ?? '-'} dbm',
+            _formatRssi(_peripheral.rssi),
             style: CustomTextStyle.cardValueAccessory
                 .copyWith(color: _colorForRssi(_peripheral.rssi)),
           ),
@@ -48,6 +48,10 @@ class PeripheralItem extends StatelessWidget {
 
   void _onRowTap(NavigationBloc navigationBloc) {
     navigationBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
+  }
+  
+  String _formatRssi(int rssi) {
+    return '${rssi ?? '-'} dbm';
   }
 
   Color _colorForRssi(int rssi) {
