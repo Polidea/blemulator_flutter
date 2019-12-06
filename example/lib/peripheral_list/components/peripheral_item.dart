@@ -20,42 +20,34 @@ class PeripheralItem extends StatelessWidget {
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
-      titleAccessory: _buildTitleAccessory(),
-      valueAccessory: _buildValueAccessory(),
+      titleAccessory: Icon(
+        Icons.chevron_right,
+        color: Colors.grey,
+      ),
+      valueAccessory: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Text(
+            '${_peripheral.rssi ?? '-'} dbm',
+            style: CustomTextStyle.cardValueAccessory
+                .copyWith(color: _colorForRssi(_peripheral.rssi)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Icon(
+              Icons.settings_input_antenna,
+              color: _colorForRssi(_peripheral.rssi),
+            ),
+          ),
+        ],
+        mainAxisSize: MainAxisSize.min,
+      ),
       onTap: () => _onRowTap(navigatorBloc),
     );
   }
 
   void _onRowTap(NavigationBloc navigatorBloc) {
     navigatorBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
-  }
-
-  Widget _buildTitleAccessory() {
-    return Icon(
-      Icons.chevron_right,
-      color: Colors.grey,
-    );
-  }
-
-  Widget _buildValueAccessory() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Text(
-          '${_peripheral.rssi ?? '-'} dbm',
-          style: CustomTextStyle.cardValueAccessory
-              .copyWith(color: _colorForRssi(_peripheral.rssi)),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Icon(
-            Icons.settings_input_antenna,
-            color: _colorForRssi(_peripheral.rssi),
-          ),
-        ),
-      ],
-      mainAxisSize: MainAxisSize.min,
-    );
   }
 
   Color _colorForRssi(int rssi) {
