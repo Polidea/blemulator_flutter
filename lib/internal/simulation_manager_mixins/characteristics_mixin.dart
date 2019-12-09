@@ -199,7 +199,6 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     await _errorIfDiscoveryNotDone(
         _findPeripheralWithCharacteristicId(characteristicIdentifier));
     await _errorIfCharacteristicNotNotifiable(targetCharacteristic);
-
     _monitoringSubscriptions.putIfAbsent(
       transactionId,
       () => _CharacteristicMonitoringSubscription(
@@ -378,8 +377,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     }
   }
 
-  Future<void> _cancelMonitoringTransactionIfExists(
-      String transactionId) async {
+  Future<void> cancelMonitoringTransactionIfExists(String transactionId) async {
     _CharacteristicMonitoringSubscription subscription =
         _monitoringSubscriptions.remove(transactionId);
     if (subscription != null) {

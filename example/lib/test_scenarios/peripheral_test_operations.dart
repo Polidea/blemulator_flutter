@@ -15,7 +15,7 @@ class PeripheralTestOperations {
   Future<void> connect() async {
     await _tryCatch(() async {
       log("Connecting to ${peripheral.name}");
-      await peripheral.connect();
+      await peripheral.connect(timeout: Duration(seconds: 2));
       log("Connected!");
     });
   }
@@ -42,7 +42,9 @@ class PeripheralTestOperations {
 
   Future<void> discovery() async {
     await _tryCatch(() async {
-      await peripheral.discoverAllServicesAndCharacteristics();
+      log("START DISCOVERING SERVICES for \n${peripheral.name}");
+      await peripheral.discoverAllServicesAndCharacteristics(transactionId: "discovering");
+      log("FINISHED DISCOVERING SERVICES for \n${peripheral.name}");
       List<Service> services = await peripheral.services();
       log("PRINTING SERVICES for \n${peripheral.name}");
       services.forEach((service) => log("Found service \n${service.uuid}"));

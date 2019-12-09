@@ -24,10 +24,10 @@ class PlatformToDartBridge {
       call.method != DartMethodName.cancelTransaction &&
       call.arguments?.containsKey(SimulationArgumentName.transactionId) == true;
 
-  Future<dynamic> _handleCancelablePlatformCall(MethodCall call) {
+  Future<dynamic> _handleCancelablePlatformCall(MethodCall call) async {
     String transactionId = call.arguments[SimulationArgumentName.transactionId];
 
-    _cancelTransactionIfExists(transactionId);
+    await _cancelTransactionIfExists(transactionId);
 
     CancelableOperation operation = CancelableOperation.fromFuture(
         _dispatchPlatformCall(call), onCancel: () {
@@ -89,8 +89,6 @@ class PlatformToDartBridge {
         return _monitorCharacteristicForService(call);
       case DartMethodName.monitorCharacteristicForIdentifier:
         return _monitorCharacteristicForIdentifier(call);
-      case DartMethodName.cancelTransaction:
-        return _cancelTransaction(call);
       case DartMethodName.readRssi:
         return _readRssiForDevice(call);
       case DartMethodName.requestMtu:
@@ -268,11 +266,6 @@ class PlatformToDartBridge {
         call.arguments[SimulationArgumentName.transactionId],
       );
 
-  Future<void> _cancelTransaction(MethodCall call) =>
-      _manager.cancelTransaction(
-        call.arguments[SimulationArgumentName.transactionId],
-      );
-
   Future<int> _readRssiForDevice(MethodCall call) {
     return _manager
         ._readRssiForDevice(call.arguments[ArgumentName.id] as String);
@@ -285,6 +278,11 @@ class PlatformToDartBridge {
   }
 
   Future<void> _cancelTransactionIfExists(String transactionId) async {
-    await pendingTransactions.remove(transactionId)?.cancel();
+    await _manager.cancelMonitoringTransactionIfExists(transactionId);
+    await pendingTransactions.remove(transactionId)?.cancel()?.catchError(
+        (error) {},
+        test: (error) =>
+            error is SimulatedBleError &&
+            error.errorCode == BleErrorCode.OperationCancelled);
   }
 }
