@@ -53,6 +53,14 @@ class SensorTag extends SimulatedPeripheral {
     await Future.delayed(Duration(milliseconds: 200));
     return super.onConnectRequest();
   }
+
+  @override
+  Future<void> onDiscoveryRequest() async {
+    return Future.delayed(
+      Duration(milliseconds: 500),
+      () => super.onDiscoveryRequest(),
+    );
+  }
 }
 
 //IR Temperature Service of sensor tag

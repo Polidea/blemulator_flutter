@@ -15,7 +15,7 @@ class PeripheralTestOperations {
   Future<void> connect() async {
     await _tryCatch(() async {
       log("Connecting to ${peripheral.name}");
-      await peripheral.connect(timeout: Duration(seconds: 2));
+      await peripheral.connect();
       log("Connected!");
     });
   }
