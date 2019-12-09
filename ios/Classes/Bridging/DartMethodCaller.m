@@ -107,6 +107,7 @@ typedef void (^SuccessHandler)(id _Nullable result);
                                        reject:(Reject)reject {
     NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                               deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_ID,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
                                               nil];
     SuccessHandler successHandler = ^(id result) {
         resolve([DartResultConverter deviceContainerFromDartResult:result
