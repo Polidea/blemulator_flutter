@@ -56,10 +56,8 @@ class SensorTag extends SimulatedPeripheral {
 
   @override
   Future<void> onDiscoveryRequest() async {
-    return Future.delayed(
-      Duration(milliseconds: 500),
-      () => super.onDiscoveryRequest(),
-    );
+    await Future.delayed(Duration(milliseconds: 500));
+    return super.onDiscoveryRequest();
   }
 }
 
