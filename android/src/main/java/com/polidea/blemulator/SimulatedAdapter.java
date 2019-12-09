@@ -8,6 +8,7 @@ import com.polidea.multiplatformbleadapter.BleAdapter;
 import com.polidea.multiplatformbleadapter.Characteristic;
 import com.polidea.multiplatformbleadapter.ConnectionOptions;
 import com.polidea.multiplatformbleadapter.ConnectionState;
+import com.polidea.multiplatformbleadapter.Descriptor;
 import com.polidea.multiplatformbleadapter.Device;
 import com.polidea.multiplatformbleadapter.OnErrorCallback;
 import com.polidea.multiplatformbleadapter.OnEventCallback;
@@ -270,7 +271,7 @@ public class SimulatedAdapter implements BleAdapter {
     }
 
     @Override
-    public Service[] getServicesForDevice(String deviceIdentifier) throws BleError {
+    public List<Service> getServicesForDevice(String deviceIdentifier) throws BleError {
         Log.i(TAG, "getServicesForDevice");
         if (knownPeripherals.get(deviceIdentifier) == null) {
             throw new BleError(BleErrorCode.DeviceNotFound, "Device unknown", 0);
@@ -285,13 +286,12 @@ public class SimulatedAdapter implements BleAdapter {
         }
         return knownPeripherals
                 .get(deviceIdentifier)
-                .getServices()
-                .toArray(new Service[0]);
+                .getServices();
     }
 
     @Override
-    public Characteristic[] getCharacteristicsForDevice(String deviceIdentifier,
-                                                        String serviceUUID) throws BleError {
+    public List<Characteristic> getCharacteristicsForDevice(String deviceIdentifier,
+                                                            String serviceUUID) throws BleError {
         Log.i(TAG, "getCharacteristicsForDevice");
 
         if (knownPeripherals.get(deviceIdentifier) == null) {
@@ -309,12 +309,11 @@ public class SimulatedAdapter implements BleAdapter {
         return knownPeripherals
                 .get(deviceIdentifier)
                 .getCharacteristics()
-                .get(serviceUUID)
-                .toArray(new Characteristic[0]);
+                .get(serviceUUID);
     }
 
     @Override
-    public Characteristic[] getCharacteristicsForService(int serviceIdentifier) throws BleError {
+    public List<Characteristic> getCharacteristicsForService(int serviceIdentifier) throws BleError {
         Log.i(TAG, "getCharacteristicForService");
 
 
@@ -324,8 +323,7 @@ public class SimulatedAdapter implements BleAdapter {
                     if (service.getId() == serviceIdentifier) {
                         return deviceContainer
                                 .getCharacteristics()
-                                .get(service.getUuid().toString().toUpperCase())
-                                .toArray(new Characteristic[0]);
+                                .get(service.getUuid().toString().toUpperCase());
                     }
                 }
             }
@@ -333,6 +331,24 @@ public class SimulatedAdapter implements BleAdapter {
         }
 
         throw new BleError(BleErrorCode.ServiceNotFound, "Service with id " + serviceIdentifier + " not found", 0);
+    }
+
+    @Override
+    public List<Descriptor> descriptorsForDevice(String deviceIdentifier, String serviceUUID, String characteristicUUID) throws BleError {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<Descriptor> descriptorsForService(int serviceIdentifier, String characteristicUUID) throws BleError {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<Descriptor> descriptorsForCharacteristic(int characteristicIdentifier) throws BleError {
+        //TODO
+        return null;
     }
 
     @Override
@@ -474,6 +490,86 @@ public class SimulatedAdapter implements BleAdapter {
                 dartMethodCaller.monitorCharacteristic(characteristicIdentifier, transactionId, localOnErrorCallback);
             }
         });
+    }
+
+    @Override
+    public void readDescriptorForDevice(String deviceId,
+                                        String serviceUUID,
+                                        String characteristicUUID,
+                                        String descriptorUUID,
+                                        String transactionId,
+                                        OnSuccessCallback<Descriptor> successCallback,
+                                        OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void readDescriptorForService(int serviceIdentifier,
+                                         String characteristicUUID,
+                                         String descriptorUUID,
+                                         String transactionId,
+                                         OnSuccessCallback<Descriptor> successCallback,
+                                         OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void readDescriptorForCharacteristic(int characteristicIdentifier,
+                                                String descriptorUUID,
+                                                String transactionId,
+                                                OnSuccessCallback<Descriptor> successCallback,
+                                                OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void readDescriptor(int descriptorIdentifier,
+                               String transactionId,
+                               OnSuccessCallback<Descriptor> onSuccessCallback,
+                               OnErrorCallback onErrorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void writeDescriptorForDevice(String deviceId,
+                                         String serviceUUID,
+                                         String characteristicUUID,
+                                         String descriptorUUID,
+                                         String valueBase64,
+                                         String transactionId,
+                                         OnSuccessCallback<Descriptor> successCallback,
+                                         OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void writeDescriptorForService(int serviceIdentifier,
+                                          String characteristicUUID,
+                                          String descriptorUUID,
+                                          String valueBase64,
+                                          String transactionId,
+                                          OnSuccessCallback<Descriptor> successCallback,
+                                          OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void writeDescriptorForCharacteristic(int characteristicIdentifier,
+                                                 String descriptorUUID,
+                                                 String valueBase64,
+                                                 String transactionId,
+                                                 OnSuccessCallback<Descriptor> successCallback,
+                                                 OnErrorCallback errorCallback) {
+        //TODO
+    }
+
+    @Override
+    public void writeDescriptor(int descriptorIdentifier,
+                                String valueBase64,
+                                String transactionId,
+                                OnSuccessCallback<Descriptor> successCallback,
+                                OnErrorCallback errorCallback) {
+        //TODO
     }
 
     @Override
