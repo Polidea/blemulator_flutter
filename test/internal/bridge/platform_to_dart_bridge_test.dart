@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:blemulator/blemulator.dart';
 import 'package:blemulator/internal/internal.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart' as prefix0;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -20,6 +21,10 @@ void main() {
   setUp(() {
     simulationManager = SimulationManagerMock();
     platformToDartBridge = PlatformToDartBridge(simulationManager);
+    when(simulationManager.cancelMonitoringTransactionIfExists("1"))
+        .thenAnswer((_) {
+      return;
+    });
   });
 
   group("MTU", () {
@@ -69,13 +74,16 @@ void main() {
         SimulationArgumentName.transactionId: "1",
       });
       when(simulationManager.discoverAllServicesAndCharacteristics(DEVICE_ID))
-          .thenAnswer((_) => Future.delayed(Duration(seconds: 3), () => []));
+          .thenAnswer(
+              (_) => Future.delayed(Duration(milliseconds: 1000), () => []));
 
       expectLater(
         platformToDartBridge.handleCall(discoverServicesMethodCall),
         throwsA(equals(SimulatedBleError(
             BleErrorCode.OperationCancelled, "Operation cancelled"))),
       );
+
+      await Future.delayed(Duration(milliseconds: 500));
 
       platformToDartBridge.handleCall(cancellingMethodCall);
     });
