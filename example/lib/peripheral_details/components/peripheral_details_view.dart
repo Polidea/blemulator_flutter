@@ -1,5 +1,5 @@
 import 'package:blemulator_example/peripheral_details/bloc.dart';
-import 'package:blemulator_example/peripheral_details/components/property_row.dart';
+import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
