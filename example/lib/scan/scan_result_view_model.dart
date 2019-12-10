@@ -10,7 +10,7 @@ class ScanResultViewModel extends Equatable {
   ScanResultViewModel(this.name, this.identifier, this.category, this.rssi);
 
   @override
-  List<Object> get props => [name, identifier, rssi];
+  List<Object> get props => [name, identifier, category, rssi];
 }
 
 class PeripheralCategoryViewModel extends Equatable {

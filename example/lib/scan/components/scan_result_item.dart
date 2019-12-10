@@ -1,5 +1,6 @@
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,9 @@ class ScanResultItem extends StatelessWidget {
   }
 
   void _onRowTap(NavigationBloc navigationBloc) {
-    navigationBloc.add(NavigateToPeripheralDetails(peripheralIdentifier: _scanResult.identifier));
+    navigationBloc.add(NavigateToPeripheralDetails(
+        peripheralDetails:
+            PeripheralDetailsViewModel.fromScanResult(_scanResult)));
   }
 
   Color _rssiColor(SignalLevel signalLevel) {

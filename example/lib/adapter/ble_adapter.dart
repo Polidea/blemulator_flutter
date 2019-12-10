@@ -58,10 +58,6 @@ class BleAdapter {
     return _bleManager.stopPeripheralScan();
   }
 
-  ScanResult scanResultForIdentifier(String identifier) {
-    return _mapScanResult(_scanResults[identifier]);
-  }
-
   void _setupSimulation() {
     _blemulator.addSimulatedPeripheral(SensorTag());
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));

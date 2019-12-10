@@ -1,4 +1,6 @@
- import 'package:equatable/equatable.dart';
+ import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class NavigationEvent extends Equatable {
   const NavigationEvent();
@@ -10,10 +12,10 @@ abstract class NavigationEvent extends Equatable {
 class Pop extends NavigationEvent {}
 
 class NavigateToPeripheralDetails extends NavigationEvent {
-  final String peripheralIdentifier;
+  final PeripheralDetailsViewModel peripheralDetails;
 
-  const NavigateToPeripheralDetails({this.peripheralIdentifier});
+  const NavigateToPeripheralDetails({@required this.peripheralDetails});
 
   @override
-  List<Object> get props => [peripheralIdentifier];
+  List<Object> get props => [peripheralDetails];
 }

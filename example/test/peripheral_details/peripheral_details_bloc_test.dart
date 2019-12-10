@@ -1,4 +1,5 @@
 import 'package:blemulator_example/peripheral_details/bloc.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,8 +15,8 @@ void main() {
     bleAdapter = MockBleAdapter();
     scanResult = SampleScanResult().viewModel();
 
-    peripheralDetailsBloc =
-        PeripheralDetailsBloc(bleAdapter, scanResult.identifier);
+    peripheralDetailsBloc = PeripheralDetailsBloc(
+        bleAdapter, PeripheralDetailsViewModel.fromScanResult(scanResult));
   });
 
   tearDown(() {
@@ -24,6 +25,7 @@ void main() {
   });
 
   test('initial state contains peripheral provided in the constructor', () {
-    expect(peripheralDetailsBloc.initialState.identifier, scanResult.identifier);
+    expect(peripheralDetailsBloc.initialState.peripheralDetails,
+        PeripheralDetailsViewModel.fromScanResult(scanResult));
   });
 }

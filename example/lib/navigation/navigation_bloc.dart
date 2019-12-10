@@ -22,7 +22,7 @@ class NavigationBloc extends Bloc<NavigationEvent, void> {
       navigatorKey.currentState.pop();
     } else if (event is NavigateToPeripheralDetails) {
       navigatorKey.currentState
-          .pushNamed(RouteName.peripheralDetails, arguments: event.peripheralIdentifier);
+          .pushNamed(RouteName.peripheralDetails, arguments: event.peripheralDetails);
     }
   }
 }
