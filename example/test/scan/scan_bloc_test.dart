@@ -39,7 +39,7 @@ void main() {
   test(
       'initial state contains empty scanResults array and scanningEnabled = false',
       () {
-    expect(scanBloc.initialState.scanResults, {});
+    expect(scanBloc.initialState.scanResults, []);
     expect(scanBloc.initialState.scanningEnabled, false);
   });
 
@@ -65,7 +65,7 @@ void main() {
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true)
+        ScanState(scanResults: [], scanningEnabled: true)
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -85,8 +85,8 @@ void main() {
         // then
         final expectedResponse = [
           ScanState.initial(),
-          ScanState(scanResults: {}, scanningEnabled: true),
-          ScanState(scanResults: {}, scanningEnabled: false),
+          ScanState(scanResults: [], scanningEnabled: true),
+          ScanState(scanResults: [], scanningEnabled: false),
         ];
         expectLater(scanBloc, emitsInOrder(expectedResponse));
       },
@@ -105,10 +105,9 @@ void main() {
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel()
-        }, scanningEnabled: true)
+        ScanState(scanResults: [], scanningEnabled: true),
+        ScanState(
+            scanResults: [sampleScanResult.viewModel()], scanningEnabled: true)
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -130,15 +129,13 @@ void main() {
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel()
-        }, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel(),
-          differentSampleScanResult.identifier:
-              differentSampleScanResult.viewModel(),
-        }, scanningEnabled: true),
+        ScanState(scanResults: [], scanningEnabled: true),
+        ScanState(
+            scanResults: [sampleScanResult.viewModel()], scanningEnabled: true),
+        ScanState(scanResults: [
+          sampleScanResult.viewModel(),
+          differentSampleScanResult.viewModel(),
+        ], scanningEnabled: true),
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -162,15 +159,13 @@ void main() {
     // then
     final expectedResponse = [
       ScanState.initial(),
-      ScanState(scanResults: {}, scanningEnabled: true),
-      ScanState(scanResults: {
-        sampleScanResult.identifier: sampleScanResult.viewModel()
-      }, scanningEnabled: true),
-      ScanState(scanResults: {
-        sampleScanResult.identifier: sampleScanResult.viewModel(),
-        differentSampleScanResult.identifier:
-            differentSampleScanResult.viewModel(),
-      }, scanningEnabled: true),
+      ScanState(scanResults: [], scanningEnabled: true),
+      ScanState(
+          scanResults: [sampleScanResult.viewModel()], scanningEnabled: true),
+      ScanState(scanResults: [
+        sampleScanResult.viewModel(),
+        differentSampleScanResult.viewModel(),
+      ], scanningEnabled: true),
     ];
     expectLater(scanBloc, emitsInOrder(expectedResponse));
   });
