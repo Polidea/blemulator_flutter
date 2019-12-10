@@ -3,10 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 class PeripheralDetailsState extends Equatable {
-
-}
-
-class PeripheralDetailsState extends Equatable {
   final String name;
   final String identifier;
   final PeripheralCategoryViewModel category;

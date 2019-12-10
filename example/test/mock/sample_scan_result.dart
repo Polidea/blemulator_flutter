@@ -14,8 +14,7 @@ class SampleScanResult extends ScanResult {
             PeripheralCategoryResolver.categoryForPeripheralName(name),
             rssi,
             mtu,
-            isConnectable,
-            null);
+            isConnectable);
 
   SampleScanResult.different(
       {String name = 'Different peripheral name',
@@ -29,6 +28,5 @@ class SampleScanResult extends ScanResult {
             PeripheralCategoryResolver.categoryForPeripheralName(name),
             rssi,
             mtu,
-            isConnectable,
-            null);
+            isConnectable);
 }

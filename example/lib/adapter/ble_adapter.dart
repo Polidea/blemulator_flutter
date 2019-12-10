@@ -75,14 +75,13 @@ class BleAdapter {
 
   ScanResult _mapScanResult(FlutterBleLib.ScanResult scanResult) {
     return ScanResult(
-      scanResult.peripheral.name,
+      scanResult.peripheral.name ?? scanResult.advertisementData.localName,
       scanResult.peripheral.identifier,
       PeripheralCategoryResolver.categoryForPeripheralName(
           scanResult.peripheral.name),
       scanResult.rssi,
       scanResult.mtu,
       scanResult.isConnectable,
-      scanResult.advertisementData,
     );
   }
 }

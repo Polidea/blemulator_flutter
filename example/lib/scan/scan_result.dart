@@ -9,14 +9,13 @@ class ScanResult extends Equatable {
   final int rssi;
   final int mtu;
   final bool isConnectable;
-  final AdvertisementData advertisementData;
 
   ScanResult(this.name, this.identifier, this.category, this.rssi, this.mtu,
-      this.isConnectable, this.advertisementData);
+      this.isConnectable);
 
   ScanResultViewModel viewModel() {
     return ScanResultViewModel(
-      name ?? advertisementData.localName ?? 'Unknown',
+      name,
       identifier,
       PeripheralCategoryViewModel.fromCategory(category),
       RssiViewModel.fromRssi(rssi),
@@ -24,7 +23,7 @@ class ScanResult extends Equatable {
   }
 
   @override
-  List<Object> get props => [name, identifier, rssi, mtu, isConnectable];
+  List<Object> get props => [name, identifier, category, rssi, mtu, isConnectable];
 }
 
 enum PeripheralCategory { sensorTag, other }

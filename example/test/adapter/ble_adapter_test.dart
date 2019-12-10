@@ -107,8 +107,7 @@ void main() {
                 peripheralName),
             rssi,
             mtu,
-            isConnectable,
-            advertisementData)
+            isConnectable,)
       ];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
