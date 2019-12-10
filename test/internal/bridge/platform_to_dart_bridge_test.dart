@@ -18,60 +18,6 @@ void main() {
   setUp(() {
     simulationManager = SimulationManagerMock();
     platformToDartBridge = PlatformToDartBridge(simulationManager);
-    when(simulationManager.discoverAllServicesAndCharacteristics(DEVICE_ID))
-        .thenAnswer((_) => Future.value([]));
-  });
-
-  group("handling platform call", () {
-    test("should handle cancellable transaction using simulation manager when call contains non-null transactionId but call is not cancelTransaction", () {
-      MethodCall methodCall = MethodCall(DartMethodName.discoverAllServicesAndCharacteristics, {
-        SimulationArgumentName.id: DEVICE_ID,
-        SimulationArgumentName.transactionId: "123",
-      });
-
-      //when
-      platformToDartBridge.handleCall(methodCall);
-
-      //then
-      verify(simulationManager.handleCancelablePlatformCall(any, "123"));
-    });
-
-    test("should not handle cancellable transaction using simulation manager when call contains non-null transactionId and call is cancelTransaction", () {
-      MethodCall methodCall = MethodCall(DartMethodName.cancelTransaction, {
-        SimulationArgumentName.transactionId: "123",
-      });
-
-      //when
-      platformToDartBridge.handleCall(methodCall);
-
-      //then
-      verifyNever(simulationManager.handleCancelablePlatformCall(any, "123"));
-    });
-
-    test("should handle cancellable transaction using simulation manager when call contains null transactionId and call is not cancelTransaction", () {
-      MethodCall methodCall = MethodCall(DartMethodName.discoverAllServicesAndCharacteristics, {
-        SimulationArgumentName.id: DEVICE_ID,
-        SimulationArgumentName.transactionId: null,
-      });
-
-      //when
-      platformToDartBridge.handleCall(methodCall);
-
-      //then
-      verify(simulationManager.handleCancelablePlatformCall(any, null));
-    });
-
-    test("should handle cancellable transaction using simulation manager when call does not contain transactionId", () {
-      MethodCall methodCall = MethodCall(DartMethodName.discoverAllServicesAndCharacteristics, {
-        SimulationArgumentName.id: DEVICE_ID,
-      });
-
-      //when
-      platformToDartBridge.handleCall(methodCall);
-
-      //then
-      verifyNever(simulationManager.handleCancelablePlatformCall(any, any));
-    });
   });
 
   group("MTU", () {
@@ -83,7 +29,7 @@ void main() {
       });
 
       //when
-      platformToDartBridge.handleCall(methodCall);
+      platformToDartBridge.dispatchPlatformCall(methodCall);
 
       //then
       verify(simulationManager.requestMtuForDevice(DEVICE_ID, REQUESTED_MTU));
@@ -100,7 +46,7 @@ void main() {
           .thenAnswer((_) => Future.value(NEGOTIATED_MTU));
 
       //when
-      int negotiatedMtu = await platformToDartBridge.handleCall(methodCall);
+      int negotiatedMtu = await platformToDartBridge.dispatchPlatformCall(methodCall);
 
       //then
       expect(negotiatedMtu, NEGOTIATED_MTU);

@@ -1,9 +1,6 @@
 part of internal;
 
 mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
-  Map<String, _CharacteristicMonitoringSubscription> _monitoringSubscriptions =
-      HashMap();
-
   Future<SimulatedCharacteristic> _findCharacteristicForId(
       int characteristicIdentifier) async {
     SimulatedCharacteristic targetCharacteristic;
@@ -40,150 +37,167 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     return null;
   }
 
-  Future<CharacteristicResponse> _readCharacteristicForIdentifier(
+  Future<dynamic> _readCharacteristicForIdentifier(
     int characteristicIdentifier,
-  ) async {
-    SimulatedPeripheral peripheral =
-        _findPeripheralWithCharacteristicId(characteristicIdentifier);
-    await _errorIfPeripheralNull(peripheral);
-    await _errorIfNotConnected(peripheral.id);
-    await _errorIfDiscoveryNotDone(peripheral);
+    String transactionId,
+  ) =>
+      _saveCancelableOperation(transactionId, () async {
+        SimulatedPeripheral peripheral =
+            _findPeripheralWithCharacteristicId(characteristicIdentifier);
+        await _errorIfPeripheralNull(peripheral);
+        await _errorIfNotConnected(peripheral.id);
+        await _errorIfDiscoveryNotDone(peripheral);
 
-    SimulatedCharacteristic targetCharacteristic =
-        await _findCharacteristicForId(characteristicIdentifier);
+        SimulatedCharacteristic targetCharacteristic =
+            await _findCharacteristicForId(characteristicIdentifier);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicIdentifier.toString());
-    await _errorIfCharacteristicNotReadable(targetCharacteristic);
-    Uint8List value = await targetCharacteristic.read();
-    await _errorIfDisconnected(peripheral.id);
-    return CharacteristicResponse(targetCharacteristic, value);
-  }
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicIdentifier.toString());
+        await _errorIfCharacteristicNotReadable(targetCharacteristic);
+        Uint8List value = await targetCharacteristic.read();
+        await _errorIfDisconnected(peripheral.id);
+        return CharacteristicResponse(targetCharacteristic, value);
+      });
 
-  Future<CharacteristicResponse> _readCharacteristicForDevice(
+  Future<dynamic> _readCharacteristicForDevice(
     String peripheralId,
     String serviceUuid,
     String characteristicUUID,
-  ) async {
-    await _errorIfNotConnected(peripheralId);
-    SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
-    await _errorIfDiscoveryNotDone(targetPeripheral);
+    String transactionId,
+  ) =>
+      _saveCancelableOperation(transactionId, () async {
+        await _errorIfNotConnected(peripheralId);
+        SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
+        await _errorIfDiscoveryNotDone(targetPeripheral);
 
-    SimulatedCharacteristic targetCharacteristic = targetPeripheral
-        .getCharacteristicForService(serviceUuid, characteristicUUID);
+        SimulatedCharacteristic targetCharacteristic = targetPeripheral
+            .getCharacteristicForService(serviceUuid, characteristicUUID);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
-    await _errorIfCharacteristicNotReadable(targetCharacteristic);
-    Uint8List value = await targetCharacteristic.read();
-    await _errorIfDisconnected(peripheralId);
-    return CharacteristicResponse(targetCharacteristic, value);
-  }
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicUUID);
+        await _errorIfCharacteristicNotReadable(targetCharacteristic);
+        Uint8List value = await targetCharacteristic.read();
+        await _errorIfDisconnected(peripheralId);
+        return CharacteristicResponse(targetCharacteristic, value);
+      });
 
-  Future<CharacteristicResponse> _readCharacteristicForService(
+  Future<dynamic> _readCharacteristicForService(
     int serviceIdentifier,
     String characteristicUUID,
-  ) async {
-    SimulatedCharacteristic targetCharacteristic =
-        _findCharacteristicForServiceId(serviceIdentifier, characteristicUUID);
+    String transactionId,
+  ) =>
+      _saveCancelableOperation(transactionId, () async {
+        SimulatedCharacteristic targetCharacteristic =
+            _findCharacteristicForServiceId(
+                serviceIdentifier, characteristicUUID);
 
-    await _errorIfNotConnected(
-        _findPeripheralWithServiceId(serviceIdentifier).id);
+        await _errorIfNotConnected(
+            _findPeripheralWithServiceId(serviceIdentifier).id);
 
-    await _errorIfDiscoveryNotDone(
-        _findPeripheralWithServiceId(serviceIdentifier));
+        await _errorIfDiscoveryNotDone(
+            _findPeripheralWithServiceId(serviceIdentifier));
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicUUID);
 
-    await _errorIfCharacteristicNotReadable(targetCharacteristic);
-    Uint8List value = await targetCharacteristic.read();
-    await _errorIfDisconnected(
-        _findPeripheralWithServiceId(serviceIdentifier).id);
-    return CharacteristicResponse(targetCharacteristic, value);
-  }
+        await _errorIfCharacteristicNotReadable(targetCharacteristic);
+        Uint8List value = await targetCharacteristic.read();
+        await _errorIfDisconnected(
+            _findPeripheralWithServiceId(serviceIdentifier).id);
+        return CharacteristicResponse(targetCharacteristic, value);
+      });
 
-  Future<SimulatedCharacteristic> _writeCharacteristicForIdentifier(
+  Future<dynamic> _writeCharacteristicForIdentifier(
     int characteristicIdentifier,
-    Uint8List value, {
+    Uint8List value,
+    String transactionId, {
     bool withResponse = true,
-  }) async {
-    SimulatedPeripheral peripheral =
-        _findPeripheralWithCharacteristicId(characteristicIdentifier);
+  }) =>
+      _saveCancelableOperation(transactionId, () async {
+        SimulatedPeripheral peripheral =
+            _findPeripheralWithCharacteristicId(characteristicIdentifier);
 
-    await _errorIfPeripheralNull(peripheral);
-    await _errorIfNotConnected(peripheral.id);
-    await _errorIfDiscoveryNotDone(peripheral);
+        await _errorIfPeripheralNull(peripheral);
+        await _errorIfNotConnected(peripheral.id);
+        await _errorIfDiscoveryNotDone(peripheral);
 
-    SimulatedCharacteristic targetCharacteristic =
-        await _findCharacteristicForId(characteristicIdentifier);
+        SimulatedCharacteristic targetCharacteristic =
+            await _findCharacteristicForId(characteristicIdentifier);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicIdentifier.toString());
-    if (withResponse) {
-      await _errorIfCharacteristicNotWritableWithResponse(targetCharacteristic);
-    } else {
-      await _errorIfCharacteristicNotWritableWithoutResponse(
-          targetCharacteristic);
-    }
-    await targetCharacteristic.write(value);
-    await _errorIfDisconnected(peripheral.id);
-    return targetCharacteristic;
-  }
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicIdentifier.toString());
+        if (withResponse) {
+          await _errorIfCharacteristicNotWritableWithResponse(
+              targetCharacteristic);
+        } else {
+          await _errorIfCharacteristicNotWritableWithoutResponse(
+              targetCharacteristic);
+        }
+        await targetCharacteristic.write(value);
+        await _errorIfDisconnected(peripheral.id);
+        return targetCharacteristic;
+      });
 
-  Future<SimulatedCharacteristic> _writeCharacteristicForDevice(
+  Future<dynamic> _writeCharacteristicForDevice(
     String peripheralId,
     String serviceUuid,
     String characteristicUUID,
-    Uint8List value, {
+    Uint8List value,
+    String transactionId, {
     bool withResponse = true,
-  }) async {
-    await _errorIfNotConnected(peripheralId);
-    SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
-    await _errorIfDiscoveryNotDone(targetPeripheral);
+  }) =>
+      _saveCancelableOperation(transactionId, () async {
+        await _errorIfNotConnected(peripheralId);
+        SimulatedPeripheral targetPeripheral = _peripherals[peripheralId];
+        await _errorIfDiscoveryNotDone(targetPeripheral);
 
-    SimulatedCharacteristic targetCharacteristic = targetPeripheral
-        .getCharacteristicForService(serviceUuid, characteristicUUID);
+        SimulatedCharacteristic targetCharacteristic = targetPeripheral
+            .getCharacteristicForService(serviceUuid, characteristicUUID);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
-    if (withResponse) {
-      await _errorIfCharacteristicNotWritableWithResponse(targetCharacteristic);
-    } else {
-      await _errorIfCharacteristicNotWritableWithoutResponse(
-          targetCharacteristic);
-    }
-    await targetCharacteristic.write(value);
-    await _errorIfDisconnected(peripheralId);
-    return targetCharacteristic;
-  }
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicUUID);
+        if (withResponse) {
+          await _errorIfCharacteristicNotWritableWithResponse(
+              targetCharacteristic);
+        } else {
+          await _errorIfCharacteristicNotWritableWithoutResponse(
+              targetCharacteristic);
+        }
+        await targetCharacteristic.write(value);
+        await _errorIfDisconnected(peripheralId);
+        return targetCharacteristic;
+      });
 
-  Future<SimulatedCharacteristic> _writeCharacteristicForService(
+  Future<dynamic> _writeCharacteristicForService(
     int serviceIdentifier,
     String characteristicUUID,
-    Uint8List value, {
+    Uint8List value,
+    String transactionId, {
     bool withResponse = true,
-  }) async {
-    SimulatedCharacteristic targetCharacteristic =
-        _findCharacteristicForServiceId(serviceIdentifier, characteristicUUID);
+  }) =>
+      _saveCancelableOperation(transactionId, () async {
+        SimulatedCharacteristic targetCharacteristic =
+            _findCharacteristicForServiceId(
+                serviceIdentifier, characteristicUUID);
 
-    await _errorIfCharacteristicIsNull(
-        targetCharacteristic, characteristicUUID);
-    await _errorIfNotConnected(
-        _findPeripheralWithServiceId(serviceIdentifier).id);
-    await _errorIfDiscoveryNotDone(
-        _findPeripheralWithServiceId(serviceIdentifier));
-    if (withResponse) {
-      await _errorIfCharacteristicNotWritableWithResponse(targetCharacteristic);
-    } else {
-      await _errorIfCharacteristicNotWritableWithoutResponse(
-          targetCharacteristic);
-    }
-    await targetCharacteristic.write(value);
-    await _errorIfDisconnected(
-        _findPeripheralWithServiceId(serviceIdentifier).id);
-    return targetCharacteristic;
-  }
+        await _errorIfCharacteristicIsNull(
+            targetCharacteristic, characteristicUUID);
+        await _errorIfNotConnected(
+            _findPeripheralWithServiceId(serviceIdentifier).id);
+        await _errorIfDiscoveryNotDone(
+            _findPeripheralWithServiceId(serviceIdentifier));
+        if (withResponse) {
+          await _errorIfCharacteristicNotWritableWithResponse(
+              targetCharacteristic);
+        } else {
+          await _errorIfCharacteristicNotWritableWithoutResponse(
+              targetCharacteristic);
+        }
+        await targetCharacteristic.write(value);
+        await _errorIfDisconnected(
+            _findPeripheralWithServiceId(serviceIdentifier).id);
+        return targetCharacteristic;
+      });
 
   Future<void> _monitorCharacteristicForIdentifier(
     int characteristicIdentifier,
@@ -374,23 +388,6 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         BleErrorCode.CharacteristicNotFound,
         "Characteristic $characteristicId not found",
       ));
-    }
-  }
-
-  Future<void> _cancelMonitoringTransactionIfExists(String transactionId) async {
-    _CharacteristicMonitoringSubscription subscription =
-        _monitoringSubscriptions.remove(transactionId);
-    if (subscription != null) {
-      await subscription.subscription.cancel();
-      await _bridge.publishCharacteristicMonitoringError(
-        _findPeripheralWithCharacteristicId(subscription.characteristicId).id,
-        subscription.characteristicId,
-        SimulatedBleError(
-          BleErrorCode.OperationCancelled,
-          "Operation cancelled",
-        ),
-        transactionId,
-      );
     }
   }
 }

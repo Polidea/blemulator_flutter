@@ -6,28 +6,12 @@ class PlatformToDartBridge {
 
   PlatformToDartBridge(this._manager) {
     _platformToDartChannel = MethodChannel(ChannelName.platformToDart);
-    _platformToDartChannel.setMethodCallHandler(handleCall);
+    _platformToDartChannel.setMethodCallHandler(dispatchPlatformCall);
   }
 
   @visibleForTesting
-  Future<dynamic> handleCall(MethodCall call) async {
+  Future<dynamic> dispatchPlatformCall(MethodCall call) {
     print("Observed method call on Flutter Simulator: ${call.method}");
-    if (_isCallCancellable(call)) {
-      return _manager.handleCancelablePlatformCall(
-        _dispatchPlatformCall(call),
-        call.arguments[SimulationArgumentName.transactionId],
-      );
-    } else {
-      return _dispatchPlatformCall(call);
-    }
-  }
-
-  bool _isCallCancellable(MethodCall call) =>
-      call.method != DartMethodName.cancelTransaction &&
-      call.arguments?.containsKey(SimulationArgumentName.transactionId) == true;
-
-  @visibleForTesting
-  Future<dynamic> _dispatchPlatformCall(MethodCall call) {
     switch (call.method) {
       case DartMethodName.createClient:
         return _createClient(call);
@@ -113,7 +97,8 @@ class PlatformToDartBridge {
       MethodCall call) async {
     List<SimulatedService> services =
         await _manager.discoverAllServicesAndCharacteristics(
-            call.arguments[ArgumentName.id] as String);
+            call.arguments[SimulationArgumentName.id] as String,
+            call.arguments[SimulationArgumentName.transactionId] as String);
     dynamic mapped = services
         .map(
           (service) => <String, dynamic>{
@@ -137,7 +122,9 @@ class PlatformToDartBridge {
     Map<dynamic, dynamic> arguments = call.arguments;
     return _manager
         ._readCharacteristicForIdentifier(
-            arguments[SimulationArgumentName.characteristicIdentifier])
+          arguments[SimulationArgumentName.characteristicIdentifier],
+          arguments[SimulationArgumentName.transactionId],
+        )
         .then((characteristic) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],
               characteristic.characteristic,
@@ -152,6 +139,7 @@ class PlatformToDartBridge {
           arguments[SimulationArgumentName.deviceIdentifier],
           arguments[SimulationArgumentName.serviceUuid],
           arguments[SimulationArgumentName.characteristicUuid],
+          arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristic) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],
@@ -166,6 +154,7 @@ class PlatformToDartBridge {
         ._readCharacteristicForService(
           arguments[SimulationArgumentName.serviceId],
           arguments[SimulationArgumentName.characteristicUuid],
+          arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristicResponse) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],
@@ -180,6 +169,7 @@ class PlatformToDartBridge {
         ._writeCharacteristicForIdentifier(
           call.arguments[SimulationArgumentName.characteristicIdentifier],
           call.arguments[SimulationArgumentName.value],
+          arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristicResponse) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],
@@ -196,6 +186,7 @@ class PlatformToDartBridge {
           arguments[SimulationArgumentName.serviceUuid],
           arguments[SimulationArgumentName.characteristicUuid],
           arguments[SimulationArgumentName.value],
+          arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristic) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],
@@ -211,6 +202,7 @@ class PlatformToDartBridge {
           arguments[SimulationArgumentName.serviceId],
           arguments[SimulationArgumentName.characteristicUuid],
           arguments[SimulationArgumentName.value],
+          arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristic) => mapToCharacteristicJson(
               arguments[SimulationArgumentName.deviceIdentifier],

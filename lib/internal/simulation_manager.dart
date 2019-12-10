@@ -12,36 +12,6 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
         PeripheralMtuMixin {
   SimulationManager(DartToPlatformBridge bridge) : super(bridge);
 
-  Map<String, CancelableOperation> _pendingTransactions = HashMap();
-
-  Future<dynamic> handleCancelablePlatformCall(
-      Future<dynamic> cancellablePlatformCallFuture,
-      String transactionId) async {
-    await cancelTransactionIfExists(transactionId);
-
-    CancelableOperation operation = CancelableOperation.fromFuture(
-        cancellablePlatformCallFuture, onCancel: () {
-      return Future.error(SimulatedBleError(
-        BleErrorCode.OperationCancelled,
-        "Operation cancelled",
-      ));
-    });
-    _pendingTransactions.putIfAbsent(transactionId, () => operation);
-
-    return Future(() {
-      return operation.valueOrCancellation().then(
-        (result) {
-          _pendingTransactions.remove(transactionId);
-          return result;
-        },
-        onError: (error) {
-          _pendingTransactions.remove(transactionId);
-          return Future.error(error);
-        },
-      );
-    });
-  }
-
   void addSimulatedPeripheral(SimulatedPeripheral peripheral) {
     SimulatedPeripheral mapEntry =
         _peripherals.putIfAbsent(peripheral.id, () => peripheral);
@@ -74,14 +44,5 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
     _scanSubscriptions
         .forEach((subscription) async => await subscription.cancel());
     _scanSubscriptions.clear();
-  }
-
-  Future<void> cancelTransactionIfExists(String transactionId) async {
-    await _cancelMonitoringTransactionIfExists(transactionId);
-    await _pendingTransactions.remove(transactionId)?.cancel()?.catchError(
-        (error) {},
-        test: (error) =>
-            error is SimulatedBleError &&
-            error.errorCode == BleErrorCode.OperationCancelled);
   }
 }
