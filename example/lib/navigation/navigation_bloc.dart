@@ -1,14 +1,15 @@
 import 'dart:async';
+import 'package:blemulator_example/adapter/ble_adapter.dart';
 import 'package:blemulator_example/navigation/route_name.dart';
-import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import './bloc.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, void> {
   final GlobalKey<NavigatorState> navigatorKey;
+  BleAdapter bleAdapter;
 
-  NavigationBloc({@required this.navigatorKey});
+  NavigationBloc({@required this.navigatorKey, @required this.bleAdapter});
 
   @override
   void get initialState {
@@ -22,9 +23,13 @@ class NavigationBloc extends Bloc<NavigationEvent, void> {
     if (event is Pop) {
       navigatorKey.currentState.pop();
     } else if (event is NavigateToPeripheralDetails) {
-      navigatorKey.currentState.pushNamed(RouteName.peripheralDetails,
-          arguments:
-              PeripheralDetailsViewModel.fromScanResult(event.scanResult));
+      _navigateToPeripheralDetails(event);
     }
+  }
+
+  void _navigateToPeripheralDetails(NavigateToPeripheralDetails event) {
+    navigatorKey.currentState.pushNamed(RouteName.peripheralDetails,
+        arguments: bleAdapter
+            .peripheralDetailsForIdentifier(event.peripheralIdentifier));
   }
 }
