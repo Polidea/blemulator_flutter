@@ -1,6 +1,5 @@
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class ScanResult extends Equatable {
   final String name;
