@@ -377,7 +377,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     }
   }
 
-  Future<void> cancelMonitoringTransactionIfExists(String transactionId) async {
+  Future<void> _cancelMonitoringTransactionIfExists(String transactionId) async {
     _CharacteristicMonitoringSubscription subscription =
         _monitoringSubscriptions.remove(transactionId);
     if (subscription != null) {
