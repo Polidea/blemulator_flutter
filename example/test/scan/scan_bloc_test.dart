@@ -11,7 +11,7 @@ import '../mock/sample_scan_result.dart';
 void main() {
   ScanBloc scanBloc;
   MockBleAdapter bleAdapter;
-  StreamController<ScanResult> scanResultsStreamController;
+  StreamController<List<ScanResult>> scanResultsStreamController;
 
   setUp(() {
     bleAdapter = MockBleAdapter();
@@ -26,8 +26,8 @@ void main() {
     scanBloc.add(event);
   }
 
-  void fireScanResultFromAdapter(ScanResult scanResult) {
-    scanResultsStreamController.sink.add(scanResult);
+  void fireScanResultsFromAdapter(List<ScanResult> scanResults) {
+    scanResultsStreamController.sink.add(scanResults);
   }
 
   tearDown(() {
@@ -39,7 +39,7 @@ void main() {
   test(
       'initial state contains empty scanResults array and scanningEnabled = false',
       () {
-    expect(scanBloc.initialState.scanResults, {});
+    expect(scanBloc.initialState.scanResults, []);
     expect(scanBloc.initialState.scanningEnabled, false);
   });
 
@@ -65,7 +65,7 @@ void main() {
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true)
+        ScanState(scanResults: [], scanningEnabled: true)
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -85,8 +85,8 @@ void main() {
         // then
         final expectedResponse = [
           ScanState.initial(),
-          ScanState(scanResults: {}, scanningEnabled: true),
-          ScanState(scanResults: {}, scanningEnabled: false),
+          ScanState(scanResults: [], scanningEnabled: true),
+          ScanState(scanResults: [], scanningEnabled: false),
         ];
         expectLater(scanBloc, emitsInOrder(expectedResponse));
       },
@@ -100,15 +100,14 @@ void main() {
       // when
       receiveEvent(startScanningEvent);
 
-      fireScanResultFromAdapter(sampleScanResult);
+      fireScanResultsFromAdapter([sampleScanResult]);
 
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel()
-        }, scanningEnabled: true)
+        ScanState(scanResults: [], scanningEnabled: true),
+        ScanState(
+            scanResults: [sampleScanResult.viewModel()], scanningEnabled: true)
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -124,21 +123,19 @@ void main() {
       // when
       receiveEvent(startScanningEvent);
 
-      fireScanResultFromAdapter(sampleScanResult);
-      fireScanResultFromAdapter(differentSampleScanResult);
+      fireScanResultsFromAdapter([sampleScanResult]);
+      fireScanResultsFromAdapter([sampleScanResult, differentSampleScanResult]);
 
       // then
       final expectedResponse = [
         ScanState.initial(),
-        ScanState(scanResults: {}, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel()
-        }, scanningEnabled: true),
-        ScanState(scanResults: {
-          sampleScanResult.identifier: sampleScanResult.viewModel(),
-          differentSampleScanResult.identifier:
-              differentSampleScanResult.viewModel(),
-        }, scanningEnabled: true),
+        ScanState(scanResults: [], scanningEnabled: true),
+        ScanState(
+            scanResults: [sampleScanResult.viewModel()], scanningEnabled: true),
+        ScanState(scanResults: [
+          sampleScanResult.viewModel(),
+          differentSampleScanResult.viewModel(),
+        ], scanningEnabled: true),
       ];
       expectLater(scanBloc, emitsInOrder(expectedResponse));
     });
@@ -155,22 +152,20 @@ void main() {
     // when
     receiveEvent(startScanningEvent);
 
-    fireScanResultFromAdapter(sampleScanResult);
-    fireScanResultFromAdapter(sampleScanResult);
-    fireScanResultFromAdapter(differentSampleScanResult);
+    fireScanResultsFromAdapter([sampleScanResult]);
+    fireScanResultsFromAdapter([sampleScanResult]);
+    fireScanResultsFromAdapter([sampleScanResult, differentSampleScanResult]);
 
     // then
     final expectedResponse = [
       ScanState.initial(),
-      ScanState(scanResults: {}, scanningEnabled: true),
-      ScanState(scanResults: {
-        sampleScanResult.identifier: sampleScanResult.viewModel()
-      }, scanningEnabled: true),
-      ScanState(scanResults: {
-        sampleScanResult.identifier: sampleScanResult.viewModel(),
-        differentSampleScanResult.identifier:
-            differentSampleScanResult.viewModel(),
-      }, scanningEnabled: true),
+      ScanState(scanResults: [], scanningEnabled: true),
+      ScanState(
+          scanResults: [sampleScanResult.viewModel()], scanningEnabled: true),
+      ScanState(scanResults: [
+        sampleScanResult.viewModel(),
+        differentSampleScanResult.viewModel(),
+      ], scanningEnabled: true),
     ];
     expectLater(scanBloc, emitsInOrder(expectedResponse));
   });

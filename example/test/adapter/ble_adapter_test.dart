@@ -86,7 +86,8 @@ void main() {
       verify(bleManager.stopPeripheralScan()).called(1);
     });
 
-    test('should emit scanResult upon receiving scanResult from library', () {
+    test('should emit scanResult array upon receiving scanResult from library',
+        () {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
@@ -100,14 +101,17 @@ void main() {
 
       // then
       final expectedResponse = [
-        ScanResult(
+        [
+          ScanResult(
             peripheralName,
             peripheralIdentifier,
             PeripheralCategoryResolver.categoryForPeripheralName(
                 peripheralName),
             rssi,
             mtu,
-            isConnectable,)
+            isConnectable,
+          )
+        ]
       ];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
