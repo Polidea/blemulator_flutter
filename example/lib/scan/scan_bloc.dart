@@ -22,7 +22,7 @@ class ScanBloc
     if (event is StartScan) {
       yield* _mapStartScanToState(event);
     } else if (event is StopScan) {
-      yield* _mapStopPeripheralScanToState(event);
+      yield* _mapStopScanToState(event);
     } else if (event is NewScanResult) {
       yield* _mapNewScanResultToState(event);
     }
@@ -39,7 +39,7 @@ class ScanBloc
         scanResults: state.scanResults, scanningEnabled: true);
   }
 
-  Stream<ScanState> _mapStopPeripheralScanToState(
+  Stream<ScanState> _mapStopScanToState(
       StopScan event) async* {
     _cancelScanResultsSubscription();
     await _bleAdapter.stopPeripheralScan();
