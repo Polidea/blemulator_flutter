@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blemulator_example/adapter/peripheral_container.dart';
 import 'package:blemulator_example/example_peripheral.dart';
 import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
 import 'package:blemulator_example/scan/scan_result.dart';
@@ -21,13 +22,14 @@ class BleAdapterConstructorException extends BleAdapterException {
             'Use BleAdapterInjector.inject() for injecting BleAdapter.');
 }
 
+
 class BleAdapter {
   static BleAdapter _instance;
 
   FlutterBleLib.BleManager _bleManager;
   Blemulator _blemulator;
 
-  Map<String, FlutterBleLib.ScanResult> _scanResults = {};
+  Map<String, PeripheralContainer> _peripheralContainers = {};
 
   factory BleAdapter(
       FlutterBleLib.BleManager bleManager, Blemulator blemulator) {
@@ -46,10 +48,10 @@ class BleAdapter {
 
   Stream<ScanResult> startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
-      _scanResults.update(
+      _peripheralContainers.update(
         scanResult.peripheral.identifier,
-        (_) => scanResult,
-        ifAbsent: () => scanResult,
+        (_) => PeripheralContainer(peripheral: scanResult.peripheral),
+        ifAbsent: () => PeripheralContainer(peripheral: scanResult.peripheral),
       );
       return _mapScanResult(scanResult);
     });
@@ -60,14 +62,14 @@ class BleAdapter {
   }
 
   PeripheralDetails peripheralDetailsForIdentifier(String identifier) {
-    FlutterBleLib.ScanResult scanResult = _scanResults[identifier];
-    return scanResult != null
+    PeripheralContainer peripheral = _peripheralContainers[identifier];
+    return peripheral != null
         ? PeripheralDetails(
-            scanResult.peripheral.name ??
-                scanResult.advertisementData.localName,
-            scanResult.peripheral.identifier,
+            peripheral.peripheral.name ??
+                peripheral.advertisementData.localName,
+            peripheral.peripheral.identifier,
             PeripheralCategoryResolver.categoryForPeripheralName(
-                scanResult.peripheral.name),
+                peripheral.peripheral.name),
           )
         : null;
   }
