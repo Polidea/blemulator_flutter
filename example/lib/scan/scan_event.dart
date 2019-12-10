@@ -14,6 +14,12 @@ class NewScanResult extends ScanEvent {
   const NewScanResult(this.scanResult);
 }
 
+class ScanResultsUpdated extends ScanEvent {
+  final List<ScanResult> scanResults;
+
+  const ScanResultsUpdated(this.scanResults);
+}
+
 class PickScanResult extends ScanEvent {
   final ScanResult scanResult;
 

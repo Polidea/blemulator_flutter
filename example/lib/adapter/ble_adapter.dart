@@ -44,14 +44,16 @@ class BleAdapter {
     _bleManager.createClient();
   }
 
-  Stream<ScanResult> startPeripheralScan() {
+  Stream<List<ScanResult>> startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
       _scanResults.update(
         scanResult.peripheral.identifier,
         (_) => scanResult,
         ifAbsent: () => scanResult,
       );
-      return _mapScanResult(scanResult);
+      return _scanResults.values
+          .map((scanResult) => _mapScanResult(scanResult))
+          .toList();
     });
   }
 

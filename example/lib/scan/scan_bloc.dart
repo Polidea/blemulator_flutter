@@ -5,8 +5,7 @@ import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
-class ScanBloc
-    extends Bloc<ScanEvent, ScanState> {
+class ScanBloc extends Bloc<ScanEvent, ScanState> {
   BleAdapter _bleAdapter;
   StreamSubscription _scanResultsSubscription;
 
@@ -25,44 +24,52 @@ class ScanBloc
       yield* _mapStopScanToState(event);
     } else if (event is NewScanResult) {
       yield* _mapNewScanResultToState(event);
+    } else if (event is ScanResultsUpdated) {
+      yield* _mapScanResultsUpdatedToState(event);
     }
   }
 
-  Stream<ScanState> _mapStartScanToState(
-      StartScan event) async* {
+  Stream<ScanState> _mapStartScanToState(StartScan event) async* {
     _cancelScanResultsSubscription();
-    _scanResultsSubscription =
-        _bleAdapter.startPeripheralScan().listen((ScanResult scanResult) {
-      add(NewScanResult(scanResult));
+    _scanResultsSubscription = _bleAdapter
+        .startPeripheralScan()
+        .listen((List<ScanResult> scanResults) {
+      add(ScanResultsUpdated(scanResults));
     });
-    yield ScanState(
-        scanResults: state.scanResults, scanningEnabled: true);
+    yield ScanState(scanResults: state.scanResults, scanningEnabled: true);
   }
 
-  Stream<ScanState> _mapStopScanToState(
-      StopScan event) async* {
+  Stream<ScanState> _mapStopScanToState(StopScan event) async* {
     _cancelScanResultsSubscription();
     await _bleAdapter.stopPeripheralScan();
-    yield ScanState(
-        scanResults: state.scanResults, scanningEnabled: false);
+    yield ScanState(scanResults: state.scanResults, scanningEnabled: false);
   }
 
-  Stream<ScanState> _mapNewScanResultToState(
-      NewScanResult event) async* {
-    Map<String, ScanResultViewModel> updatedScanResults = state.scanResults;
-    String identifier = event.scanResult.identifier;
+  Stream<ScanState> _mapNewScanResultToState(NewScanResult event) async* {
+//    Map<String, ScanResultViewModel> updatedScanResults = state.scanResults;
+//    String identifier = event.scanResult.identifier;
+//
+//    if (updatedScanResults.containsKey(identifier)) {
+//      if (updatedScanResults[identifier] != event.scanResult) {
+//        updatedScanResults = Map.from(state.scanResults);
+//        updatedScanResults[identifier] = event.scanResult.viewModel();
+//      }
+//    } else {
+//      updatedScanResults = Map.from(state.scanResults);
+//      updatedScanResults
+//          .addEntries([MapEntry(identifier, event.scanResult.viewModel())]);
+//    }
+//    yield ScanState(
+//        scanResults: updatedScanResults,
+//        scanningEnabled: state.scanningEnabled);
+  }
 
-    if (updatedScanResults.containsKey(identifier)) {
-      if (updatedScanResults[identifier] != event.scanResult) {
-        updatedScanResults = Map.from(state.scanResults);
-        updatedScanResults[identifier] = event.scanResult.viewModel();
-      }
-    } else {
-      updatedScanResults = Map.from(state.scanResults);
-      updatedScanResults.addEntries([MapEntry(identifier, event.scanResult.viewModel())]);
-    }
+  Stream<ScanState> _mapScanResultsUpdatedToState(
+      ScanResultsUpdated event) async* {
     yield ScanState(
-        scanResults: updatedScanResults,
+        scanResults: event.scanResults
+            .map((scanResult) => scanResult.viewModel())
+            .toList(),
         scanningEnabled: state.scanningEnabled);
   }
 
