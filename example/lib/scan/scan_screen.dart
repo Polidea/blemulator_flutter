@@ -39,10 +39,11 @@ class ScanScreen extends StatelessWidget {
           return previousState.scanResults != state.scanResults;
         },
         builder: (context, state) {
+          List<ScanResultViewModel> scanResults = state.scanResults.values.toList();
           return ListView.builder(
-            itemCount: state.scanResults.length,
+            itemCount: scanResults.length,
             itemBuilder: (context, index) {
-              return ScanResultItem(state.scanResults[index]);
+              return ScanResultItem(scanResults[index]);
             },
             padding: EdgeInsets.all(8.0),
           );
