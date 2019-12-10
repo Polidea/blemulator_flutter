@@ -8,6 +8,12 @@ class StartScan extends ScanEvent {}
 
 class StopScan extends ScanEvent {}
 
+class NewScanResult extends ScanEvent {
+  final ScanResult scanResult;
+
+  const NewScanResult(this.scanResult);
+}
+
 class ScanResultsUpdated extends ScanEvent {
   final List<ScanResult> scanResults;
 

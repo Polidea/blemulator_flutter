@@ -22,6 +22,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield* _mapStartScanToState(event);
     } else if (event is StopScan) {
       yield* _mapStopScanToState(event);
+    } else if (event is NewScanResult) {
+      yield* _mapNewScanResultToState(event);
     } else if (event is ScanResultsUpdated) {
       yield* _mapScanResultsUpdatedToState(event);
     }
@@ -41,6 +43,25 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     _cancelScanResultsSubscription();
     await _bleAdapter.stopPeripheralScan();
     yield ScanState(scanResults: state.scanResults, scanningEnabled: false);
+  }
+
+  Stream<ScanState> _mapNewScanResultToState(NewScanResult event) async* {
+//    Map<String, ScanResultViewModel> updatedScanResults = state.scanResults;
+//    String identifier = event.scanResult.identifier;
+//
+//    if (updatedScanResults.containsKey(identifier)) {
+//      if (updatedScanResults[identifier] != event.scanResult) {
+//        updatedScanResults = Map.from(state.scanResults);
+//        updatedScanResults[identifier] = event.scanResult.viewModel();
+//      }
+//    } else {
+//      updatedScanResults = Map.from(state.scanResults);
+//      updatedScanResults
+//          .addEntries([MapEntry(identifier, event.scanResult.viewModel())]);
+//    }
+//    yield ScanState(
+//        scanResults: updatedScanResults,
+//        scanningEnabled: state.scanningEnabled);
   }
 
   Stream<ScanState> _mapScanResultsUpdatedToState(
