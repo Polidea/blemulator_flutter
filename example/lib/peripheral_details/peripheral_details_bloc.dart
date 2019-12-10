@@ -7,14 +7,17 @@ import './bloc.dart';
 class PeripheralDetailsBloc
     extends Bloc<PeripheralDetailsEvent, PeripheralDetailsState> {
   BleAdapter _bleAdapter;
-  final PeripheralDetails _peripheralDetails;
+  final String _peripheralIdentifier;
 
-  PeripheralDetailsBloc(this._bleAdapter, this._peripheralDetails);
+  PeripheralDetailsBloc(this._bleAdapter, this._peripheralIdentifier);
 
   @override
   PeripheralDetailsState get initialState {
-    return PeripheralDetailsState(
-        peripheralDetails: _peripheralDetails.viewModel());
+    PeripheralDetails peripheralDetails =
+        _bleAdapter.peripheralDetailsForIdentifier(_peripheralIdentifier);
+    return peripheralDetails != null
+        ? PeripheralFoundState(peripheralDetails: peripheralDetails.viewModel())
+        : PeripheralNotFoundState();
   }
 
   @override

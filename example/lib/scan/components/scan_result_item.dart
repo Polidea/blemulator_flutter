@@ -42,11 +42,11 @@ class ScanResultItem extends StatelessWidget {
         ],
         mainAxisSize: MainAxisSize.min,
       ),
-      onTap: () => _onRowTap(navigationBloc),
+      onTap: () => _onRowTap(navigationBloc, context),
     );
   }
 
-  void _onRowTap(NavigationBloc navigationBloc) {
+  void _onRowTap(NavigationBloc navigationBloc, BuildContext context) {
     navigationBloc.add(NavigateToPeripheralDetails(
         peripheralIdentifier: _scanResult.identifier));
   }

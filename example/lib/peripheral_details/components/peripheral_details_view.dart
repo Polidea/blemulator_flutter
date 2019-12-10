@@ -15,12 +15,18 @@ class PeripheralDetailsView extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
                 builder: (context, state) {
-                  return PropertyRow(
-                    title: 'Identifier',
-                    titleIcon: Icons.perm_device_information,
-                    titleColor: Theme.of(context).primaryColor,
-                    value: state.peripheralDetails.identifier,
-                  );
+                  if (state is PeripheralFoundState) {
+                    return PropertyRow(
+                      title: 'Identifier',
+                      titleIcon: Icons.perm_device_information,
+                      titleColor: Theme
+                          .of(context)
+                          .primaryColor,
+                      value: state.peripheralDetails.identifier,
+                    );
+                  } else {
+                    return Container();
+                  }
                 },
               ),
             ),

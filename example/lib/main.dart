@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NavigationBloc>(
-      builder: (context) => NavigationBloc(navigatorKey: _navigatorKey),
+      builder: (context) => NavigationBloc(
+          navigatorKey: _navigatorKey),
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: 'FlutterBleLib example',

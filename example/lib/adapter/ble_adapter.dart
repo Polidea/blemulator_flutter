@@ -59,15 +59,17 @@ class BleAdapter {
     return _bleManager.stopPeripheralScan();
   }
 
-  PeripheralDetails peripheralDetailsForIdentifier(
-      String identifier) {
+  PeripheralDetails peripheralDetailsForIdentifier(String identifier) {
     FlutterBleLib.ScanResult scanResult = _scanResults[identifier];
-    return PeripheralDetails(
-      scanResult.peripheral.name ?? scanResult.advertisementData.localName,
-      scanResult.peripheral.identifier,
-      PeripheralCategoryResolver.categoryForPeripheralName(
-          scanResult.peripheral.name),
-    );
+    return scanResult != null
+        ? PeripheralDetails(
+            scanResult.peripheral.name ??
+                scanResult.advertisementData.localName,
+            scanResult.peripheral.identifier,
+            PeripheralCategoryResolver.categoryForPeripheralName(
+                scanResult.peripheral.name),
+          )
+        : null;
   }
 
   void _setupSimulation() {
