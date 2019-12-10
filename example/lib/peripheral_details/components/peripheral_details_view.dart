@@ -19,7 +19,7 @@ class PeripheralDetailsView extends StatelessWidget {
                     title: 'Identifier',
                     titleIcon: Icons.perm_device_information,
                     titleColor: Theme.of(context).primaryColor,
-                    value: state.peripheral.id,
+                    value: state.peripheralDetails.identifier,
                   );
                 },
               ),

@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:blemulator_example/adapter/ble_adapter.dart';
-import 'package:blemulator_example/model/ble_peripheral.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:blemulator_example/scan/scan_result.dart';
+import 'package:blemulator_example/util/peripheral_category_resolver.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBleLib;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -11,13 +12,15 @@ import '../mock/mocks.dart';
 void main() {
   const peripheralName = 'Test peripheral name';
   const peripheralIdentifier = 'Test peripheral identifier';
-  const peripheralRssi = -30;
-  const peripheralLocalName = 'Test peripheral local name';
+  const rssi = -30;
+  const mtu = 23;
+  const isConnectable = true;
+  const localName = 'Test peripheral local name';
 
   MockBleManager bleManager = MockBleManager();
   MockBlemulator blemulator = MockBlemulator();
   BleAdapter bleAdapter = BleAdapter(bleManager, blemulator);
-  StreamController<ScanResult> scanResultStreamController;
+  StreamController<FlutterBleLib.ScanResult> scanResultStreamController;
 
   setUp(() {
     scanResultStreamController = StreamController();
@@ -35,7 +38,7 @@ void main() {
 
   MockAdvertisementData setupMockAdvertisementData() {
     MockAdvertisementData advertisementData = MockAdvertisementData();
-    when(advertisementData.localName).thenReturn(peripheralLocalName);
+    when(advertisementData.localName).thenReturn(localName);
     return advertisementData;
   }
 
@@ -44,7 +47,9 @@ void main() {
     MockScanResult scanResult = MockScanResult();
     when(scanResult.peripheral).thenReturn(peripheral);
     when(scanResult.advertisementData).thenReturn(advertisementData);
-    when(scanResult.rssi).thenReturn(peripheralRssi);
+    when(scanResult.rssi).thenReturn(rssi);
+    when(scanResult.mtu).thenReturn(mtu);
+    when(scanResult.isConnectable).thenReturn(isConnectable);
     return scanResult;
   }
 
@@ -64,8 +69,8 @@ void main() {
         throwsA(isInstanceOf<BleAdapterConstructorException>()));
   });
 
-  group('Scanning', () {
-    test('start scanning should cause library to start scanning', () {
+  group('scanning', () {
+    test('start should cause library to start scanning', () {
       // when
       bleAdapter.startPeripheralScan();
 
@@ -73,7 +78,7 @@ void main() {
       verify(bleManager.startPeripheralScan()).called(1);
     });
 
-    test('stop scanning should cause library to stop scanning', () {
+    test('stop should cause library to stop scanning', () {
       // when
       bleAdapter.stopPeripheralScan();
 
@@ -81,7 +86,7 @@ void main() {
       verify(bleManager.stopPeripheralScan()).called(1);
     });
 
-    test('should emit peripheral upon receiving scan result', () {
+    test('should emit scanResult upon receiving scanResult from library', () {
       // given
       Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
 
@@ -95,44 +100,16 @@ void main() {
 
       // then
       final expectedResponse = [
-        BlePeripheral(
+        ScanResult(
             peripheralName,
             peripheralIdentifier,
-            peripheralRssi,
-            PeripheralConnectionState.disconnected,
-            BlePeripheralCategoryResolver.categoryForName(peripheralName))
+            PeripheralCategoryResolver.categoryForPeripheralName(
+                peripheralName),
+            rssi,
+            mtu,
+            isConnectable,
+            advertisementData)
       ];
-      expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
-    });
-
-    test(
-        'should not emit peripheral upon receiving scan result without localName',
-        () {
-      // given
-      Stream blePeripheralsStream = bleAdapter.startPeripheralScan();
-
-      MockPeripheral peripheral = setupMockPeripheral();
-      MockAdvertisementData advertisementData = setupMockAdvertisementData();
-      MockScanResult scanResult =
-          setupMockScanResult(peripheral, advertisementData);
-
-      // when
-      fireScanResultFromManager(scanResult);
-
-      when(advertisementData.localName).thenReturn(null);
-      fireScanResultFromManager(scanResult);
-
-      when(advertisementData.localName).thenReturn(peripheralLocalName);
-      fireScanResultFromManager(scanResult);
-
-      // then
-      final expectedBlePeripheral = BlePeripheral(
-          peripheralName,
-          peripheralIdentifier,
-          peripheralRssi,
-          PeripheralConnectionState.disconnected,
-          BlePeripheralCategoryResolver.categoryForName(peripheralName));
-      final expectedResponse = [expectedBlePeripheral, expectedBlePeripheral];
       expectLater(blePeripheralsStream, emitsInOrder(expectedResponse));
     });
   });

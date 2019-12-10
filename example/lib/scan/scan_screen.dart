@@ -1,20 +1,20 @@
-import 'package:blemulator_example/model/ble_peripheral.dart';
-import 'package:blemulator_example/peripheral_list/bloc.dart';
-import 'package:blemulator_example/peripheral_list/components/peripheral_item.dart';
+import 'package:blemulator_example/scan/bloc.dart';
+import 'package:blemulator_example/scan/components/scan_result_item.dart';
+import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PeripheralListScreen extends StatelessWidget {
+class ScanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final peripheralListBloc = BlocProvider.of<PeripheralListBloc>(context);
+    final scanBloc = BlocProvider.of<ScanBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bluetooth peripherals'),
+        title: Text('Bluetooth scanner'),
         actions: <Widget>[
-          BlocBuilder<PeripheralListBloc, PeripheralListState>(
+          BlocBuilder<ScanBloc, ScanState>(
             condition: (previousState, state) {
               return previousState.scanningEnabled != state.scanningEnabled;
             },
@@ -27,23 +27,23 @@ class PeripheralListScreen extends StatelessWidget {
                     ? 'Disable Bluetooth scanning'
                     : 'Enable Bluetooth scanning',
                 onPressed: () => state.scanningEnabled
-                    ? _stopScanning(peripheralListBloc)
-                    : _startScanning(peripheralListBloc),
+                    ? _stopScanning(scanBloc)
+                    : _startScanning(scanBloc),
               );
             },
           )
         ],
       ),
-      body: BlocBuilder<PeripheralListBloc, PeripheralListState>(
+      body: BlocBuilder<ScanBloc, ScanState>(
         condition: (previousState, state) {
-          return previousState.peripherals != state.peripherals;
+          return previousState.scanResults != state.scanResults;
         },
         builder: (context, state) {
-          List<BlePeripheral> peripherals = state.peripherals.values.toList();
+          List<ScanResultViewModel> scanResults = state.scanResults.values.toList();
           return ListView.builder(
-            itemCount: peripherals.length,
+            itemCount: scanResults.length,
             itemBuilder: (context, index) {
-              return PeripheralItem(state.peripherals[index]);
+              return ScanResultItem(state.scanResults[index]);
             },
             padding: EdgeInsets.all(8.0),
           );
@@ -52,11 +52,11 @@ class PeripheralListScreen extends StatelessWidget {
     );
   }
 
-  void _startScanning(PeripheralListBloc peripheralListBloc) {
-    peripheralListBloc.add(StartPeripheralScan());
+  void _startScanning(ScanBloc peripheralListBloc) {
+    peripheralListBloc.add(StartScan());
   }
 
-  void _stopScanning(PeripheralListBloc peripheralListBloc) {
-    peripheralListBloc.add(StopPeripheralScan());
+  void _stopScanning(ScanBloc peripheralListBloc) {
+    peripheralListBloc.add(StopScan());
   }
 }

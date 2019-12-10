@@ -1,25 +1,24 @@
-import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
+import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
-import 'package:blemulator_example/util/signal_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PeripheralItem extends StatelessWidget {
-  final BlePeripheral _peripheral;
+class ScanResultItem extends StatelessWidget {
+  final ScanResultViewModel _scanResult;
 
-  PeripheralItem(this._peripheral);
+  ScanResultItem(this._scanResult);
 
   @override
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return PropertyRow(
-      title: _categoryDisplayName(_peripheral.category),
+      title: _scanResult.category.name,
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
-      value: _peripheral.name,
+      value: _scanResult.name,
       titleAccessory: Icon(
         Icons.chevron_right,
         color: Colors.grey,
@@ -28,15 +27,15 @@ class PeripheralItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Text(
-            _formatRssi(_peripheral.rssi),
+            _scanResult.rssi.value,
             style: CustomTextStyle.cardValueAccessory
-                .copyWith(color: _colorForRssi(_peripheral.rssi)),
+                .copyWith(color: _rssiColor(_scanResult.rssi.signalLevel)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
             child: Icon(
               Icons.settings_input_antenna,
-              color: _colorForRssi(_peripheral.rssi),
+              color: _rssiColor(_scanResult.rssi.signalLevel),
             ),
           ),
         ],
@@ -47,17 +46,11 @@ class PeripheralItem extends StatelessWidget {
   }
 
   void _onRowTap(NavigationBloc navigationBloc) {
-    navigationBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
-  }
-  
-  String _formatRssi(int rssi) {
-    return '${rssi ?? '-'} dbm';
+    navigationBloc.add(NavigateToPeripheralDetails(peripheral: _scanResult));
   }
 
-  Color _colorForRssi(int rssi) {
-    if (rssi == null) return Colors.grey;
-
-    switch (parseRssi(rssi)) {
+  Color _rssiColor(SignalLevel signalLevel) {
+    switch (signalLevel) {
       case SignalLevel.high:
         return Colors.green;
       case SignalLevel.medium:
@@ -66,17 +59,6 @@ class PeripheralItem extends StatelessWidget {
         return Colors.red;
       default:
         return Colors.grey;
-    }
-  }
-
-  String _categoryDisplayName(BlePeripheralCategory category) {
-    switch (category) {
-      case BlePeripheralCategory.sensorTag:
-        return 'SensorTag';
-      case BlePeripheralCategory.other:
-        return 'Other';
-      default:
-        return 'Unknown';
     }
   }
 }

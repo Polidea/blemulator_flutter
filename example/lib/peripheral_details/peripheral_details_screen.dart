@@ -1,6 +1,6 @@
-import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/peripheral_details/components/peripheral_details_view.dart';
+import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,12 +9,12 @@ class PeripheralDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
       builder: (context, state) {
-        if (state.peripheral.category == BlePeripheralCategory.sensorTag) {
+        if (state.peripheralDetails.category.peripheralLayout == PeripheralLayout.tabbed) {
           return DefaultTabController(
             length: 3,
             child: Scaffold(
               appBar: AppBar(
-                title: _buildAppBarTitle(state.peripheral),
+                title: _buildAppBarTitle(state.peripheralDetails.name),
                 bottom: TabBar(tabs: [
                   Tab(
                     icon: Icon(Icons.table_chart),
@@ -42,7 +42,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: _buildAppBarTitle(state.peripheral),
+              title: _buildAppBarTitle(state.peripheralDetails.name),
             ),
             body: _buildDetailsView(),
           );
@@ -51,8 +51,8 @@ class PeripheralDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBarTitle(BlePeripheral peripheral) {
-    return Text(peripheral.name);
+  Widget _buildAppBarTitle(String name) {
+    return Text(name);
   }
 
   Widget _buildDetailsView() {

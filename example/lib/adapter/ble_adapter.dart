@@ -1,8 +1,10 @@
 import 'dart:async';
 
-import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/example_peripheral.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
+import 'package:blemulator_example/scan/scan_result.dart';
+import 'package:blemulator_example/util/peripheral_category_resolver.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBleLib;
 import 'package:blemulator/blemulator.dart';
 
 abstract class BleAdapterException implements Exception {
@@ -22,12 +24,13 @@ class BleAdapterConstructorException extends BleAdapterException {
 class BleAdapter {
   static BleAdapter _instance;
 
-  BleManager _bleManager;
+  FlutterBleLib.BleManager _bleManager;
   Blemulator _blemulator;
 
-  Map<String, ScanResult> _scanResults = {};
+  Map<String, FlutterBleLib.ScanResult> _scanResults = {};
 
-  factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
+  factory BleAdapter(
+      FlutterBleLib.BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
       _instance = BleAdapter._internal(bleManager, blemulator);
     } else {
@@ -41,20 +44,23 @@ class BleAdapter {
     _bleManager.createClient();
   }
 
-  Stream<BlePeripheral> startPeripheralScan() {
+  Stream<ScanResult> startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
       _scanResults.update(
         scanResult.peripheral.identifier,
         (_) => scanResult,
         ifAbsent: () => scanResult,
       );
-      return BlePeripheral.fromScanResult(scanResult);
-      ;
+      return _mapScanResultToScanResult(scanResult);
     });
   }
 
   Future<void> stopPeripheralScan() {
     return _bleManager.stopPeripheralScan();
+  }
+
+  PeripheralDetails getPeripheralNameForIdentifier(String identifier) {
+    return _scanResults[identifier];
   }
 
   void _setupSimulation() {
@@ -66,5 +72,18 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(
         SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
     _blemulator.simulate();
+  }
+
+  ScanResult _mapScanResultToScanResult(FlutterBleLib.ScanResult scanResult) {
+    return ScanResult(
+      scanResult.peripheral.name,
+      scanResult.peripheral.identifier,
+      PeripheralCategoryResolver.categoryForPeripheralName(
+          scanResult.peripheral.name),
+      scanResult.rssi,
+      scanResult.mtu,
+      scanResult.isConnectable,
+      scanResult.advertisementData,
+    );
   }
 }

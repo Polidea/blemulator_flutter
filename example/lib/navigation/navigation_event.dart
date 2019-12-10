@@ -1,4 +1,4 @@
-import 'package:blemulator_example/model/ble_peripheral.dart';
+import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class NavigationEvent extends Equatable {
@@ -11,7 +11,7 @@ abstract class NavigationEvent extends Equatable {
 class Pop extends NavigationEvent {}
 
 class NavigateToPeripheralDetails extends NavigationEvent {
-  final BlePeripheral peripheral;
+  final ScanResultViewModel peripheral;
 
   const NavigateToPeripheralDetails({this.peripheral});
 
