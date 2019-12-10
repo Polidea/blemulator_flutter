@@ -37,7 +37,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     return null;
   }
 
-  Future<dynamic> _readCharacteristicForIdentifier(
+  Future<CharacteristicResponse> _readCharacteristicForIdentifier(
     int characteristicIdentifier,
     String transactionId,
   ) =>
@@ -59,7 +59,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         return CharacteristicResponse(targetCharacteristic, value);
       });
 
-  Future<dynamic> _readCharacteristicForDevice(
+  Future<CharacteristicResponse> _readCharacteristicForDevice(
     String peripheralId,
     String serviceUuid,
     String characteristicUUID,
@@ -81,7 +81,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         return CharacteristicResponse(targetCharacteristic, value);
       });
 
-  Future<dynamic> _readCharacteristicForService(
+  Future<CharacteristicResponse> _readCharacteristicForService(
     int serviceIdentifier,
     String characteristicUUID,
     String transactionId,
@@ -107,7 +107,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         return CharacteristicResponse(targetCharacteristic, value);
       });
 
-  Future<dynamic> _writeCharacteristicForIdentifier(
+  Future<SimulatedCharacteristic> _writeCharacteristicForIdentifier(
     int characteristicIdentifier,
     Uint8List value,
     String transactionId, {
@@ -138,7 +138,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         return targetCharacteristic;
       });
 
-  Future<dynamic> _writeCharacteristicForDevice(
+  Future<SimulatedCharacteristic> _writeCharacteristicForDevice(
     String peripheralId,
     String serviceUuid,
     String characteristicUUID,
@@ -168,7 +168,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         return targetCharacteristic;
       });
 
-  Future<dynamic> _writeCharacteristicForService(
+  Future<SimulatedCharacteristic> _writeCharacteristicForService(
     int serviceIdentifier,
     String characteristicUUID,
     Uint8List value,

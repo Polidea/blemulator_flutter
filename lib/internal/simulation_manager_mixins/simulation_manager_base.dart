@@ -1,6 +1,6 @@
 part of internal;
 
-typedef CancelableFuture = Future<dynamic> Function();
+typedef CancelableFuture<T> = Future<T> Function();
 
 abstract class SimulationManagerBase {
   Map<String, SimulatedPeripheral> _peripherals = Map();
@@ -11,14 +11,14 @@ abstract class SimulationManagerBase {
 
   SimulationManagerBase(this._bridge);
 
-  Future<dynamic> _saveCancelableOperation(
+  Future<T> _saveCancelableOperation<T>(
     String transactionId,
-    CancelableFuture cancelableFuture,
+    CancelableFuture<T> cancelableFuture,
   ) async {
     await cancelTransactionIfExists(transactionId);
 
-    CancelableOperation operation = CancelableOperation.fromFuture(
-        cancelableFuture(), onCancel: () {
+    CancelableOperation<T> operation =
+        CancelableOperation.fromFuture(cancelableFuture(), onCancel: () {
       return Future.error(SimulatedBleError(
         BleErrorCode.OperationCancelled,
         "Operation cancelled",
@@ -26,18 +26,16 @@ abstract class SimulationManagerBase {
     });
     _pendingTransactions.putIfAbsent(transactionId, () => operation);
 
-    return Future(() {
-      return operation.valueOrCancellation().then(
-        (result) {
-          _pendingTransactions.remove(transactionId);
-          return result;
-        },
-        onError: (error) {
-          _pendingTransactions.remove(transactionId);
-          return Future.error(error);
-        },
-      );
-    });
+    return operation.valueOrCancellation().then(
+      (result) {
+        _pendingTransactions.remove(transactionId);
+        return result;
+      },
+      onError: (error) {
+        _pendingTransactions.remove(transactionId);
+        return Future.error(error);
+      },
+    );
   }
 
   SimulatedPeripheral _findPeripheralWithServiceId(int id) =>
