@@ -24,6 +24,6 @@ void main() {
   });
 
   test('initial state contains peripheral provided in the constructor', () {
-    expect(peripheralDetailsBloc.initialState.scanResult, scanResult);
+    expect(peripheralDetailsBloc.initialState.identifier, scanResult.identifier);
   });
 }

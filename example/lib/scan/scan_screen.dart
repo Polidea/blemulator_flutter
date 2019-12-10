@@ -43,7 +43,7 @@ class ScanScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: scanResults.length,
             itemBuilder: (context, index) {
-              return ScanResultItem(state.scanResults[index]);
+              return ScanResultItem(scanResults[index]);
             },
             padding: EdgeInsets.all(8.0),
           );

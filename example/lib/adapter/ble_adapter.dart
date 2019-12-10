@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:blemulator_example/example_peripheral.dart';
-import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
 import 'package:blemulator_example/scan/scan_result.dart';
 import 'package:blemulator_example/util/peripheral_category_resolver.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBleLib;
@@ -51,7 +50,7 @@ class BleAdapter {
         (_) => scanResult,
         ifAbsent: () => scanResult,
       );
-      return _mapScanResultToScanResult(scanResult);
+      return _mapScanResult(scanResult);
     });
   }
 
@@ -59,8 +58,8 @@ class BleAdapter {
     return _bleManager.stopPeripheralScan();
   }
 
-  PeripheralDetails getPeripheralNameForIdentifier(String identifier) {
-    return _scanResults[identifier];
+  ScanResult scanResultForIdentifier(String identifier) {
+    return _mapScanResult(_scanResults[identifier]);
   }
 
   void _setupSimulation() {
@@ -74,7 +73,7 @@ class BleAdapter {
     _blemulator.simulate();
   }
 
-  ScanResult _mapScanResultToScanResult(FlutterBleLib.ScanResult scanResult) {
+  ScanResult _mapScanResult(FlutterBleLib.ScanResult scanResult) {
     return ScanResult(
       scanResult.peripheral.name,
       scanResult.peripheral.identifier,

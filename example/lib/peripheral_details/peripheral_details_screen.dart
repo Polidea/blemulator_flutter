@@ -9,12 +9,12 @@ class PeripheralDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
       builder: (context, state) {
-        if (state.peripheralDetails.category.peripheralLayout == PeripheralLayout.tabbed) {
+        if (state.category.peripheralLayout == PeripheralLayout.tabbed) {
           return DefaultTabController(
             length: 3,
             child: Scaffold(
               appBar: AppBar(
-                title: _buildAppBarTitle(state.peripheralDetails.name),
+                title: _buildAppBarTitle(state.name),
                 bottom: TabBar(tabs: [
                   Tab(
                     icon: Icon(Icons.table_chart),
@@ -42,7 +42,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: _buildAppBarTitle(state.peripheralDetails.name),
+              title: _buildAppBarTitle(state.name),
             ),
             body: _buildDetailsView(),
           );

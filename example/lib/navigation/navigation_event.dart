@@ -1,5 +1,4 @@
-import 'package:blemulator_example/scan/scan_result_view_model.dart';
-import 'package:equatable/equatable.dart';
+ import 'package:equatable/equatable.dart';
 
 abstract class NavigationEvent extends Equatable {
   const NavigationEvent();
@@ -11,10 +10,10 @@ abstract class NavigationEvent extends Equatable {
 class Pop extends NavigationEvent {}
 
 class NavigateToPeripheralDetails extends NavigationEvent {
-  final ScanResultViewModel peripheral;
+  final String peripheralIdentifier;
 
-  const NavigateToPeripheralDetails({this.peripheral});
+  const NavigateToPeripheralDetails({this.peripheralIdentifier});
 
   @override
-  List<Object> get props => [peripheral];
+  List<Object> get props => [peripheralIdentifier];
 }

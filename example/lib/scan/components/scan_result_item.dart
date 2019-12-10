@@ -46,7 +46,7 @@ class ScanResultItem extends StatelessWidget {
   }
 
   void _onRowTap(NavigationBloc navigationBloc) {
-    navigationBloc.add(NavigateToPeripheralDetails(peripheral: _scanResult));
+    navigationBloc.add(NavigateToPeripheralDetails(peripheralIdentifier: _scanResult.identifier));
   }
 
   Color _rssiColor(SignalLevel signalLevel) {
