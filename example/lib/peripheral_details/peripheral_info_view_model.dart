@@ -8,11 +8,6 @@ class PeripheralInfoViewModel extends Equatable {
 
   PeripheralInfoViewModel(this.name, this.identifier, this.category);
 
-  factory PeripheralInfoViewModel.fromScanResult(ScanResultViewModel scanResult) {
-    return PeripheralInfoViewModel(
-        scanResult.name, scanResult.identifier, scanResult.category);
-  }
-
   @override
   List<Object> get props => [name, identifier, category];
 }
