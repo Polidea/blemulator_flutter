@@ -53,8 +53,12 @@ class BleAdapter {
     return _bleManager.startPeripheralScan().map((scanResult) {
       _peripheralContainers.update(
         scanResult.peripheral.identifier,
-        (_) => PeripheralContainer(peripheral: scanResult.peripheral),
-        ifAbsent: () => PeripheralContainer(peripheral: scanResult.peripheral),
+        (_) => PeripheralContainer(
+            peripheral: scanResult.peripheral,
+            advertisementData: scanResult.advertisementData),
+        ifAbsent: () => PeripheralContainer(
+            peripheral: scanResult.peripheral,
+            advertisementData: scanResult.advertisementData),
       );
       return _mapScanResult(scanResult);
     });
