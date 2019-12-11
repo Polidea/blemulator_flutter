@@ -47,7 +47,7 @@ abstract class BleErrorCode {
   static const int LocationServicesDisabled = 601;
 }
 
-class SimulatedBleError extends Error {
+class SimulatedBleError implements Exception {
   static final String _errorCode = "errorCode";
   static final String _reason = "reason";
   int errorCode;
@@ -62,4 +62,17 @@ class SimulatedBleError extends Error {
       _reason: reason,
     });
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is SimulatedBleError &&
+              runtimeType == other.runtimeType &&
+              errorCode == other.errorCode &&
+              reason == other.reason;
+
+  @override
+  int get hashCode =>
+      errorCode.hashCode ^
+      reason.hashCode;
 }

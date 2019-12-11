@@ -27,7 +27,7 @@ mixin PeripheralConnectionMixin on SimulationManagerBaseWithErrorChecks {
               _bridge.publishConnectionState(
                   _peripherals[identifier], connectionState);
 
-              if (connectionState == PeripheralConnectionState.disconnected) {
+              if (connectionState == FlutterBLELib.PeripheralConnectionState.disconnected) {
                 _connectionStateSubscriptions[identifier].cancel();
                 _connectionStateSubscriptions.remove(identifier);
               }

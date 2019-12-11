@@ -5,11 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-
 class SimulationManagerMock extends Mock implements SimulationManager {}
 
 void main() {
-
   const DEVICE_ID = "id123";
   const REQUESTED_MTU = 33;
   const NEGOTIATED_MTU = 24;
@@ -25,13 +23,13 @@ void main() {
   group("MTU", () {
     test("should call request MTU with proper params from the call", () {
       //given
-      MethodCall methodCall = MethodCall(DartMethodName.requestMtu,
-          {SimulationArgumentName.deviceIdentifier: DEVICE_ID,
-            SimulationArgumentName.mtu: REQUESTED_MTU}
-      );
+      MethodCall methodCall = MethodCall(DartMethodName.requestMtu, {
+        SimulationArgumentName.deviceIdentifier: DEVICE_ID,
+        SimulationArgumentName.mtu: REQUESTED_MTU
+      });
 
       //when
-      platformToDartBridge.handleCall(methodCall);
+      platformToDartBridge.dispatchPlatformCall(methodCall);
 
       //then
       verify(simulationManager.requestMtuForDevice(DEVICE_ID, REQUESTED_MTU));
@@ -39,16 +37,16 @@ void main() {
 
     test("should return returned MTU", () async {
       //given
-      MethodCall methodCall = MethodCall(DartMethodName.requestMtu,
-          {SimulationArgumentName.deviceIdentifier: DEVICE_ID,
-            SimulationArgumentName.mtu: REQUESTED_MTU}
-      );
+      MethodCall methodCall = MethodCall(DartMethodName.requestMtu, {
+        SimulationArgumentName.deviceIdentifier: DEVICE_ID,
+        SimulationArgumentName.mtu: REQUESTED_MTU
+      });
 
       when(simulationManager.requestMtuForDevice(DEVICE_ID, REQUESTED_MTU))
           .thenAnswer((_) => Future.value(NEGOTIATED_MTU));
 
       //when
-      int negotiatedMtu = await platformToDartBridge.handleCall(methodCall);
+      int negotiatedMtu = await platformToDartBridge.dispatchPlatformCall(methodCall);
 
       //then
       expect(negotiatedMtu, NEGOTIATED_MTU);

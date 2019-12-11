@@ -45,8 +45,4 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
         .forEach((subscription) async => await subscription.cancel());
     _scanSubscriptions.clear();
   }
-
-  Future<void> cancelTransaction(String transactionId) async {
-    await _cancelMonitoringTransactionIfExists(transactionId);
-  }
 }

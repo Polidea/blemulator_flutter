@@ -28,7 +28,7 @@ class DartToPlatformBridge {
       });
 
   Future<void> publishConnectionState(SimulatedPeripheral peripheral,
-          PeripheralConnectionState connectionState) =>
+      FlutterBLELib.PeripheralConnectionState connectionState) =>
       _dartToPlatformChannel.invokeMethod(
           SimulationPlatformMethodName.publishConnectionState,
           <String, dynamic>{
@@ -37,15 +37,15 @@ class DartToPlatformBridge {
                 _connectionStateToString(connectionState),
           });
 
-  String _connectionStateToString(PeripheralConnectionState state) {
+  String _connectionStateToString(FlutterBLELib.PeripheralConnectionState state) {
     switch (state) {
-      case PeripheralConnectionState.connecting:
+      case FlutterBLELib.PeripheralConnectionState.connecting:
         return NativeConnectionState.connecting;
-      case PeripheralConnectionState.connected:
+      case FlutterBLELib.PeripheralConnectionState.connected:
         return NativeConnectionState.connected;
-      case PeripheralConnectionState.disconnecting:
+      case FlutterBLELib.PeripheralConnectionState.disconnecting:
         return NativeConnectionState.disconnecting;
-      case PeripheralConnectionState.disconnected:
+      case FlutterBLELib.PeripheralConnectionState.disconnected:
         return NativeConnectionState.disconnected;
       default:
         return null;
