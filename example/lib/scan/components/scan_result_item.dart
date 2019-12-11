@@ -16,7 +16,7 @@ class ScanResultItem extends StatelessWidget {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return PropertyRow(
-      title: _scanResult.category.name,
+      title: _scanResult.identifier,
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _scanResult.name,
