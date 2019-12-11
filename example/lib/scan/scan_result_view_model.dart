@@ -19,10 +19,6 @@ class PeripheralCategoryViewModel extends Equatable {
 
   PeripheralCategoryViewModel(this.name, this.peripheralLayout);
 
-  factory PeripheralCategoryViewModel.fromCategory(PeripheralCategory category) {
-    return PeripheralCategoryViewModel(parsePeripheralCategory(category), determinePeripheralLayout(category));
-  }
-
   @override
   List<Object> get props => [name, peripheralLayout];
 }
@@ -54,10 +50,6 @@ class RssiViewModel extends Equatable {
   final SignalLevel signalLevel;
 
   RssiViewModel(this.value, this.signalLevel);
-
-  factory RssiViewModel.fromRssi(int rssi) {
-    return RssiViewModel('${rssi ?? '-'} dBm', parseRssi(rssi));
-  }
 
   @override
   List<Object> get props => [value, signalLevel];

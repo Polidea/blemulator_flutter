@@ -14,7 +14,8 @@ class PeripheralInfo extends Equatable {
     return PeripheralInfoViewModel(
       name,
       identifier,
-      PeripheralCategoryViewModel.fromCategory(category),
+      PeripheralCategoryViewModel(parsePeripheralCategory(category),
+          determinePeripheralLayout(category)),
     );
   }
 

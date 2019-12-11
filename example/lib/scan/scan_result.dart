@@ -16,13 +16,15 @@ class ScanResult extends Equatable {
     return ScanResultViewModel(
       name,
       identifier,
-      PeripheralCategoryViewModel.fromCategory(category),
-      RssiViewModel.fromRssi(rssi),
+      PeripheralCategoryViewModel(parsePeripheralCategory(category),
+          determinePeripheralLayout(category)),
+      RssiViewModel('${rssi ?? '-'} dBm', parseRssi(rssi)),
     );
   }
 
   @override
-  List<Object> get props => [name, identifier, category, rssi, mtu, isConnectable];
+  List<Object> get props =>
+      [name, identifier, category, rssi, mtu, isConnectable];
 }
 
 enum PeripheralCategory { sensorTag, other }
