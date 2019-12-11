@@ -16,8 +16,7 @@ class ScanResult extends Equatable {
     return ScanResultViewModel(
       name,
       identifier,
-      PeripheralCategoryViewModel(parsePeripheralCategory(category),
-          determinePeripheralLayout(category)),
+      category,
       RssiViewModel('${rssi ?? '-'} dBm', parseRssi(rssi)),
     );
   }

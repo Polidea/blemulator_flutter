@@ -4,35 +4,13 @@ import 'package:equatable/equatable.dart';
 class ScanResultViewModel extends Equatable {
   final String name;
   final String identifier;
-  final PeripheralCategoryViewModel category;
+  final PeripheralCategory category;
   final RssiViewModel rssi;
 
   ScanResultViewModel(this.name, this.identifier, this.category, this.rssi);
 
   @override
   List<Object> get props => [name, identifier, category, rssi];
-}
-
-class PeripheralCategoryViewModel extends Equatable {
-  final String name;
-  final PeripheralLayout peripheralLayout;
-
-  PeripheralCategoryViewModel(this.name, this.peripheralLayout);
-
-  @override
-  List<Object> get props => [name, peripheralLayout];
-}
-
-String parsePeripheralCategory(PeripheralCategory category) {
-  if (category == null) return 'Unknown';
-  switch (category) {
-    case PeripheralCategory.sensorTag:
-      return 'SensorTag';
-    case PeripheralCategory.other:
-      return 'Peripheral';
-    default:
-      return 'Unknown';
-  }
 }
 
 PeripheralLayout determinePeripheralLayout(PeripheralCategory category) {

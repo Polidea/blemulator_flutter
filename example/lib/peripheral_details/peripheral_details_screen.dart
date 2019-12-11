@@ -1,6 +1,6 @@
 import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/peripheral_details/components/peripheral_details_view.dart';
-import 'package:blemulator_example/scan/scan_result_view_model.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +21,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildForPeripheralAvailable(PeripheralAvailable state) {
-    if (state.peripheralInfo.category.peripheralLayout ==
+    if (state.peripheralInfo.peripheralLayout ==
         PeripheralLayout.tabbed) {
       return DefaultTabController(
         length: 3,
