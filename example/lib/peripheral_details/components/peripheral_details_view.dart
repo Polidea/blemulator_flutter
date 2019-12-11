@@ -15,7 +15,7 @@ class PeripheralDetailsView extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
                 builder: (context, state) {
-                  if (state is PeripheralFoundState) {
+                  if (state is PeripheralAvailable) {
                     return PropertyRow(
                       title: 'Identifier',
                       titleIcon: Icons.perm_device_information,

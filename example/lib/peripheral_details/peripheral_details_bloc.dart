@@ -16,8 +16,8 @@ class PeripheralDetailsBloc
     PeripheralInfo peripheralInfo =
         _bleAdapter.peripheralDetailsForIdentifier(_peripheralIdentifier);
     return peripheralInfo != null
-        ? PeripheralFoundState(peripheralInfo: peripheralInfo.viewModel())
-        : PeripheralNotFoundState();
+        ? PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel())
+        : PeripheralNotAvailable();
   }
 
   @override

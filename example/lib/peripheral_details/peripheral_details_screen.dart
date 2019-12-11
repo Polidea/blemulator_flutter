@@ -9,7 +9,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final peripheralDetailsBloc = BlocProvider.of<PeripheralDetailsBloc>(context);
 
-    if (peripheralDetailsBloc.state is PeripheralNotFoundState) {
+    if (peripheralDetailsBloc.state is PeripheralNotAvailable) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -33,7 +33,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
 
     return BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
       builder: (context, state) {
-        if (state is PeripheralFoundState) {
+        if (state is PeripheralAvailable) {
           if (state.peripheralInfo.category.peripheralLayout ==
               PeripheralLayout.tabbed) {
             return DefaultTabController(

@@ -6,17 +6,17 @@ abstract class PeripheralDetailsState extends Equatable {
   const PeripheralDetailsState();
 }
 
-class PeripheralNotFoundState extends PeripheralDetailsState {
-  const PeripheralNotFoundState();
+class PeripheralNotAvailable extends PeripheralDetailsState {
+  const PeripheralNotAvailable();
 
   @override
   List<Object> get props => [];
 }
 
-class PeripheralFoundState extends PeripheralDetailsState {
+class PeripheralAvailable extends PeripheralDetailsState {
   final PeripheralInfoViewModel peripheralInfo;
 
-  const PeripheralFoundState({@required this.peripheralInfo});
+  const PeripheralAvailable({@required this.peripheralInfo});
 
   @override
   List<Object> get props => [peripheralInfo];
