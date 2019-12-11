@@ -68,8 +68,7 @@ class BleAdapter {
     PeripheralContainer peripheral = _peripheralContainers[identifier];
     if (peripheral != null) {
       return PeripheralInfo(
-        peripheral.peripheral.name ??
-            peripheral.advertisementData.localName,
+        peripheral.peripheral.name ?? peripheral.advertisementData.localName,
         peripheral.peripheral.identifier,
         PeripheralCategoryResolver.categoryForPeripheralName(
             peripheral.peripheral.name),
@@ -84,9 +83,7 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
     _blemulator
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
-    // Primitive override, since SensorTag is only recognized by name currently
-    _blemulator.addSimulatedPeripheral(
-        SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
+    _blemulator.addSimulatedPeripheral(GenericPeripheral());
     _blemulator.simulate();
   }
 

@@ -155,3 +155,23 @@ class BooleanCharacteristic extends SimulatedCharacteristic {
     }
   }
 }
+
+class GenericPeripheral extends SimulatedPeripheral {
+  GenericPeripheral(
+      {String id = "generic identifier",
+        String name = "GenericPeripheral",
+        String localName = "GenericPeripheral"})
+      : super(
+      name: name,
+      id: id,
+      advertisementInterval: Duration(milliseconds: 800),
+      services: []) {
+    scanInfo.localName = localName;
+  }
+
+  @override
+  Future<bool> onConnectRequest() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    return super.onConnectRequest();
+  }
+}
