@@ -22,7 +22,7 @@ class PeripheralDetailsView extends StatelessWidget {
                       titleColor: Theme
                           .of(context)
                           .primaryColor,
-                      value: state.peripheralDetails.identifier,
+                      value: state.peripheralInfo.identifier,
                     );
                   } else {
                     return Container();

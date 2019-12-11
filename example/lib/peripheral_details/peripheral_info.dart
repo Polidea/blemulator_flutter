@@ -1,17 +1,17 @@
-import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info_view_model.dart';
 import 'package:blemulator_example/scan/scan_result.dart';
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:equatable/equatable.dart';
 
-class PeripheralDetails extends Equatable {
+class PeripheralInfo extends Equatable {
   final String name;
   final String identifier;
   final PeripheralCategory category;
 
-  PeripheralDetails(this.name, this.identifier, this.category);
+  PeripheralInfo(this.name, this.identifier, this.category);
 
-  PeripheralDetailsViewModel viewModel() {
-    return PeripheralDetailsViewModel(
+  PeripheralInfoViewModel viewModel() {
+    return PeripheralInfoViewModel(
       name,
       identifier,
       PeripheralCategoryViewModel.fromCategory(category),

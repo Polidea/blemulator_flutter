@@ -1,6 +1,6 @@
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
-import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info_view_model.dart';
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';

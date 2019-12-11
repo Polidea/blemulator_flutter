@@ -1,8 +1,8 @@
-import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info.dart';
 import 'package:blemulator_example/util/peripheral_category_resolver.dart';
 
-class SamplePeripheralDetails extends PeripheralDetails {
-  SamplePeripheralDetails(
+class SamplePeripheralInfo extends PeripheralInfo {
+  SamplePeripheralInfo(
       {String name = 'Sample peripheral name',
         String id = 'sample peripheral id'})
       : super(
@@ -10,7 +10,7 @@ class SamplePeripheralDetails extends PeripheralDetails {
       id,
       PeripheralCategoryResolver.categoryForPeripheralName(name),);
 
-  SamplePeripheralDetails.different(
+  SamplePeripheralInfo.different(
       {String name = 'Different peripheral name',
         String id = 'different peripheral id'})
       : super(

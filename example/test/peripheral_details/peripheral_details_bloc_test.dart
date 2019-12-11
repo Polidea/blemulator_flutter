@@ -1,5 +1,5 @@
 import 'package:blemulator_example/peripheral_details/bloc.dart';
-import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -9,18 +9,18 @@ import '../mock/sample_peripheral_details.dart';
 void main() {
   PeripheralDetailsBloc peripheralDetailsBloc;
   MockBleAdapter bleAdapter;
-  PeripheralDetails peripheralDetails;
+  PeripheralInfo peripheralInfo;
 
   setUp(() {
     bleAdapter = MockBleAdapter();
-    peripheralDetails = SamplePeripheralDetails();
+    peripheralInfo = SamplePeripheralInfo();
 
     when(bleAdapter
-            .peripheralDetailsForIdentifier(peripheralDetails.identifier))
-        .thenReturn(peripheralDetails);
+            .peripheralDetailsForIdentifier(peripheralInfo.identifier))
+        .thenReturn(peripheralInfo);
 
     peripheralDetailsBloc =
-        PeripheralDetailsBloc(bleAdapter, peripheralDetails.identifier);
+        PeripheralDetailsBloc(bleAdapter, peripheralInfo.identifier);
   });
 
   tearDown(() {
@@ -29,7 +29,7 @@ void main() {
   });
 
   test('initial state contains peripheral provided in the constructor', () {
-    expect((peripheralDetailsBloc.initialState as PeripheralFoundState).peripheralDetails,
-        peripheralDetails.viewModel());
+    expect((peripheralDetailsBloc.initialState as PeripheralFoundState).peripheralInfo,
+        peripheralInfo.viewModel());
   });
 }

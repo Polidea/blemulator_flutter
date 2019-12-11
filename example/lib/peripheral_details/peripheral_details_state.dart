@@ -1,4 +1,4 @@
-import 'package:blemulator_example/peripheral_details/peripheral_details_view_model.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info_view_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -14,10 +14,10 @@ class PeripheralNotFoundState extends PeripheralDetailsState {
 }
 
 class PeripheralFoundState extends PeripheralDetailsState {
-  final PeripheralDetailsViewModel peripheralDetails;
+  final PeripheralInfoViewModel peripheralInfo;
 
-  const PeripheralFoundState({@required this.peripheralDetails});
+  const PeripheralFoundState({@required this.peripheralInfo});
 
   @override
-  List<Object> get props => [peripheralDetails];
+  List<Object> get props => [peripheralInfo];
 }
