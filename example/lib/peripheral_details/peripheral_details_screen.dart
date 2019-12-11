@@ -7,83 +7,67 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PeripheralDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final peripheralDetailsBloc = BlocProvider.of<PeripheralDetailsBloc>(context);
-
-    if (peripheralDetailsBloc.state is PeripheralNotAvailable) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Peripheral not found'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },);
-      });
-    }
-
     return BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
       builder: (context, state) {
         if (state is PeripheralAvailable) {
-          if (state.peripheralInfo.category.peripheralLayout ==
-              PeripheralLayout.tabbed) {
-            return DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                appBar: AppBar(
-                  title: _buildAppBarTitle(state.peripheralInfo.name),
-                  bottom: TabBar(tabs: [
-                    Tab(
-                      icon: Icon(Icons.table_chart),
-                      text: 'Details',
-                    ),
-                    Tab(
-                      icon: Icon(Icons.format_list_numbered),
-                      text: 'Auto test',
-                    ),
-                    Tab(
-                      icon: Icon(Icons.settings),
-                      text: 'Manual test',
-                    ),
-                  ]),
-                ),
-                body: TabBarView(
-                  children: <Widget>[
-                    _buildDetailsView(),
-                    Text('Auto test'),
-                    Text('Manual test'),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Scaffold(
-              appBar: AppBar(
-                title: _buildAppBarTitle(state.peripheralInfo.name),
-              ),
-              body: _buildDetailsView(),
-            );
-          }
+          return _buildForPeripheralAvailable(state);
+        } else if (state is PeripheralUnavailable) {
+          return _buildForPeripheralUnavailable(state);
         } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: _buildAppBarTitle('Peripheral not found'),
-            ),
-            body: Container(
-              color: Colors.white,
-            ),
-          );
+          return null;
         }
       },
+    );
+  }
+
+  Widget _buildForPeripheralAvailable(PeripheralAvailable state) {
+    if (state.peripheralInfo.category.peripheralLayout ==
+        PeripheralLayout.tabbed) {
+      return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            title: _buildAppBarTitle(state.peripheralInfo.name),
+            bottom: TabBar(tabs: [
+              Tab(
+                icon: Icon(Icons.table_chart),
+                text: 'Details',
+              ),
+              Tab(
+                icon: Icon(Icons.format_list_numbered),
+                text: 'Auto test',
+              ),
+              Tab(
+                icon: Icon(Icons.settings),
+                text: 'Manual test',
+              ),
+            ]),
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              _buildDetailsView(),
+              Text('Auto test'),
+              Text('Manual test'),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: _buildAppBarTitle(state.peripheralInfo.name),
+        ),
+        body: _buildDetailsView(),
+      );
+    }
+  }
+
+  Widget _buildForPeripheralUnavailable(PeripheralUnavailable state) {
+    return Scaffold(
+      appBar: AppBar(
+        title: _buildAppBarTitle('Peripheral unavailable'),
+      ),
+      body: _buildDetailsView(),
     );
   }
 

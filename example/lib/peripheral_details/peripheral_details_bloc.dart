@@ -13,15 +13,27 @@ class PeripheralDetailsBloc
 
   @override
   PeripheralDetailsState get initialState {
-    PeripheralInfo peripheralInfo =
-        _bleAdapter.peripheralDetailsForIdentifier(_peripheralIdentifier);
-    return peripheralInfo != null
-        ? PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel())
-        : PeripheralNotAvailable();
+    return _refreshStateFromAdapter();
   }
 
   @override
   Stream<PeripheralDetailsState> mapEventToState(
     PeripheralDetailsEvent event,
-  ) async* {}
+  ) async* {
+    if (event is RefreshPeripheral) {
+      yield _mapRefreshPeripheralToState(event);
+    }
+  }
+
+  PeripheralDetailsState _mapRefreshPeripheralToState(RefreshPeripheral event) {
+    return _refreshStateFromAdapter();
+  }
+
+  PeripheralDetailsState _refreshStateFromAdapter() {
+    PeripheralInfo peripheralInfo =
+    _bleAdapter.peripheralDetailsForIdentifier(_peripheralIdentifier);
+    return peripheralInfo != null
+        ? PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel())
+        : PeripheralUnavailable(identifier: _peripheralIdentifier);
+  }
 }

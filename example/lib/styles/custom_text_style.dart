@@ -7,6 +7,11 @@ abstract class CustomTextStyle {
     fontWeight: FontWeight.w600,
   );
 
+  static const cartTitleAccessoryButton = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+  );
+
   static const cardValue = TextStyle(
     fontSize: 26.0,
     fontWeight: FontWeight.w600,

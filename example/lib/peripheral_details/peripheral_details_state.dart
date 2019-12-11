@@ -6,8 +6,10 @@ abstract class PeripheralDetailsState extends Equatable {
   const PeripheralDetailsState();
 }
 
-class PeripheralNotAvailable extends PeripheralDetailsState {
-  const PeripheralNotAvailable();
+class PeripheralUnavailable extends PeripheralDetailsState {
+  final String identifier;
+
+  const PeripheralUnavailable({@required this.identifier});
 
   @override
   List<Object> get props => [];

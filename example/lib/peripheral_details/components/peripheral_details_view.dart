@@ -1,38 +1,69 @@
 import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
+import 'package:blemulator_example/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PeripheralDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    PeripheralDetailsBloc peripheralDetailsBloc =
+        BlocProvider.of<PeripheralDetailsBloc>(context);
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverSafeArea(
           top: false,
           sliver: SliverPadding(
             padding: const EdgeInsets.all(8.0),
-            sliver: SliverToBoxAdapter(
-              child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
-                builder: (context, state) {
-                  if (state is PeripheralAvailable) {
-                    return PropertyRow(
-                      title: 'Identifier',
-                      titleIcon: Icons.perm_device_information,
-                      titleColor: Theme
-                          .of(context)
-                          .primaryColor,
-                      value: state.peripheralInfo.identifier,
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ),
+            sliver:
+                _buildPeripheralIdentifierRow(context, peripheralDetailsBloc),
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildPeripheralIdentifierRow(
+      BuildContext context, PeripheralDetailsBloc peripheralDetailsBloc) {
+    return SliverToBoxAdapter(
+      child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
+        builder: (context, state) {
+          if (state is PeripheralAvailable) {
+            return PropertyRow(
+              title: 'Identifier',
+              titleIcon: Icons.perm_device_information,
+              titleColor: Theme.of(context).primaryColor,
+              value: state.peripheralInfo.identifier,
+            );
+          } else if (state is PeripheralUnavailable) {
+            return PropertyRow(
+              title: 'Identifier',
+              titleIcon: Icons.error,
+              titleColor: Theme.of(context).errorColor,
+              value: state.identifier,
+              titleAccessory: FlatButton(
+                child: Text(
+                  'Refresh',
+                  style: CustomTextStyle.cartTitleAccessoryButton
+                      .copyWith(color: Colors.white),
+                ),
+                color: Theme.of(context).errorColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () => _onRefreshPeripheralTap(peripheralDetailsBloc),
+              ),
+            );
+          } else {
+            return null;
+          }
+        },
+      ),
+    );
+  }
+
+  void _onRefreshPeripheralTap(PeripheralDetailsBloc peripheralDetailsBloc) {
+    peripheralDetailsBloc.add(RefreshPeripheral());
   }
 }
