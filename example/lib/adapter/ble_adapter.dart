@@ -61,7 +61,7 @@ class BleAdapter {
     return _bleManager.stopPeripheralScan();
   }
 
-  PeripheralInfo peripheralDetailsForIdentifier(String identifier) {
+  PeripheralInfo peripheralInfoForIdentifier(String identifier) {
     PeripheralContainer peripheral = _peripheralContainers[identifier];
     return peripheral != null
         ? PeripheralInfo(

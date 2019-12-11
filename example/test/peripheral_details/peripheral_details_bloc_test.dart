@@ -16,7 +16,7 @@ void main() {
     peripheralInfo = SamplePeripheralInfo();
 
     when(bleAdapter
-            .peripheralDetailsForIdentifier(peripheralInfo.identifier))
+            .peripheralInfoForIdentifier(peripheralInfo.identifier))
         .thenReturn(peripheralInfo);
 
     peripheralDetailsBloc =

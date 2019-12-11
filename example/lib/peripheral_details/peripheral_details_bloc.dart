@@ -31,7 +31,7 @@ class PeripheralDetailsBloc
 
   PeripheralDetailsState _refreshStateFromAdapter() {
     PeripheralInfo peripheralInfo =
-    _bleAdapter.peripheralDetailsForIdentifier(_peripheralIdentifier);
+    _bleAdapter.peripheralInfoForIdentifier(_peripheralIdentifier);
     return peripheralInfo != null
         ? PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel())
         : PeripheralUnavailable(identifier: _peripheralIdentifier);
