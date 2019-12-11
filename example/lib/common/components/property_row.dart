@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PropertyRow extends StatelessWidget {
   final String title;
   final String value;
-  final IconData titleIcon;
+  final Widget titleIcon;
   final Color titleColor;
   final String valueCompanion;
   final Widget rowAccessory;
@@ -72,11 +72,7 @@ class PropertyRow extends StatelessWidget {
         if (titleIcon != null)
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: Icon(
-              titleIcon,
-              color: titleColor,
-              size: 20.0,
-            ),
+            child: titleIcon,
           ),
         Expanded(
           child: Text(

@@ -13,16 +13,6 @@ class ScanResultViewModel extends Equatable {
   List<Object> get props => [name, identifier, category, rssi];
 }
 
-PeripheralLayout determinePeripheralLayout(PeripheralCategory category) {
-  if (category == PeripheralCategory.sensorTag) {
-    return PeripheralLayout.tabbed;
-  } else {
-    return PeripheralLayout.simple;
-  }
-}
-
-enum PeripheralLayout { simple, tabbed }
-
 class RssiViewModel extends Equatable {
   final String value;
   final SignalLevel signalLevel;

@@ -1,3 +1,4 @@
+import 'package:blemulator_example/common/components/title_icon.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
@@ -32,14 +33,16 @@ class PeripheralDetailsView extends StatelessWidget {
           if (state is PeripheralAvailable) {
             return PropertyRow(
               title: 'Identifier',
-              titleIcon: Icons.perm_device_information,
+              titleIcon: TitleIcon(Icons.perm_device_information,
+                  color: Theme.of(context).primaryColor),
               titleColor: Theme.of(context).primaryColor,
               value: state.peripheralInfo.identifier,
             );
           } else if (state is PeripheralUnavailable) {
             return PropertyRow(
               title: 'Identifier',
-              titleIcon: Icons.error,
+              titleIcon: TitleIcon(Icons.error,
+                  color: Theme.of(context).errorColor),
               titleColor: Theme.of(context).errorColor,
               value: state.identifier,
               titleAccessory: FlatButton(

@@ -2,6 +2,8 @@ import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:blemulator_example/scan/scan_result_view_model.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
+import 'package:blemulator_example/util/asset_manager.dart';
+import 'package:blemulator_example/util/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +18,8 @@ class ScanResultItem extends StatelessWidget {
 
     return PropertyRow(
       title: _scanResult.identifier,
-      titleIcon: Icons.bluetooth,
-      titleColor: Theme.of(context).primaryColor,
+      titleIcon: AssetManager.iconForPeripheral(context, _scanResult.category),
+      titleColor: ColorManager.colorForPeripheral(context, _scanResult.category),
       value: _scanResult.name,
       titleAccessory: Icon(
         Icons.chevron_right,
@@ -28,15 +30,14 @@ class ScanResultItem extends StatelessWidget {
         children: <Widget>[
           Text(
             _scanResult.rssi.value,
-            style: CustomTextStyle.cardValueAccessory
-                .copyWith(color: _rssiColor(_scanResult.rssi.signalLevel)),
+            style: CustomTextStyle.cardValueAccessory.copyWith(
+                color: ColorManager.colorForSignalLevel(
+                    _scanResult.rssi.signalLevel)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
-            child: Icon(
-              Icons.settings_input_antenna,
-              color: _rssiColor(_scanResult.rssi.signalLevel),
-            ),
+            child:
+                AssetManager.iconForSignalLevel(_scanResult.rssi.signalLevel),
           ),
         ],
         mainAxisSize: MainAxisSize.min,
@@ -48,18 +49,5 @@ class ScanResultItem extends StatelessWidget {
   void _onRowTap(NavigationBloc navigationBloc, BuildContext context) {
     navigationBloc.add(NavigateToPeripheralDetails(
         peripheralIdentifier: _scanResult.identifier));
-  }
-
-  Color _rssiColor(SignalLevel signalLevel) {
-    switch (signalLevel) {
-      case SignalLevel.high:
-        return Colors.green;
-      case SignalLevel.medium:
-        return Colors.orange;
-      case SignalLevel.low:
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
   }
 }

@@ -8,4 +8,6 @@ abstract class CustomColors {
 
   static const rowCardBackground = Colors.white;
   static const scaffoldBackground = Color.fromRGBO(242, 242, 247, 1.0);
+
+  static const sensorTag = Color(0xFFCC0000);
 }
