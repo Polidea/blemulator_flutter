@@ -30,10 +30,12 @@ class PeripheralDetailsBloc
   }
 
   PeripheralDetailsState _refreshStateFromAdapter() {
-    PeripheralInfo peripheralInfo =
-    _bleAdapter.peripheralInfoForIdentifier(_peripheralIdentifier);
-    return peripheralInfo != null
-        ? PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel())
-        : PeripheralUnavailable(identifier: _peripheralIdentifier);
+    try {
+      PeripheralInfo peripheralInfo =
+          _bleAdapter.peripheralInfoForIdentifier(_peripheralIdentifier);
+      return PeripheralAvailable(peripheralInfo: peripheralInfo.viewModel());
+    } on PeripheralUnavailableError catch (_) {
+      return PeripheralUnavailable(identifier: _peripheralIdentifier);
+    }
   }
 }

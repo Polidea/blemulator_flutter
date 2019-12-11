@@ -22,6 +22,9 @@ class BleAdapterConstructorException extends BleAdapterException {
             'Use BleAdapterInjector.inject() for injecting BleAdapter.');
 }
 
+abstract class BleAdapterError extends Error {}
+
+class PeripheralUnavailableError extends BleAdapterError {}
 
 class BleAdapter {
   static BleAdapter _instance;
@@ -63,15 +66,17 @@ class BleAdapter {
 
   PeripheralInfo peripheralInfoForIdentifier(String identifier) {
     PeripheralContainer peripheral = _peripheralContainers[identifier];
-    return peripheral != null
-        ? PeripheralInfo(
-            peripheral.peripheral.name ??
-                peripheral.advertisementData.localName,
-            peripheral.peripheral.identifier,
-            PeripheralCategoryResolver.categoryForPeripheralName(
-                peripheral.peripheral.name),
-          )
-        : null;
+    if (peripheral != null) {
+      return PeripheralInfo(
+        peripheral.peripheral.name ??
+            peripheral.advertisementData.localName,
+        peripheral.peripheral.identifier,
+        PeripheralCategoryResolver.categoryForPeripheralName(
+            peripheral.peripheral.name),
+      );
+    } else {
+      throw PeripheralUnavailableError();
+    }
   }
 
   void _setupSimulation() {
