@@ -29,7 +29,7 @@ String parsePeripheralCategory(PeripheralCategory category) {
     case PeripheralCategory.sensorTag:
       return 'SensorTag';
     case PeripheralCategory.other:
-      return 'Other';
+      return 'Peripheral';
     default:
       return 'Unknown';
   }
