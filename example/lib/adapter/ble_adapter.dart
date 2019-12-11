@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:blemulator_example/adapter/peripheral_container.dart';
 import 'package:blemulator_example/example_peripheral.dart';
-import 'package:blemulator_example/peripheral_details/peripheral_details.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_info.dart';
 import 'package:blemulator_example/scan/scan_result.dart';
 import 'package:blemulator_example/util/peripheral_category_resolver.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBleLib;
