@@ -10,9 +10,9 @@ class PeripheralDetailsScreen extends StatelessWidget {
     return BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
       builder: (context, state) {
         if (state is PeripheralAvailable) {
-          return _buildForPeripheralAvailable(state);
+          return _buildPeripheralAvailableState(state);
         } else if (state is PeripheralUnavailable) {
-          return _buildForPeripheralUnavailable(state);
+          return _buildPeripheralUnavailableState(state);
         } else {
           return null;
         }
@@ -20,7 +20,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildForPeripheralAvailable(PeripheralAvailable state) {
+  Widget _buildPeripheralAvailableState(PeripheralAvailable state) {
     if (state.peripheralInfo.peripheralLayout ==
         PeripheralLayout.tabbed) {
       return DefaultTabController(
@@ -62,7 +62,7 @@ class PeripheralDetailsScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildForPeripheralUnavailable(PeripheralUnavailable state) {
+  Widget _buildPeripheralUnavailableState(PeripheralUnavailable state) {
     return Scaffold(
       appBar: AppBar(
         title: _buildAppBarTitle('Peripheral unavailable'),
