@@ -18,7 +18,7 @@ class ScanResultItem extends StatelessWidget {
 
     return PropertyRow(
       title: _scanResult.identifier,
-      titleIcon: AssetManager.iconForPeripheral(context, _scanResult.category),
+      titleIcon: IconManager.iconForPeripheral(context, _scanResult.category),
       titleColor: ColorManager.colorForPeripheral(context, _scanResult.category),
       value: _scanResult.name,
       titleAccessory: Icon(
@@ -37,7 +37,7 @@ class ScanResultItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
             child:
-                AssetManager.iconForSignalLevel(_scanResult.rssi.signalLevel),
+                IconManager.iconForSignalLevel(_scanResult.rssi.signalLevel),
           ),
         ],
         mainAxisSize: MainAxisSize.min,

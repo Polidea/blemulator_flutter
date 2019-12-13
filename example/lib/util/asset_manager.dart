@@ -6,7 +6,7 @@ import 'package:blemulator_example/util/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AssetManager {
+class IconManager {
   static Widget iconForPeripheral(BuildContext context,
       PeripheralCategory category) {
     Color color = ColorManager.colorForPeripheral(context, category);
