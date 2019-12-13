@@ -33,25 +33,8 @@ class PeripheralDetailsView extends StatelessWidget {
           if (state is PeripheralAvailable) {
             return _buildPeripheralAvailableState(context, state);
           } else if (state is PeripheralUnavailable) {
-            return PropertyRow(
-              title: 'Identifier',
-              titleIcon: TitleIcon(Icons.error,
-                  color: Theme.of(context).errorColor),
-              titleColor: Theme.of(context).errorColor,
-              value: state.identifier,
-              titleAccessory: FlatButton(
-                child: Text(
-                  'Refresh',
-                  style: CustomTextStyle.cartTitleAccessoryButton
-                      .copyWith(color: Colors.white),
-                ),
-                color: Theme.of(context).errorColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onPressed: () => _onRefreshPeripheralTap(peripheralDetailsBloc),
-              ),
-            );
+            return _buildPeripheralUnavailableState(
+                context, state, peripheralDetailsBloc);
           } else {
             return null;
           }
@@ -67,6 +50,30 @@ class PeripheralDetailsView extends StatelessWidget {
           color: Theme.of(context).primaryColor),
       titleColor: Theme.of(context).primaryColor,
       value: state.peripheralInfo.identifier,
+    );
+  }
+
+  Widget _buildPeripheralUnavailableState(
+      BuildContext context,
+      PeripheralUnavailable state,
+      PeripheralDetailsBloc peripheralDetailsBloc) {
+    return PropertyRow(
+      title: 'Identifier',
+      titleIcon: TitleIcon(Icons.error, color: Theme.of(context).errorColor),
+      titleColor: Theme.of(context).errorColor,
+      value: state.identifier,
+      titleAccessory: FlatButton(
+        child: Text(
+          'Refresh',
+          style: CustomTextStyle.cartTitleAccessoryButton
+              .copyWith(color: Colors.white),
+        ),
+        color: Theme.of(context).errorColor,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        onPressed: () => _onRefreshPeripheralTap(peripheralDetailsBloc),
+      ),
     );
   }
 
