@@ -69,13 +69,14 @@ class BleAdapter {
   }
 
   PeripheralInfo peripheralInfoForIdentifier(String identifier) {
-    PeripheralContainer peripheral = _peripheralContainers[identifier];
-    if (peripheral != null) {
+    PeripheralContainer peripheralContainer = _peripheralContainers[identifier];
+    if (peripheralContainer != null) {
       return PeripheralInfo(
-        peripheral.peripheral.name ?? peripheral.advertisementData.localName,
-        peripheral.peripheral.identifier,
+        peripheralContainer.peripheral.name ??
+            peripheralContainer.advertisementData.localName,
+        peripheralContainer.peripheral.identifier,
         PeripheralCategoryResolver.categoryForPeripheralName(
-            peripheral.peripheral.name),
+            peripheralContainer.peripheral.name),
       );
     } else {
       throw PeripheralUnavailableError();
