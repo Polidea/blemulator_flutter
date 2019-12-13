@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:blemulator/internal/internal.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart' as FlutterTest;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 class SimulationManagerMock extends Mock implements SimulationManager {}
 
 void main() {
+  FlutterTest.TestWidgetsFlutterBinding.ensureInitialized();
   const DEVICE_ID = "id123";
   const REQUESTED_MTU = 33;
   const NEGOTIATED_MTU = 24;
