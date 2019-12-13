@@ -43,7 +43,8 @@ class PeripheralDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildPeripheralAvailableState(BuildContext context, PeripheralAvailable state) {
+  Widget _buildPeripheralAvailableState(
+      BuildContext context, PeripheralAvailable state) {
     return PropertyRow(
       title: 'Identifier',
       titleIcon: TitleIcon(Icons.perm_device_information,
