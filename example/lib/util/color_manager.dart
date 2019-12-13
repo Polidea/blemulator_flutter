@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class ColorManager {
   static Color colorForPeripheral(BuildContext context, PeripheralCategory category) {
     if (category == PeripheralCategory.sensorTag) {
-      return CustomColors.sensorTag;
+      return CustomColors.sensorTagRed;
     } else {
       return Theme.of(context).primaryColor;
     }
