@@ -31,13 +31,7 @@ class PeripheralDetailsView extends StatelessWidget {
       child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
         builder: (context, state) {
           if (state is PeripheralAvailable) {
-            return PropertyRow(
-              title: 'Identifier',
-              titleIcon: TitleIcon(Icons.perm_device_information,
-                  color: Theme.of(context).primaryColor),
-              titleColor: Theme.of(context).primaryColor,
-              value: state.peripheralInfo.identifier,
-            );
+            return _buildPeripheralAvailableState(context, state);
           } else if (state is PeripheralUnavailable) {
             return PropertyRow(
               title: 'Identifier',
@@ -63,6 +57,16 @@ class PeripheralDetailsView extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget _buildPeripheralAvailableState(BuildContext context, PeripheralAvailable state) {
+    return PropertyRow(
+      title: 'Identifier',
+      titleIcon: TitleIcon(Icons.perm_device_information,
+          color: Theme.of(context).primaryColor),
+      titleColor: Theme.of(context).primaryColor,
+      value: state.peripheralInfo.identifier,
     );
   }
 
