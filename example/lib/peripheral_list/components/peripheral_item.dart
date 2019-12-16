@@ -2,6 +2,7 @@ import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:blemulator_example/styles/custom_text_style.dart';
+import 'package:blemulator_example/util/icon_manager.dart';
 import 'package:blemulator_example/util/signal_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class PeripheralItem extends StatelessWidget {
 
     return PropertyRow(
       title: _peripheral.id,
-      titleIcon: Icon(Icons.bluetooth),
+      titleIcon: IconManager.iconForPeripheral(context, _peripheral.category),
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
       titleAccessory: Icon(
