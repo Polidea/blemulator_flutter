@@ -24,25 +24,29 @@ class PeripheralItem extends StatelessWidget {
         Icons.chevron_right,
         color: Colors.grey,
       ),
-      valueAccessory: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          Text(
-            _formatRssi(_peripheral.rssi),
-            style: CustomTextStyle.cardValueAccessory
-                .copyWith(color: _colorForRssi(_peripheral.rssi)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Icon(
-              Icons.settings_input_antenna,
-              color: _colorForRssi(_peripheral.rssi),
-            ),
-          ),
-        ],
-        mainAxisSize: MainAxisSize.min,
-      ),
+      valueAccessory: _buildValueAccessory(),
       onTap: () => _onRowTap(navigationBloc),
+    );
+  }
+
+  Widget _buildValueAccessory() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Text(
+          _formatRssi(_peripheral.rssi),
+          style: CustomTextStyle.cardValueAccessory
+              .copyWith(color: _colorForRssi(_peripheral.rssi)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Icon(
+            Icons.settings_input_antenna,
+            color: _colorForRssi(_peripheral.rssi),
+          ),
+        ),
+      ],
+      mainAxisSize: MainAxisSize.min,
     );
   }
 
