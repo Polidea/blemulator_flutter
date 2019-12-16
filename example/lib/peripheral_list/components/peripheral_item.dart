@@ -19,7 +19,8 @@ class PeripheralItem extends StatelessWidget {
     return PropertyRow(
       title: _categoryDisplayName(_peripheral.category),
       titleIcon: Icons.bluetooth,
-      titleColor: Theme.of(context).primaryColor,
+      titleColor:
+          ColorManager.colorForPeripheral(context, _peripheral.category),
       value: _peripheral.name,
       titleAccessory: Icon(
         Icons.chevron_right,
