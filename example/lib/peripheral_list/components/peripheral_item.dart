@@ -17,7 +17,7 @@ class PeripheralItem extends StatelessWidget {
 
     return PropertyRow(
       title: _peripheral.id,
-      titleIcon: Icons.bluetooth,
+      titleIcon: Icon(Icons.bluetooth),
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
       titleAccessory: Icon(
@@ -53,7 +53,7 @@ class PeripheralItem extends StatelessWidget {
   void _onRowTap(NavigationBloc navigationBloc) {
     navigationBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
   }
-  
+
   String _formatRssi(int rssi) {
     return '${rssi ?? '-'} dbm';
   }
