@@ -16,7 +16,7 @@ class PeripheralItem extends StatelessWidget {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return PropertyRow(
-      title: _categoryDisplayName(_peripheral.category),
+      title: _peripheral.id,
       titleIcon: Icons.bluetooth,
       titleColor: Theme.of(context).primaryColor,
       value: _peripheral.name,
@@ -66,17 +66,6 @@ class PeripheralItem extends StatelessWidget {
         return Colors.red;
       default:
         return Colors.grey;
-    }
-  }
-
-  String _categoryDisplayName(BlePeripheralCategory category) {
-    switch (category) {
-      case BlePeripheralCategory.sensorTag:
-        return 'SensorTag';
-      case BlePeripheralCategory.other:
-        return 'Other';
-      default:
-        return 'Unknown';
     }
   }
 }
