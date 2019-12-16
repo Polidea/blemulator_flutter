@@ -15,7 +15,14 @@ _flutter_job_template: &_flutter_job_template
   script:
     - flutter packages get
     - flutter test
+
+_flutter_example_job_template: &_flutter_example_job_template
+  before_script:
+    - git clone https://github.com/flutter/flutter.git -b stable
+    - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+  script:
     - cd example
+    - flutter packages get
     - flutter test
 
 _android_job_template: &android_job_template
@@ -70,3 +77,6 @@ matrix:
     - <<: *_flutter_job_template
       name: Build Flutter
       stage: flutter
+    - <<: *_flutter_example_job_template
+      name: Test Flutter Example
+      stage: flutter_example
