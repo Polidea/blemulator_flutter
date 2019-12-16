@@ -40,23 +40,17 @@ class BleAdapter {
   }
 
   Stream<BlePeripheral> startPeripheralScan() {
-    return _bleManager.startPeripheralScan().transform(
-      new StreamTransformer<ScanResult, BlePeripheral>.fromHandlers(
-        handleData: (ScanResult scanResult, EventSink<BlePeripheral> sink) {
-          if (scanResult.advertisementData.localName != null) {
-            final peripheral = BlePeripheral(
-              scanResult.peripheral.name,
-              scanResult.peripheral.identifier,
-              scanResult.rssi,
-              false,
-              BlePeripheralCategoryResolver.categoryForName(
-                  scanResult.peripheral.name),
-            );
-            sink.add(peripheral);
-          }
-        },
-      ),
-    );
+    return _bleManager.startPeripheralScan().map((scanResult) {
+      return BlePeripheral(
+          scanResult.peripheral.name ??
+              scanResult.advertisementData.localName ??
+              'Unknown',
+          scanResult.peripheral.identifier,
+          scanResult.rssi,
+          false,
+          BlePeripheralCategoryResolver.categoryForName(
+              scanResult.peripheral.name));
+    });
   }
 
   Future<void> stopPeripheralScan() {
