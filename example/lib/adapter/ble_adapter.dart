@@ -47,7 +47,7 @@ class BleAdapter {
   void _setupBlePeripheralsController() {
     _blePeripheralsController = StreamController.broadcast(
       onListen: () {
-        _startPeripheralScan();
+        _blePeripheralsController.addStream(_startPeripheralScan());
       },
       onCancel: () {
         _stopPeripheralScan();
