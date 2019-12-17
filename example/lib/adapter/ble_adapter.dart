@@ -42,7 +42,7 @@ class BleAdapter {
     _bleManager.createClient();
   }
 
-  Stream<BlePeripheral> startPeripheralScan() {
+  Stream<BlePeripheral> _startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
       return BlePeripheral(
           scanResult.peripheral.name ??
@@ -56,7 +56,7 @@ class BleAdapter {
     });
   }
 
-  Future<void> stopPeripheralScan() {
+  Future<void> _stopPeripheralScan() {
     return _bleManager.stopPeripheralScan();
   }
 
