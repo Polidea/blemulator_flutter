@@ -26,6 +26,7 @@ class BleAdapter {
   Blemulator _blemulator;
 
   StreamController<BlePeripheral> _blePeripheralsController;
+
   Stream<BlePeripheral> get blePeripherals => _blePeripheralsController.stream;
 
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
@@ -40,6 +41,18 @@ class BleAdapter {
   BleAdapter._internal(this._bleManager, this._blemulator) {
     _setupSimulation();
     _bleManager.createClient();
+    _setupBlePeripheralsController();
+  }
+
+  void _setupBlePeripheralsController() {
+    _blePeripheralsController = StreamController.broadcast(
+      onListen: () {
+        _startPeripheralScan();
+      },
+      onCancel: () {
+        _stopPeripheralScan();
+      },
+    );
   }
 
   Stream<BlePeripheral> _startPeripheralScan() {
