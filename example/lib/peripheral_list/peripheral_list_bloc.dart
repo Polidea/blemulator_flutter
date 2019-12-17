@@ -31,7 +31,7 @@ class PeripheralListBloc
       StartPeripheralScan event) async* {
     _cancelBlePeripheralSubscription();
     _blePeripheralsSubscription =
-        _bleAdapter.startPeripheralScan().listen((BlePeripheral peripheral) {
+        _bleAdapter.blePeripherals.listen((BlePeripheral peripheral) {
       add(NewPeripheralScan(peripheral));
     });
     yield PeripheralListState(peripherals: state.peripherals, scanningEnabled: true);
