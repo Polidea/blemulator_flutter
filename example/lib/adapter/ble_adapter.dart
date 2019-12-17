@@ -25,6 +25,9 @@ class BleAdapter {
   BleManager _bleManager;
   Blemulator _blemulator;
 
+  StreamController<BlePeripheral> _blePeripheralController;
+  Stream<BlePeripheral> get blePeripherals => _blePeripheralController.stream;
+
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
       _instance = BleAdapter._internal(bleManager, blemulator);
