@@ -40,7 +40,6 @@ class PeripheralListBloc
   Stream<PeripheralListState> _mapStopPeripheralScanToState(
       StopPeripheralScan event) async* {
     _cancelBlePeripheralSubscription();
-    await _bleAdapter.stopPeripheralScan();
     yield PeripheralListState(
         peripherals: state.peripherals, scanningEnabled: false);
   }
