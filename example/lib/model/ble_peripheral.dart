@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class BlePeripheral extends Equatable {
   final String name;
@@ -18,8 +19,8 @@ enum BlePeripheralCategory { sensorTag, other }
 class BlePeripheralCategoryResolver {
   static const String sensorTag = 'SensorTag';
 
-  static BlePeripheralCategory categoryForName(String blePeripheralName) {
-    return _isSensorTag(blePeripheralName)
+  static BlePeripheralCategory categoryForScanResult(ScanResult scanResult) {
+    return _isSensorTag(scanResult.peripheral.name)
         ? BlePeripheralCategory.sensorTag
         : BlePeripheralCategory.other;
   }
