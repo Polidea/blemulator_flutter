@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:blemulator_example/model/ble_peripheral.dart';
-import 'package:blemulator_example/example_peripheral.dart';
+import 'package:blemulator_example/example_peripherals/example_peripheral.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
