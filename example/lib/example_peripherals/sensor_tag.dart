@@ -5,19 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:blemulator/blemulator.dart';
 
-class GenericPeripheral extends SimulatedPeripheral {
-  GenericPeripheral(
-      {String name = 'Generic Peripheral',
-      String id = 'generic-peripheral-id',
-      int milliseconds = 1000,
-      List<SimulatedService> services = const []})
-      : super(
-            name: name,
-            id: id,
-            advertisementInterval: Duration(milliseconds: milliseconds),
-            services: services);
-}
-
 // Simplified simulation of Texas Instruments CC2541 SensorTag
 // http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf
 class SensorTag extends SimulatedPeripheral {
