@@ -57,9 +57,7 @@ class PeripheralItem extends StatelessWidget {
   }
 
   Color _colorForRssi(int rssi) {
-    return rssi == null
-        ? Colors.grey
-        : ColorManager.colorForSignalLevel(parseRssi(rssi));
+    return ColorManager.colorForSignalLevel(parseRssi(rssi));
   }
 
   String _categoryDisplayName(BlePeripheralCategory category) {

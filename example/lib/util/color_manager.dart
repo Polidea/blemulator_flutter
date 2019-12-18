@@ -21,8 +21,10 @@ class ColorManager {
         return Colors.orange;
       case SignalLevel.low:
         return Colors.red;
-      default:
+      case SignalLevel.unknown:
         return Colors.grey;
+      default:
+        return Colors.black;
     }
   }
 }
