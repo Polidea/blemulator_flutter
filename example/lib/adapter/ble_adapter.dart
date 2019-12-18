@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:blemulator_example/example_peripherals/generic_peripheral.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
-import 'package:blemulator_example/example_peripheral.dart';
+import 'package:blemulator_example/example_peripherals/sensor_tag.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
@@ -78,8 +79,7 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
     _blemulator
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
-    _blemulator.addSimulatedPeripheral(
-        SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
+    _blemulator.addSimulatedPeripheral(GenericPeripheral());
     _blemulator.simulate();
   }
 }
