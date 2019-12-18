@@ -5,6 +5,8 @@ stages:
     if: type = push
   - name: flutter
     if: branch = master OR type = pull_request
+  - name: flutter_example
+    if: branch = master OR type = pull_request
   - name: native
     if: branch = master OR type = pull_request
 
