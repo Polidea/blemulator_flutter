@@ -115,7 +115,7 @@ void main() {
             peripheralIdentifier,
             peripheralRssi,
             false,
-            BlePeripheralCategoryResolver.categoryForName(peripheralName))
+            BlePeripheralCategoryResolver.categoryForScanResult(scanResult))
       ];
       expectLater(bleAdapter.blePeripherals, emitsInOrder(expectedResponse));
     });
