@@ -42,14 +42,14 @@ class BleAdapter {
   Stream<BlePeripheral> startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
       return BlePeripheral(
-          scanResult.peripheral.name ??
-              scanResult.advertisementData.localName ??
-              'Unknown',
-          scanResult.peripheral.identifier,
-          scanResult.rssi,
-          false,
-          BlePeripheralCategoryResolver.categoryForScanResult(
-              scanResult));
+        scanResult.peripheral.name ??
+            scanResult.advertisementData.localName ??
+            'Unknown',
+        scanResult.peripheral.identifier,
+        scanResult.rssi,
+        false,
+        BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
+      );
     });
   }
 
