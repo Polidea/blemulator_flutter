@@ -1,6 +1,7 @@
 import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class BlePeripheral extends Equatable {
   final String name;
@@ -30,8 +31,8 @@ extension BlePeripheralCategoryExtenstion on BlePeripheralCategory {
 class BlePeripheralCategoryResolver {
   static const String sensorTag = 'SensorTag';
 
-  static BlePeripheralCategory categoryForName(String blePeripheralName) {
-    return _isSensorTag(blePeripheralName)
+  static BlePeripheralCategory categoryForScanResult(ScanResult scanResult) {
+    return _isSensorTag(scanResult.peripheral.name)
         ? BlePeripheralCategory.sensorTag
         : BlePeripheralCategory.other;
   }

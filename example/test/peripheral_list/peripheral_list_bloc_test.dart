@@ -19,7 +19,7 @@ void main() {
         PeripheralListBloc(bleAdapter);
     peripheralsStreamController = StreamController();
 
-    when(bleAdapter.startPeripheralScan())
+    when(bleAdapter.blePeripherals)
         .thenAnswer((_) => peripheralsStreamController.stream);
   });
 
