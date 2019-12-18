@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:blemulator_example/example_peripherals/generic_peripheral.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
-import 'package:blemulator_example/example_peripheral.dart';
+import 'package:blemulator_example/example_peripherals/sensor_tag.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
@@ -25,6 +26,10 @@ class BleAdapter {
   BleManager _bleManager;
   Blemulator _blemulator;
 
+  StreamController<BlePeripheral> _blePeripheralsController;
+
+  Stream<BlePeripheral> get blePeripherals => _blePeripheralsController.stream;
+
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
       _instance = BleAdapter._internal(bleManager, blemulator);
@@ -37,23 +42,35 @@ class BleAdapter {
   BleAdapter._internal(this._bleManager, this._blemulator) {
     _setupSimulation();
     _bleManager.createClient();
+    _setupBlePeripheralsController();
   }
 
-  Stream<BlePeripheral> startPeripheralScan() {
+  void _setupBlePeripheralsController() {
+    _blePeripheralsController = StreamController.broadcast(
+      onListen: () {
+        _blePeripheralsController.addStream(_startPeripheralScan());
+      },
+      onCancel: () {
+        _stopPeripheralScan();
+      },
+    );
+  }
+
+  Stream<BlePeripheral> _startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
       return BlePeripheral(
-        scanResult.peripheral.name ??
-            scanResult.advertisementData.localName ??
-            'Unknown',
-        scanResult.peripheral.identifier,
-        scanResult.rssi,
-        false,
-        BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
+          scanResult.peripheral.name ??
+              scanResult.advertisementData.localName ??
+              'Unknown',
+          scanResult.peripheral.identifier,
+          scanResult.rssi,
+          false,
+          BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
       );
     });
   }
 
-  Future<void> stopPeripheralScan() {
+  Future<void> _stopPeripheralScan() {
     return _bleManager.stopPeripheralScan();
   }
 
@@ -62,8 +79,7 @@ class BleAdapter {
     _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
     _blemulator
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
-    _blemulator.addSimulatedPeripheral(
-        SensorTag(name: 'Not a SensorTag', id: 'not-sensor-tag-id'));
+    _blemulator.addSimulatedPeripheral(GenericPeripheral());
     _blemulator.simulate();
   }
 }
