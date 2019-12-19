@@ -30,6 +30,6 @@ class RssiView extends StatelessWidget {
   }
 
   String _formatRssi() {
-    return '${_rssi ?? '-'} dbm';
+    return '${_rssi ?? '-'} dBm';
   }
 }
