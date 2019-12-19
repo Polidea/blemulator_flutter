@@ -33,3 +33,19 @@ class RssiView extends StatelessWidget {
     return '${_rssi ?? '-'} dBm';
   }
 }
+
+extension on SignalLevel {
+  Color color() {
+    switch (this) {
+      case SignalLevel.high:
+        return Colors.green;
+      case SignalLevel.medium:
+        return Colors.orange;
+      case SignalLevel.low:
+        return Colors.red;
+      case SignalLevel.unknown:
+      default:
+        return Colors.grey;
+    }
+  }
+}
