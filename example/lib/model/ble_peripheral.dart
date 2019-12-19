@@ -1,6 +1,4 @@
-import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class BlePeripheral extends Equatable {
@@ -17,16 +15,6 @@ class BlePeripheral extends Equatable {
 }
 
 enum BlePeripheralCategory { sensorTag, other }
-
-extension BlePeripheralCategoryExtenstion on BlePeripheralCategory {
-  Color color(BuildContext context) {
-    if (this == BlePeripheralCategory.sensorTag) {
-      return CustomColors.sensorTagRed;
-    } else {
-      return Theme.of(context).primaryColor;
-    }
-  }
-}
 
 class BlePeripheralCategoryResolver {
   static const String sensorTag = 'SensorTag';

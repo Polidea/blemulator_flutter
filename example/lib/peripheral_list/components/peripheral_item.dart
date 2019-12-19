@@ -3,6 +3,7 @@ import 'package:blemulator_example/navigation/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
 import 'package:blemulator_example/peripheral_list/components/peripheral_category_icon.dart';
 import 'package:blemulator_example/peripheral_list/components/rssi_view.dart';
+import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,5 +32,15 @@ class PeripheralItem extends StatelessWidget {
 
   void _onRowTap(NavigationBloc navigationBloc) {
     navigationBloc.add(NavigateToPeripheralDetails(peripheral: _peripheral));
+  }
+}
+
+extension on BlePeripheralCategory {
+  Color color(BuildContext context) {
+    if (this == BlePeripheralCategory.sensorTag) {
+      return CustomColors.sensorTagRed;
+    } else {
+      return Theme.of(context).primaryColor;
+    }
   }
 }
