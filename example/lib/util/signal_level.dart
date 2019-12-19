@@ -12,9 +12,8 @@ extension SignalLevelExtenstion on SignalLevel {
       case SignalLevel.low:
         return Colors.red;
       case SignalLevel.unknown:
-        return Colors.grey;
       default:
-        return Colors.black;
+        return Colors.grey;
     }
   }
 }
