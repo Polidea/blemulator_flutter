@@ -17,7 +17,7 @@ class PeripheralDetailsView extends StatelessWidget {
                 builder: (context, state) {
                   return PropertyRow(
                     title: 'Identifier',
-                    titleIcon: Icons.perm_device_information,
+                    titleIcon: Icon(Icons.perm_device_information),
                     titleColor: Theme.of(context).primaryColor,
                     value: state.peripheral.id,
                   );
