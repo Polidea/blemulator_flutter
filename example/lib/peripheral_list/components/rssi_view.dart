@@ -1,5 +1,5 @@
 import 'package:blemulator_example/styles/custom_text_style.dart';
-import 'package:blemulator_example/util/signal_level.dart';
+import 'package:blemulator_example/model/signal_level.dart';
 import 'package:flutter/material.dart';
 
 class RssiView extends StatelessWidget {
