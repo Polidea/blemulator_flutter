@@ -15,11 +15,17 @@ class PeripheralDetailsView extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
                 builder: (context, state) {
-                  return PropertyRow(
-                    title: 'Identifier',
-                    titleIcon: Icon(Icons.perm_device_information),
-                    titleColor: Theme.of(context).primaryColor,
-                    value: state.peripheral.id,
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      PropertyRow(
+                        title: 'Identifier',
+                        titleIcon: Icon(Icons.perm_device_information),
+                        titleColor: Theme.of(context).primaryColor,
+                        value: state.peripheral.id,
+                      ),
+                      _createServiceView(context, state)
+                    ],
                   );
                 },
               ),
@@ -27,6 +33,27 @@ class PeripheralDetailsView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _createServiceView(
+      BuildContext context, PeripheralDetailsState state) {
+    final PeripheralDetailsBloc bloc = BlocProvider.of<PeripheralDetailsBloc>(context);
+
+    return Flexible(
+      fit: FlexFit.loose,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: state.bleServices.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () => print("Clicked $index"), //TODO
+          child: Row(
+            children: <Widget>[
+              Text("Id: ${state.bleServices[index].uuid}"),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

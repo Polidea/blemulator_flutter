@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blemulator_example/example_peripherals/generic_peripheral.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/example_peripherals/sensor_tag.dart';
+import 'package:blemulator_example/model/ble_service.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
@@ -29,6 +30,8 @@ class BleAdapter {
   StreamController<BlePeripheral> _blePeripheralsController;
 
   Stream<BlePeripheral> get blePeripherals => _blePeripheralsController.stream;
+
+  Map<String, Peripheral> _peripherals = Map();
 
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
@@ -58,14 +61,16 @@ class BleAdapter {
 
   Stream<BlePeripheral> _startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
+      _peripherals.putIfAbsent(
+          scanResult.peripheral.identifier, () => scanResult.peripheral);
       return BlePeripheral(
-          scanResult.peripheral.name ??
-              scanResult.advertisementData.localName ??
-              'Unknown',
-          scanResult.peripheral.identifier,
-          scanResult.rssi,
-          false,
-          BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
+        scanResult.peripheral.name ??
+            scanResult.advertisementData.localName ??
+            'Unknown',
+        scanResult.peripheral.identifier,
+        scanResult.rssi,
+        false,
+        BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
       );
     });
   }
@@ -81,5 +86,28 @@ class BleAdapter {
         .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
     _blemulator.addSimulatedPeripheral(GenericPeripheral());
     _blemulator.simulate();
+  }
+
+  Future<List<BleService>> discoverAndGetServicesCharacteristics(
+      String peripheralId) async {
+    await _peripherals[peripheralId].connect();
+    await _peripherals[peripheralId].discoverAllServicesAndCharacteristics();
+
+    List<BleService> bleServices = [];
+    for (Service service in await _peripherals[peripheralId].services()) {
+      List<Characteristic> serviceCharacteristics =
+      await service.characteristics();
+      List<BleCharacteristic> bleCharacteristics = serviceCharacteristics
+          .map(
+            (characteristic) =>
+            BleCharacteristic.fromCharacteristic(characteristic),
+      )
+          .toList();
+      bleServices.add(BleService(service.uuid, bleCharacteristics));
+    }
+
+    _peripherals[peripheralId].disconnectOrCancelConnection();
+
+    return bleServices;
   }
 }

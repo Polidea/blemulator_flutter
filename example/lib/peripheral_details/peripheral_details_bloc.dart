@@ -9,7 +9,15 @@ class PeripheralDetailsBloc
   BleAdapter _bleAdapter;
   final BlePeripheral _chosenPeripheral;
 
-  PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral);
+  PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral) {
+    _bleAdapter
+        .discoverAndGetServicesCharacteristics(_chosenPeripheral.id)
+        .then(
+      (bleServices) {
+        add(ServicesFetchedEvent(bleServices));
+      },
+    );
+  }
 
   @override
   PeripheralDetailsState get initialState =>
@@ -18,5 +26,10 @@ class PeripheralDetailsBloc
   @override
   Stream<PeripheralDetailsState> mapEventToState(
     PeripheralDetailsEvent event,
-  ) async* {}
+  ) async* {
+    if (event is ServicesFetchedEvent) {
+      yield PeripheralDetailsState(
+          peripheral: state.peripheral, bleServices: event.services);
+    }
+  }
 }
