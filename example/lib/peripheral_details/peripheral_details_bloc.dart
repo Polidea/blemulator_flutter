@@ -29,7 +29,24 @@ class PeripheralDetailsBloc
   ) async* {
     if (event is ServicesFetchedEvent) {
       yield PeripheralDetailsState(
-          peripheral: state.peripheral, bleServices: event.services);
+        peripheral: state.peripheral,
+        bleServiceStates: event.services
+            .map((service) => BleServiceState(service, false))
+            .toList(),
+      );
+    } else if (event is ServiceViewExpandedEvent) {
+      List<BleServiceState> newBleServiceStates =
+          List.from(state.bleServiceStates);
+
+      int serviceIndex =
+          newBleServiceStates.indexOf(event.serviceStateToChange);
+      newBleServiceStates[serviceIndex] =
+          BleServiceState(event.serviceStateToChange.service, event.expanded);
+
+      yield PeripheralDetailsState(
+        peripheral: state.peripheral,
+        bleServiceStates: newBleServiceStates,
+      );
     }
   }
 }

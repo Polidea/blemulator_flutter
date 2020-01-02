@@ -5,11 +5,21 @@ import 'package:flutter/cupertino.dart';
 
 class PeripheralDetailsState extends Equatable {
   final BlePeripheral peripheral;
-  final List<BleService> bleServices;
+  final List<BleServiceState> bleServiceStates;
 
   const PeripheralDetailsState(
-      {@required this.peripheral, this.bleServices = const []});
+      {@required this.peripheral, this.bleServiceStates = const []});
 
   @override
-  List<Object> get props => [peripheral, bleServices];
+  List<Object> get props => [peripheral, bleServiceStates];
+}
+
+class BleServiceState extends Equatable {
+  final BleService service;
+  final bool expanded;
+
+  @override
+  List<Object> get props => [service, expanded];
+
+  BleServiceState(this.service, this.expanded);
 }

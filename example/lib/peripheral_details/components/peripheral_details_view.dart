@@ -40,31 +40,39 @@ class PeripheralDetailsView extends StatelessWidget {
   }
 
   Widget _createServiceView(
-      BuildContext context, PeripheralDetailsState state) {
-//    final PeripheralDetailsBloc bloc = BlocProvider.of<PeripheralDetailsBloc>(context);
-
+    BuildContext context,
+    PeripheralDetailsState state,
+  ) {
     return Flexible(
       fit: FlexFit.loose,
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: state.bleServices.length,
+        itemCount: state.bleServiceStates.length,
         itemBuilder: (context, index) =>
-            _createServiceTileView(context, state.bleServices[index]),
+            _createServiceTileView(context, state.bleServiceStates[index]),
       ),
     );
   }
 
-  Widget _createServiceTileView(BuildContext context, BleService service) {
+  Widget _createServiceTileView(
+    BuildContext context,
+    BleServiceState serviceState,
+  ) {
+    // ignore: close_sinks
+    final PeripheralDetailsBloc bloc =
+        BlocProvider.of<PeripheralDetailsBloc>(context);
+
     return PropertyRow(
       title: "Service UUID",
-      titleColor: Theme
-          .of(context)
-          .primaryColor,
-      value: service.uuid,
+      titleColor: Theme.of(context).primaryColor,
+      value: serviceState.service.uuid,
       valueTextStyle: CustomTextStyle.serviceUuidStyle,
       rowAccessory: IconButton(
-        icon: Icon(Icons.arrow_drop_down_circle),
-        onPressed: () => print(service.uuid),
+        icon: Icon(serviceState.expanded ? Icons.unfold_less : Icons.unfold_more),
+        onPressed: () => bloc.add(ServiceViewExpandedEvent(
+          serviceState,
+          !serviceState.expanded,
+        )),
       ),
     );
   }
