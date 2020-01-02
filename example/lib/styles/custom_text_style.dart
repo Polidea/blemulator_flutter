@@ -22,4 +22,10 @@ abstract class CustomTextStyle {
     fontWeight: FontWeight.w500,
     color: Colors.grey,
   );
+
+  static const serviceUuidStyle = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey,
+  );
 }
