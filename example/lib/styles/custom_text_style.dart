@@ -28,4 +28,10 @@ abstract class CustomTextStyle {
     fontWeight: FontWeight.w500,
     color: Colors.grey,
   );
+
+  static const characteristicsStyle = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w500,
+    color: Colors.black26,
+  );
 }

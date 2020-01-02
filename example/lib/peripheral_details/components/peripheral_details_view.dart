@@ -62,18 +62,75 @@ class PeripheralDetailsView extends StatelessWidget {
     final PeripheralDetailsBloc bloc =
         BlocProvider.of<PeripheralDetailsBloc>(context);
 
-    return PropertyRow(
-      title: "Service UUID",
-      titleColor: Theme.of(context).primaryColor,
-      value: serviceState.service.uuid,
-      valueTextStyle: CustomTextStyle.serviceUuidStyle,
-      rowAccessory: IconButton(
-        icon: Icon(serviceState.expanded ? Icons.unfold_less : Icons.unfold_more),
-        onPressed: () => bloc.add(ServiceViewExpandedEvent(
-          serviceState,
-          !serviceState.expanded,
-        )),
+    return Column(
+      children: <Widget>[
+        PropertyRow(
+          title: "Service UUID",
+          titleColor: Theme.of(context).primaryColor,
+          value: serviceState.service.uuid,
+          valueTextStyle: CustomTextStyle.serviceUuidStyle,
+          rowAccessory: IconButton(
+            icon: Icon(
+                serviceState.expanded ? Icons.unfold_less : Icons.unfold_more),
+            onPressed: () => bloc.add(ServiceViewExpandedEvent(
+              serviceState,
+              !serviceState.expanded,
+            )),
+          ),
+        ),
+        serviceState.expanded
+            ? Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: ListView.builder(
+                  itemCount: serviceState.service.characteristics.length,
+                  itemBuilder: (context, index) => _buildCharacteristicCard(
+                      context, serviceState.service.characteristics[index]),
+                  shrinkWrap: true,
+                ),
+              )
+            : Column(),
+      ],
+    );
+  }
+
+  Widget _buildCharacteristicCard(
+    BuildContext context,
+    BleCharacteristic characteristic,
+  ) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "UUID: ${characteristic.uuid}",
+              style: CustomTextStyle.characteristicsStyle,
+            ),
+            Text(
+              "Properties: ${_getCharacteristicProperties(characteristic).toString()}",
+              style: CustomTextStyle.characteristicsStyle,
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+List<String> _getCharacteristicProperties(BleCharacteristic characteristic) {
+  List<String> properties = new List<String>();
+
+  if (characteristic.isWritableWithoutResponse ||
+      characteristic.isWritableWithoutResponse) {
+    properties.add("write");
+  }
+  if (characteristic.isReadable) {
+    properties.add("read");
+  }
+  if (characteristic.isIndicatable || characteristic.isNotifiable) {
+    properties.add("notify");
+  }
+
+  return properties;
 }
