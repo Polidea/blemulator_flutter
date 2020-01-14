@@ -20,7 +20,7 @@ final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class MyApp extends StatelessWidget {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
-  final bool useNewExample = false;
+  final bool useNewExample = true;
 
   @override
   Widget build(BuildContext context) {

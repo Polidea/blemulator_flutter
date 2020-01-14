@@ -7,8 +7,9 @@ class BlePeripheral extends Equatable {
   final int rssi;
   final bool isConnected;
   final BlePeripheralCategory category;
+  final int mtu;
 
-  BlePeripheral(this.name, this.id, this.rssi, this.isConnected, this.category);
+  BlePeripheral(this.name, this.id, this.rssi, this.isConnected, this.category, this.mtu);
 
   @override
   List<Object> get props => [name, id];

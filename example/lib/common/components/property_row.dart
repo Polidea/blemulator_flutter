@@ -11,6 +11,7 @@ class PropertyRow extends StatelessWidget {
   final Widget titleAccessory;
   final Widget valueAccessory;
   final GestureTapCallback onTap;
+  final bool showIndicator;
 
   PropertyRow({
     @required this.title,
@@ -22,6 +23,7 @@ class PropertyRow extends StatelessWidget {
     this.titleAccessory,
     this.valueAccessory,
     this.onTap,
+    this.showIndicator = false,
   });
 
   @override
@@ -55,6 +57,7 @@ class PropertyRow extends StatelessWidget {
   Widget _buildMainColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         _buildTitleRow(),
         Padding(
@@ -84,6 +87,10 @@ class PropertyRow extends StatelessWidget {
             ),
           ),
         ),
+        if (showIndicator) SizedBox(
+            height: 15,
+            width: 15,
+            child: CircularProgressIndicator(strokeWidth: 2)),
         if (titleAccessory != null) titleAccessory,
       ],
     );

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blemulator_example/example_peripherals/generic_peripheral.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/example_peripherals/sensor_tag.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:blemulator/blemulator.dart';
 
@@ -45,6 +46,18 @@ class BleAdapter {
     _setupBlePeripheralsController();
   }
 
+  Future<void> connect(String peripheralId) async {
+    var peripheral = (await _bleManager.knownPeripherals([peripheralId])).first;
+    await peripheral.connect(requestMtu: 0);
+    bool isConnected = await peripheral.isConnected();
+    Fimber.d("Is connected: $isConnected");
+  }
+
+  Future<int> requestMtu(String id, int mtu) async {
+    var peripheral = (await _bleManager.knownPeripherals([id])).first;
+    return peripheral.requestMtu(mtu);
+  }
+
   void _setupBlePeripheralsController() {
     _blePeripheralsController = StreamController.broadcast(
       onListen: () {
@@ -66,6 +79,7 @@ class BleAdapter {
           scanResult.rssi,
           false,
           BlePeripheralCategoryResolver.categoryForScanResult(scanResult),
+          scanResult.mtu
       );
     });
   }
