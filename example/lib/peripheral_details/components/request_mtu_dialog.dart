@@ -10,6 +10,10 @@ class Consts {
 }
 
 class RequestMtuDialog extends StatelessWidget {
+  final int mtu;
+
+  RequestMtuDialog(this.mtu);
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -43,7 +47,7 @@ class RequestMtuDialog extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    TextEditingController textEditingController = TextEditingController();
+    TextEditingController textEditingController = TextEditingController(text: mtu.toString());
     return Container(
       padding: EdgeInsets.only(
         top: Consts.avatarRadius + Consts.padding,

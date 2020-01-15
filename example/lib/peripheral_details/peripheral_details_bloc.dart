@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:blemulator_example/adapter/ble_adapter.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
+import 'package:blemulator_example/peripheral_details/peripheral_details_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:fimber/fimber.dart';
 import './bloc.dart';
@@ -30,15 +31,9 @@ class PeripheralDetailsBloc
   ) async* {
     Fimber.d("New event ${event.toString()}");
     if (event is StartMtuRequestProcess) {
-      yield PeripheralDetailsState(peripheral: state.peripheral, mtuRequestState: MtuRequestState(showMtuDialog: true));
+      yield PeripheralDetailsState.clone(state, mtuRequestState: MtuRequestState.clone(state.mtuRequestState, showMtuDialog: true));
     } else if (event is MtuRequestDismissed) {
-      yield PeripheralDetailsState(
-          peripheral: state.peripheral,
-          mtuRequestState: MtuRequestState(
-              showMtuDialog: true,
-              ongoingMtuRequest: state.mtuRequestState.ongoingMtuRequest
-          )
-      );
+      yield PeripheralDetailsState.clone(state, mtuRequestState: MtuRequestState.clone(state.mtuRequestState, showMtuDialog: false));
     } else if (event is RequestMtu) {
       yield* requestMtu(event.mtu);
     }
@@ -64,12 +59,8 @@ class PeripheralDetailsBloc
   }
 
   Stream<PeripheralDetailsState> requestMtu(int mtu) async * {
-    yield PeripheralDetailsState(
-        peripheral: state.peripheral,
-        mtuRequestState: MtuRequestState(
-            showMtuDialog: false,
-            ongoingMtuRequest: true
-        )
+    yield PeripheralDetailsState.clone(state,
+        mtuRequestState: MtuRequestState.clone(state.mtuRequestState, showMtuDialog: false, status: MtuRequestStatus.ongoing)
     );
 
     try {
@@ -88,14 +79,22 @@ class PeripheralDetailsBloc
           state.peripheral.category,
           negotiatedMtu
       );
-      yield PeripheralDetailsState(
+      yield PeripheralDetailsState.clone(state,
           peripheral: peripheral,
-          mtuRequestState: MtuRequestState(
-              showMtuDialog: state.mtuRequestState.showMtuDialog,
-              ongoingMtuRequest: false
-          ));
+          mtuRequestState: MtuRequestState.clone(state.mtuRequestState, status: MtuRequestStatus.success)
+      );
+      yield PeripheralDetailsState.clone(state,
+          peripheral: peripheral,
+          mtuRequestState: MtuRequestState.clone(state.mtuRequestState, status: MtuRequestStatus.idle)
+      );
     } catch(exception) {
       Fimber.e("MTU request fail", ex: exception);
+      yield PeripheralDetailsState.clone(state,
+          mtuRequestState: MtuRequestState.clone(state.mtuRequestState, status: MtuRequestStatus.error)
+      );
+      yield PeripheralDetailsState.clone(state,
+          mtuRequestState: MtuRequestState.clone(state.mtuRequestState, status: MtuRequestStatus.idle)
+      );
     }
   }
 }

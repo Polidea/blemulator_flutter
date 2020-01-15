@@ -21,13 +21,22 @@ class PeripheralDetailsView extends StatelessWidget {
                     showDialog<int>(
                         context: context,
                         builder: (BuildContext context) {
-                          return RequestMtuDialog();
+                          return RequestMtuDialog(state.peripheral.mtu);
                         }
                     ).then((mtu) {
                       Fimber.d("Request MTU dialog result: $mtu");
                       BlocProvider.of<PeripheralDetailsBloc>(context).add(MtuRequestDismissed());
-                      BlocProvider.of<PeripheralDetailsBloc>(context).add(RequestMtu(mtu));
+                      if (mtu != null) {
+                        BlocProvider.of<PeripheralDetailsBloc>(context).add(
+                            RequestMtu(mtu));
+                      }
                     });
+                  } else if (state.mtuRequestState.status == MtuRequestStatus.error) {
+                    final snackBar = SnackBar(content: Text('MTU reuest failed.'));
+                    Scaffold.of(context).showSnackBar(snackBar);
+                  } else if (state.mtuRequestState.status == MtuRequestStatus.success) {
+                    final snackBar = SnackBar(content: Text('MTU reuest succeeded.'));
+                    Scaffold.of(context).showSnackBar(snackBar);
                   }
                 },
                 child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
@@ -53,7 +62,7 @@ class PeripheralDetailsView extends StatelessWidget {
                                 titleColor: Theme.of(context).primaryColor,
                                 value: "${state.peripheral.mtu}",
                                 onTap: () { BlocProvider.of<PeripheralDetailsBloc>(context).add(StartMtuRequestProcess()); },
-                                showIndicator: state.mtuRequestState.ongoingMtuRequest,
+                                showIndicator: state.mtuRequestState.status == MtuRequestStatus.ongoing,
                               ),
                             ),
                           ],

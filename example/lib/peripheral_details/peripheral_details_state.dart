@@ -11,19 +11,44 @@ class PeripheralDetailsState extends Equatable {
     @required this.mtuRequestState}
   );
 
+  PeripheralDetailsState.clone(PeripheralDetailsState state, {
+    BlePeripheral peripheral,
+    MtuRequestState mtuRequestState
+  })
+    : this(
+      peripheral: peripheral ?? state.peripheral,
+      mtuRequestState: mtuRequestState ?? state.mtuRequestState,
+  );
+
   @override
   List<Object> get props => [peripheral, mtuRequestState];
 }
 
+enum MtuRequestStatus {
+  idle,
+  ongoing,
+  success,
+  error
+}
+
 class MtuRequestState extends Equatable {
   final bool showMtuDialog;
-  final bool ongoingMtuRequest;
+  final MtuRequestStatus status;
 
   const MtuRequestState({
-    this.ongoingMtuRequest = false,
-    this.showMtuDialog = false
+    this.showMtuDialog = false,
+    this.status = MtuRequestStatus.idle
   });
 
+  MtuRequestState.clone(MtuRequestState state, {
+    bool showMtuDialog,
+    MtuRequestStatus status
+  })
+    : this(
+      showMtuDialog: showMtuDialog ?? state.showMtuDialog,
+      status: status ?? state.status,
+  );
+
   @override
-  List<Object> get props => [ongoingMtuRequest, showMtuDialog];
+  List<Object> get props => [showMtuDialog, status];
 }
