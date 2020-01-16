@@ -31,7 +31,7 @@ class BleAdapter {
 
   Stream<BlePeripheral> get blePeripherals => _blePeripheralsController.stream;
 
-  Map<String, Peripheral> _peripherals = Map();
+  Map<String, Peripheral> _scannedPeripherals = Map();
 
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
@@ -61,7 +61,7 @@ class BleAdapter {
 
   Stream<BlePeripheral> _startPeripheralScan() {
     return _bleManager.startPeripheralScan().map((scanResult) {
-      _peripherals.putIfAbsent(
+      _scannedPeripherals.putIfAbsent(
           scanResult.peripheral.identifier, () => scanResult.peripheral);
       return BlePeripheral(
         scanResult.peripheral.name ??
@@ -90,23 +90,25 @@ class BleAdapter {
 
   Future<List<BleService>> discoverAndGetServicesCharacteristics(
       String peripheralId) async {
-    await _peripherals[peripheralId].connect();
-    await _peripherals[peripheralId].discoverAllServicesAndCharacteristics();
+    await _scannedPeripherals[peripheralId].connect();
+    await _scannedPeripherals[peripheralId]
+        .discoverAllServicesAndCharacteristics();
 
     List<BleService> bleServices = [];
-    for (Service service in await _peripherals[peripheralId].services()) {
+    for (Service service
+        in await _scannedPeripherals[peripheralId].services()) {
       List<Characteristic> serviceCharacteristics =
-      await service.characteristics();
+          await service.characteristics();
       List<BleCharacteristic> bleCharacteristics = serviceCharacteristics
           .map(
             (characteristic) =>
-            BleCharacteristic.fromCharacteristic(characteristic),
-      )
+                BleCharacteristic.fromCharacteristic(characteristic),
+          )
           .toList();
       bleServices.add(BleService(service.uuid, bleCharacteristics));
     }
 
-    _peripherals[peripheralId].disconnectOrCancelConnection();
+    _scannedPeripherals[peripheralId].disconnectOrCancelConnection();
 
     return bleServices;
   }

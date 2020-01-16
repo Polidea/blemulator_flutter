@@ -28,25 +28,36 @@ class PeripheralDetailsBloc
     PeripheralDetailsEvent event,
   ) async* {
     if (event is ServicesFetchedEvent) {
-      yield PeripheralDetailsState(
-        peripheral: state.peripheral,
-        bleServiceStates: event.services
-            .map((service) => BleServiceState(service, false))
-            .toList(),
-      );
+      yield mapServicesFetchedEventToState(event);
     } else if (event is ServiceViewExpandedEvent) {
-      List<BleServiceState> newBleServiceStates =
-          List.from(state.bleServiceStates);
-
-      int serviceIndex =
-          newBleServiceStates.indexOf(event.serviceStateToChange);
-      newBleServiceStates[serviceIndex] =
-          BleServiceState(event.serviceStateToChange.service, event.expanded);
-
-      yield PeripheralDetailsState(
-        peripheral: state.peripheral,
-        bleServiceStates: newBleServiceStates,
-      );
+      yield mapServiceViewExpandedEventToState(event);
     }
+  }
+
+  PeripheralDetailsState mapServicesFetchedEventToState(
+    ServicesFetchedEvent event,
+  ) {
+    return PeripheralDetailsState(
+      peripheral: state.peripheral,
+      bleServiceStates: event.services
+          .map((service) => BleServiceState(service, false))
+          .toList(),
+    );
+  }
+
+  PeripheralDetailsState mapServiceViewExpandedEventToState(
+    ServiceViewExpandedEvent event,
+  ) {
+    List<BleServiceState> newBleServiceStates =
+        List.from(state.bleServiceStates);
+
+    int serviceIndex = newBleServiceStates.indexOf(event.serviceStateToChange);
+    newBleServiceStates[serviceIndex] =
+        BleServiceState(event.serviceStateToChange.service, event.expanded);
+
+    return PeripheralDetailsState(
+      peripheral: state.peripheral,
+      bleServiceStates: newBleServiceStates,
+    );
   }
 }

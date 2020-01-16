@@ -4,27 +4,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class BleService extends Equatable {
-  @override
-  List<Object> get props => [uuid, characteristics];
-
   final String uuid;
   final List<BleCharacteristic> characteristics;
 
   BleService(this.uuid, this.characteristics);
+
+  @override
+  List<Object> get props => [uuid, characteristics];
 }
 
 class BleCharacteristic extends Equatable {
-  @override
-  List<Object> get props => [
-        uuid,
-        value,
-        isReadable,
-        isWritableWithResponse,
-        isWritableWithoutResponse,
-        isNotifiable,
-        isIndicatable
-      ];
-
   final String uuid;
   final Uint8List value;
   final bool isReadable;
@@ -42,6 +31,17 @@ class BleCharacteristic extends Equatable {
     this.isNotifiable,
     this.isIndicatable,
   );
+
+  @override
+  List<Object> get props => [
+        uuid,
+        value,
+        isReadable,
+        isWritableWithResponse,
+        isWritableWithoutResponse,
+        isNotifiable,
+        isIndicatable
+      ];
 
   BleCharacteristic.fromCharacteristic(Characteristic characteristic)
       : uuid = characteristic.uuid,
