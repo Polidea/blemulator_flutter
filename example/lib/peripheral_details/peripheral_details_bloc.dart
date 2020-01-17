@@ -28,13 +28,13 @@ class PeripheralDetailsBloc
     PeripheralDetailsEvent event,
   ) async* {
     if (event is ServicesFetchedEvent) {
-      yield mapServicesFetchedEventToState(event);
+      yield _mapServicesFetchedEventToState(event);
     } else if (event is ServiceViewExpandedEvent) {
-      yield mapServiceViewExpandedEventToState(event);
+      yield _mapServiceViewExpandedEventToState(event);
     }
   }
 
-  PeripheralDetailsState mapServicesFetchedEventToState(
+  PeripheralDetailsState _mapServicesFetchedEventToState(
     ServicesFetchedEvent event,
   ) {
     return PeripheralDetailsState(
@@ -45,7 +45,7 @@ class PeripheralDetailsBloc
     );
   }
 
-  PeripheralDetailsState mapServiceViewExpandedEventToState(
+  PeripheralDetailsState _mapServiceViewExpandedEventToState(
     ServiceViewExpandedEvent event,
   ) {
     List<BleServiceState> newBleServiceStates =
