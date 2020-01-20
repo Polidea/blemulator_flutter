@@ -2,15 +2,98 @@
 
 Demonstrates how to use the blemulator plugin.
 
-## Getting Started
+## UI structure
 
-This project is a starting point for a Flutter application.
+App consists of two screens: PeripheralListScreen and 
+PeripheralDetailsScreen.
 
-A few resources to get you started if this is your first Flutter project:
+Skeleton UI flow:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![](./images/ui-flow.gif)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### PeripheralListScreen
+
+PeripheralListScreen combines two features:
+- Control of scan process (start / stop), which is represented by a 
+button in the AppBar
+- List of scanned peripherals, which takes the main space on the 
+screen
+
+Scanned peripherals are represented in a list. Each peripheral row 
+contains:
+- Peripheral icon based on peripheral category,
+- Peripheral identifier,
+- Peripheral name,
+- Rssi value with appropriate icon and color depending on signal 
+strength.
+
+Color of peripheral icon and identifier text is based on category.
+
+Tapping on a given peripheral row results in a transition to the 
+PeripheralDetailsScreen.
+
+### PeripheralDetailsScreen
+
+PeripheralDetailsScreen displays more detailed information regarding 
+given peripheral.
+More specific information is available depending on the peripheral's 
+connection state.
+
+#### PeripheralDetailsScreen layout
+
+For development purposes it was decided that main layout of details
+screen is going to be created differently based on the peripheral 
+category:
+
+**Base details view** - for most of peripherals
+
+**Tabbed layout with 3 tabs** - for SensorTag peripherals (primary peripheral
+used during development):
+1. Base details view (exactly the same as for all other peripherals)
+2. Automated test view
+3. Manual test view
+
+##### Base details view
+
+Base details view is a scrollable view that contains specific sections,
+responsible
+
+1. General peripheral information: identifier, connect / disconnect button
+2. Rssi section: most recent rssi value
+3. MTU section: MTU value with value
+4. Services / Characteristics section: presenting the list of discovered 
+services and characteristics
+
+Services are presented as a list of expandable items. Each ServiceItem
+contains:
+- service identifier,
+- expand/collapse handle button. 
+
+When ServiceItem
+is expanded, list of Characteristics associated with that item is presented
+as well.
+
+Each CharacteristicItem contains:
+- characteristic identifier,
+- characteristic value,
+- characteristic properties (isReadableWithResponse, isReadableWithoutResponse,
+isNotifiable, isIndicatable),
+- characteristic operation buttons: Read, Write, Monitor 
+(which are available depending on properties).
+
+Pressing Read, Write, Monitor buttons results in an appropriate actions:
+- Read - value of characteristic is refreshed,
+- Write - dialog with appropriate fields needed to write to characterstic
+is displayed.
+- Monitor - value of characteristic is monitored (value should be refreshed
+each time there is an update).
+
+##### Automated test view
+
+View from original example created for automated peripheral test written 
+for SensorTag.
+
+##### Manual test view
+
+View from original example created for manual test operations written
+for SensorTag.
