@@ -85,6 +85,7 @@ class PeripheralDetailsView extends StatelessWidget {
               itemBuilder: (context, index) => _buildCharacteristicCard(
                   context, serviceState.service.characteristics[index]),
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
             ),
           ),
       ],
