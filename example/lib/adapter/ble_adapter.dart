@@ -90,6 +90,7 @@ class BleAdapter {
 
   Future<List<BleService>> discoverAndGetServicesCharacteristics(
       String peripheralId) async {
+    // TODO remove connect() call when connectivity handling is implemented
     await _scannedPeripherals[peripheralId].connect();
     await _scannedPeripherals[peripheralId]
         .discoverAllServicesAndCharacteristics();
@@ -108,6 +109,7 @@ class BleAdapter {
       bleServices.add(BleService(service.uuid, bleCharacteristics));
     }
 
+    // TODO remove when connectivity handling is implemented
     _scannedPeripherals[peripheralId].disconnectOrCancelConnection();
 
     return bleServices;

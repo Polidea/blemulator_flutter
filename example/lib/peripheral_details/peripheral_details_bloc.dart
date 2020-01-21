@@ -51,9 +51,8 @@ class PeripheralDetailsBloc
     List<BleServiceState> newBleServiceStates =
         List.from(state.bleServiceStates);
 
-    int serviceIndex = newBleServiceStates.indexOf(event.serviceStateToChange);
-    newBleServiceStates[serviceIndex] =
-        BleServiceState(event.serviceStateToChange.service, event.expanded);
+    newBleServiceStates[event.index] =
+        BleServiceState(state.bleServiceStates[event.index].service, !state.bleServiceStates[event.index].expanded);
 
     return PeripheralDetailsState(
       peripheral: state.peripheral,

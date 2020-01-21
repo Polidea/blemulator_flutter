@@ -56,7 +56,6 @@ void main() {
   test('should map ServiceViewExpandedEvent to PeripheralDetailsState', () async {
     // given
     SampleBleService service = SampleBleService();
-    BleServiceState bleServiceState = BleServiceState(service, false);
     BleServiceState newBleServiceState = BleServiceState(service, true);
 
     peripheralDetailsBloc.add(ServicesFetchedEvent([service]));
@@ -65,7 +64,7 @@ void main() {
         peripheral: peripheral, bleServiceStates: [newBleServiceState]);
 
     // when
-    peripheralDetailsBloc.add(ServiceViewExpandedEvent(bleServiceState, true));
+    peripheralDetailsBloc.add(ServiceViewExpandedEvent(0));
 
     // then
     await expectLater(

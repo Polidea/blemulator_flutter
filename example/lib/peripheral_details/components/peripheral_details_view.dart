@@ -48,8 +48,8 @@ class PeripheralDetailsView extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: state.bleServiceStates.length,
-        itemBuilder: (context, index) =>
-            _createServiceTileView(context, state.bleServiceStates[index]),
+        itemBuilder: (context, index) => _createServiceTileView(
+            context, state.bleServiceStates[index], index),
       ),
     );
   }
@@ -57,6 +57,7 @@ class PeripheralDetailsView extends StatelessWidget {
   Widget _createServiceTileView(
     BuildContext context,
     BleServiceState serviceState,
+    int index,
   ) {
     // ignore: close_sinks
     final PeripheralDetailsBloc bloc =
@@ -73,22 +74,20 @@ class PeripheralDetailsView extends StatelessWidget {
             icon: Icon(
                 serviceState.expanded ? Icons.unfold_less : Icons.unfold_more),
             onPressed: () => bloc.add(ServiceViewExpandedEvent(
-              serviceState,
-              !serviceState.expanded,
+              index,
             )),
           ),
         ),
-        serviceState.expanded
-            ? Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child: ListView.builder(
-                  itemCount: serviceState.service.characteristics.length,
-                  itemBuilder: (context, index) => _buildCharacteristicCard(
-                      context, serviceState.service.characteristics[index]),
-                  shrinkWrap: true,
-                ),
-              )
-            : Column(),
+        if (serviceState.expanded)
+          Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: ListView.builder(
+              itemCount: serviceState.service.characteristics.length,
+              itemBuilder: (context, index) => _buildCharacteristicCard(
+                  context, serviceState.service.characteristics[index]),
+              shrinkWrap: true,
+            ),
+          ),
       ],
     );
   }
@@ -121,7 +120,7 @@ class PeripheralDetailsView extends StatelessWidget {
 List<String> _getCharacteristicProperties(BleCharacteristic characteristic) {
   List<String> properties = new List<String>();
 
-  if (characteristic.isWritableWithoutResponse ||
+  if (characteristic.isWritableWithResponse ||
       characteristic.isWritableWithoutResponse) {
     properties.add("write");
   }
