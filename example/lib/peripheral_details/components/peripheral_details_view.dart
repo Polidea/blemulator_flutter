@@ -11,30 +11,31 @@ class PeripheralDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        SliverSafeArea(
-          top: false,
-          sliver: SliverPadding(
-            padding: const EdgeInsets.all(8.0),
-            sliver: SliverToBoxAdapter(
-              child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
-                builder: (context, state) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      PropertyRow(
-                        title: 'Identifier',
-                        titleIcon: Icon(Icons.perm_device_information),
-                        titleColor: Theme.of(context).primaryColor,
-                        value: state.peripheral.id,
-                      ),
-                      _createServiceView(context, state)
-                    ],
-                  );
-                },
-              ),
+        SliverPadding(
+          padding: const EdgeInsets.all(8.0),
+          sliver: SliverToBoxAdapter(
+            child: BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
+              builder: (context, state) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    PropertyRow(
+                      title: 'Identifier',
+                      titleIcon: Icon(Icons.perm_device_information),
+                      titleColor: Theme.of(context).primaryColor,
+                      value: state.peripheral.id,
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
+        BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
+          builder: (context, state) {
+            return _createServiceView(context, state);
+          },
+        )
       ],
     );
   }
@@ -43,13 +44,11 @@ class PeripheralDetailsView extends StatelessWidget {
     BuildContext context,
     PeripheralDetailsState state,
   ) {
-    return Flexible(
-      fit: FlexFit.loose,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: state.bleServiceStates.length,
-        itemBuilder: (context, index) => _createServiceTileView(
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => _createServiceTileView(
             context, state.bleServiceStates[index], index),
+        childCount: state.bleServiceStates.length,
       ),
     );
   }
