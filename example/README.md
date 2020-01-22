@@ -4,42 +4,43 @@ Demonstrates how to use the blemulator plugin.
 
 ## UI structure
 
-App consists of two screens: PeripheralListScreen and 
-PeripheralDetailsScreen.
+App consists of two screens: `PeripheralListScreen` and 
+`PeripheralDetailsScreen`.
 
 Skeleton UI flow:
 
 ![](./images/ui-flow.gif)
 
-### PeripheralListScreen
+### `PeripheralListScreen`
 
-PeripheralListScreen combines two features:
-- Control of scan process (start / stop), which is represented by a 
-button in the AppBar
-- List of scanned peripherals, which takes the main space on the 
-screen
+`PeripheralListScreen` combines two features:
+- control of scan process (start / stop), which is represented by a 
+button in the AppBar,
+- list of scanned peripherals, which takes the main space on the 
+screen.
 
 Scanned peripherals are represented in a list. Each peripheral row 
 contains:
-- Peripheral icon based on peripheral category,
-- Peripheral identifier,
-- Peripheral name,
-- Rssi value with appropriate icon and color depending on signal 
+- peripheral icon based on peripheral category,
+- peripheral identifier,
+- peripheral name,
+- rssi value with appropriate icon and color depending on signal 
 strength.
 
-Color of peripheral icon and identifier text is based on category.
+Peripheral category determines the color of icon view and identifier
+text view.
 
-Tapping on a given peripheral row results in a transition to the 
-PeripheralDetailsScreen.
+When peripheral row is tapped, application transitions to the 
+`PeripheralDetailsScreen`.
 
-### PeripheralDetailsScreen
+### `PeripheralDetailsScreen`
 
-PeripheralDetailsScreen displays more detailed information regarding 
+`PeripheralDetailsScreen` displays more detailed information regarding 
 given peripheral.
 More specific information is available depending on the peripheral's 
 connection state.
 
-#### PeripheralDetailsScreen layout
+#### `PeripheralDetailsScreen` layout
 
 For development purposes it was decided that main layout of details
 screen is going to be created differently based on the peripheral 
@@ -55,8 +56,7 @@ used during development):
 
 ##### Base details view
 
-Base details view is a scrollable view that contains specific sections,
-responsible
+Base details view is a scrollable view that contains specific sections:
 
 1. General peripheral information: identifier, connect / disconnect button
 2. Rssi section: most recent rssi value
@@ -81,7 +81,7 @@ isNotifiable, isIndicatable),
 - characteristic operation buttons: Read, Write, Monitor 
 (which are available depending on properties).
 
-Pressing Read, Write, Monitor buttons results in an appropriate actions:
+Pressing Read, Write, Monitor buttons results in an appropriate action:
 - Read - value of characteristic is refreshed,
 - Write - dialog with appropriate fields needed to write to characterstic
 is displayed.
