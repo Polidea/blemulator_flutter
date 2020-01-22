@@ -4,7 +4,7 @@
 
 ![BLEmulator logo](site/logo_Blemulator.png)
 
-# BLEmulator
+# BLEmulator!
 
 Plugin for simulating Bluetooth Low Energy peripherals.
 
