@@ -12,7 +12,8 @@
     NSMutableDictionary<NSString *, NSArray<Characteristic *> *> *characteristics = [[NSMutableDictionary alloc] init];
 
     for (NSDictionary *serviceDictionary in resultArray) {
-        Service *service = [DomainTypesConverter serviceFromDictionary:serviceDictionary];
+        Service *service = [DomainTypesConverter serviceFromDictionary:serviceDictionary
+                                              withPeripheralIdentifier:peripheral.identifier];
 
         NSMutableArray *characteristicsArray = [[NSMutableArray alloc] init];
         for (NSDictionary *characteristicDictionary in [serviceDictionary objectForKey:DART_RESULT_CHARACTERISTICS]) {
@@ -33,7 +34,8 @@
 + (Characteristic *)characteristicFromDartResult:(id)result {
     NSDictionary *resultDictionary = (NSDictionary *)result;
     return [DomainTypesConverter characteristicFromDictionary:resultDictionary
-                                      service:[DomainTypesConverter serviceFromDictionary:resultDictionary]];
+                                                      service:[DomainTypesConverter serviceFromDictionary:resultDictionary
+                                                                                 withPeripheralIdentifier:[resultDictionary objectForKey:DART_RESULT_DEVICE_IDENTIFIER]]];
 }
 
 @end

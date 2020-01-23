@@ -3,10 +3,11 @@
 
 @implementation DomainTypesConverter
 
-+ (Service *)serviceFromDictionary:(NSDictionary *)dictionary {
++ (Service *)serviceFromDictionary:(NSDictionary *)dictionary
+          withPeripheralIdentifier:(NSString *)peripheralIdentifier {
     return [[Service alloc] initWithObjectId:[[dictionary objectForKey:DART_RESULT_SERVICE_ID] intValue]
                                         uuid:[CBUUID UUIDWithString:[dictionary objectForKey:DART_RESULT_SERVICE_UUID]]
-                        peripheralIdentifier:[dictionary objectForKey:DART_RESULT_DEVICE_IDENTIFIER]
+                        peripheralIdentifier:peripheralIdentifier
                                    isPrimary:true];
 }
 
