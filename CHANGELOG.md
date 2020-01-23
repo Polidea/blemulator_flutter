@@ -1,6 +1,6 @@
 ## 1.0.1
 
-* Fix issue where accessing characteristic's properties were null on iOS
+* Fix an issue causing characteristics' properties to be null on iOS
 
 ## 0.0.1
 
