@@ -1,6 +1,6 @@
 ## 1.0.1
 
-* iOS - Fix Service JSON parsing
+* Fix issue where accessing characteristic's properties were null on iOS
 
 ## 0.0.1
 
