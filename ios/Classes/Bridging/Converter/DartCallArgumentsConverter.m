@@ -45,7 +45,8 @@
 
 + (Characteristic *)characteristicFromCallArguments:(NSDictionary<NSString *,id> *)callArguments {
     return [DomainTypesConverter characteristicFromDictionary:callArguments
-                                                      service:[DomainTypesConverter serviceFromDictionary:callArguments]];
+                                                      service:[DomainTypesConverter serviceFromDictionary:callArguments
+                                                                                 withPeripheralIdentifier:[callArguments objectForKey:DART_CALL_ARGUMENT_DEVICE_IDENTIFIER]]];
 }
 
 + (BleError *)bleErrorFromCallArguments:(NSDictionary<NSString *,id> *)callArguments {
