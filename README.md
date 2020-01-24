@@ -227,7 +227,7 @@ The example above could be refactored to a custom SimulatedService with all the
 ### Working example
 If you'd like to poke around some more, clone the repository and run the provided example.
 
-You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripheral.dart)
+You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripherals/sensor_tag.dart)
 
 ## Facilitated by Frontside 
 [Frontside](https://github.com/thefrontside) provided architectural advice and financial support for this library on behalf of [Resideo](https://github.com/resideo).
