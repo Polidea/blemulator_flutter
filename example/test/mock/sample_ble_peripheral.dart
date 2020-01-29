@@ -7,7 +7,7 @@ class SampleBlePeripheral extends BlePeripheral {
     int rssi = -30,
     bool isConnected = false,
   }) : super(name, id, rssi, isConnected,
-      BlePeripheralCategoryResolver.categoryForName(name));
+      BlePeripheralCategory.other);
 
   SampleBlePeripheral.different({
     String name = 'Different sample peripheral',
@@ -15,5 +15,5 @@ class SampleBlePeripheral extends BlePeripheral {
     int rssi = -30,
     bool isConnected = false,
   }) : super(name, id, rssi, isConnected,
-      BlePeripheralCategoryResolver.categoryForName(name));
+      BlePeripheralCategory.other);
 }

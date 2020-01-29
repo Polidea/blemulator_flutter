@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 class PropertyRow extends StatelessWidget {
   final String title;
   final String value;
-  final IconData titleIcon;
+  final Widget titleIcon;
   final Color titleColor;
   final String valueCompanion;
   final Widget rowAccessory;
   final Widget titleAccessory;
   final Widget valueAccessory;
+  final GestureTapCallback onTap;
 
   PropertyRow({
     @required this.title,
@@ -20,16 +21,20 @@ class PropertyRow extends StatelessWidget {
     this.rowAccessory,
     this.titleAccessory,
     this.valueAccessory,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: _buildCardBody(),
-      ),
+      child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: _buildCardBody(),
+          )),
     );
   }
 
@@ -67,11 +72,7 @@ class PropertyRow extends StatelessWidget {
         if (titleIcon != null)
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: Icon(
-              titleIcon,
-              color: titleColor,
-              size: 20.0,
-            ),
+            child: titleIcon,
           ),
         Expanded(
           child: Text(

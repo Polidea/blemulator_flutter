@@ -1,5 +1,5 @@
 import 'package:blemulator_example/peripheral_list/bloc.dart';
-import 'package:blemulator_example/peripheral_list/components/peripheral_row_view.dart';
+import 'package:blemulator_example/peripheral_list/components/peripheral_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,9 +41,9 @@ class PeripheralListScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: state.peripherals.length,
             itemBuilder: (context, index) {
-              return PeripheralRowView(state.peripherals[index]);
+              return PeripheralItem(state.peripherals[index]);
             },
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            padding: EdgeInsets.all(8.0),
           );
         },
       ),

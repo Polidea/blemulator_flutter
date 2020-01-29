@@ -6,7 +6,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
-import '../sensor_tag_config.dart';
+import 'package:blemulator_example/sensor_tag_config.dart';
 import 'package:flutter_ble_lib/internal/constants.dart';
 
 part 'base.dart';

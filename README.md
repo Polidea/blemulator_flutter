@@ -227,15 +227,17 @@ The example above could be refactored to a custom SimulatedService with all the
 ### Working example
 If you'd like to poke around some more, clone the repository and run the provided example.
 
-You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripheral.dart)
+You can also check out the [Simplified SensorTag implementation](https://github.com/Polidea/blemulator_flutter/blob/master/example/lib/example_peripherals/sensor_tag.dart)
 
 ## Facilitated by Frontside 
 [Frontside](https://github.com/thefrontside) provided architectural advice and financial support for this library on behalf of [Resideo](https://github.com/resideo).
 
 ## Maintained by
-This library is maintained by [Polidea](http://www.polidea.com)
+This library is maintained by [Polidea](https://www.polidea.com/?utm_source=Github&utm_medium=Npaid&utm_campaign=Main&utm_term=Code&utm_content=GH_NOP_MPG_COD_BLM001)
 
-[Learn more about Polidea's BLE services](https://www.polidea.com/services/ble).
+[Contact us](https://www.polidea.com/project/?utm_source=Github&utm_medium=Npaid&utm_campaign=Kontakt&utm_term=Code&utm_content=GH_NOP_KKT_COD_BLM001)
+
+[Learn more about Polidea's BLE services](https://www.polidea.com/services/ble/?utm_source=Github&utm_medium=Npaid&utm_campaign=Tech_BLE&utm_term=Code&utm_content=GH_NOP_BLE_COD_BLM001).
 
 ### Maintainers
 
