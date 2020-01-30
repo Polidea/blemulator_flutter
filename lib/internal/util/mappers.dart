@@ -20,3 +20,11 @@ Map<String, dynamic> mapToCharacteristicJson(
       Metadata.isNotifying: characteristic.isNotifying,
       Metadata.isIndicatable: characteristic.isIndicatable,
     };
+
+Map<String, dynamic> mapToDescriptorJson(
+  String peripheralId,
+  SimulatedDescriptor descriptor, {
+  Uint8List value,
+}) => <String, dynamic>{
+
+};

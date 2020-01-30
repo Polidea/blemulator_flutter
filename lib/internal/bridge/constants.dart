@@ -98,6 +98,9 @@ abstract class Metadata {
   static const String isNotifying = "isNotifying";
   static const String isIndicatable = "isIndicatable";
   static const String value = "value";
+  static const String descriptors = "descriptors";
+  static const String descriptorId = "descriptorId";
+  static const String descriptorUuid = "descriptorUuid";
 
   static const String errorCode = "errorCode";
   static const String reason = "reason";

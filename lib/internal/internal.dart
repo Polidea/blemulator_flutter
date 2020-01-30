@@ -27,6 +27,8 @@ part 'simulation_manager_mixins/characteristics_mixin.dart';
 
 part 'simulation_manager_mixins/client_managing_mixin.dart';
 
+part 'simulation_manager_mixins/descriptors_mixin.dart';
+
 part 'simulation_manager_mixins/discovery_mixin.dart';
 
 part 'simulation_manager_mixins/error_checks_mixin.dart';
