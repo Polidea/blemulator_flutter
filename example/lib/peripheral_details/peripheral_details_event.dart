@@ -16,9 +16,9 @@ class ServicesFetchedEvent extends PeripheralDetailsEvent {
 
 class ServiceViewExpandedEvent extends PeripheralDetailsEvent {
   @override
-  List<Object> get props => [index];
+  List<Object> get props => [expandedViewIndex];
 
-  final int index;
+  final int expandedViewIndex;
 
-  ServiceViewExpandedEvent(this.index);
+  ServiceViewExpandedEvent(this.expandedViewIndex);
 }

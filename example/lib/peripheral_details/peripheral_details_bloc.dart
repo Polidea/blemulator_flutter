@@ -3,6 +3,7 @@ import 'package:blemulator_example/adapter/ble_adapter.dart';
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class PeripheralDetailsBloc
     extends Bloc<PeripheralDetailsEvent, PeripheralDetailsState> {
@@ -10,13 +11,19 @@ class PeripheralDetailsBloc
   final BlePeripheral _chosenPeripheral;
 
   PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral) {
-    _bleAdapter
-        .discoverAndGetServicesCharacteristics(_chosenPeripheral.id)
-        .then(
-      (bleServices) {
-        add(ServicesFetchedEvent(bleServices));
-      },
-    );
+    try {
+      //TODO check if device is connected
+      _bleAdapter
+          .discoverAndGetServicesCharacteristics(_chosenPeripheral.id)
+          .then(
+            (bleServices) {
+          add(ServicesFetchedEvent(bleServices));
+        },
+      );
+    } on BleError catch (e) {
+      // TODO handle the error. To my knowledge only possible cause is either peripheral got disconnected or Bluetooth has been turned off,
+      //  so it should be handled the same way as disconnection.
+    }
   }
 
   @override
@@ -40,7 +47,7 @@ class PeripheralDetailsBloc
     return PeripheralDetailsState(
       peripheral: state.peripheral,
       bleServiceStates: event.services
-          .map((service) => BleServiceState(service, false))
+          .map((service) => BleServiceState(service: service, expanded: false))
           .toList(),
     );
   }
@@ -51,8 +58,8 @@ class PeripheralDetailsBloc
     List<BleServiceState> newBleServiceStates =
         List.from(state.bleServiceStates);
 
-    newBleServiceStates[event.index] =
-        BleServiceState(state.bleServiceStates[event.index].service, !state.bleServiceStates[event.index].expanded);
+    newBleServiceStates[event.expandedViewIndex] =
+        BleServiceState(service: state.bleServiceStates[event.expandedViewIndex].service, expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);
 
     return PeripheralDetailsState(
       peripheral: state.peripheral,

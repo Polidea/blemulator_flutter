@@ -38,7 +38,7 @@ void main() {
     List<BleService> bleServices = [SampleBleService()];
     ServicesFetchedEvent event = ServicesFetchedEvent(bleServices);
     List<BleServiceState> states =
-        bleServices.map((service) => BleServiceState(service, false)).toList();
+        bleServices.map((service) => BleServiceState(service: service, expanded: false)).toList();
 
     PeripheralDetailsState expectedState = PeripheralDetailsState(
         peripheral: peripheral, bleServiceStates: states);
@@ -53,10 +53,30 @@ void main() {
     );
   });
 
-  test('should map ServiceViewExpandedEvent to PeripheralDetailsState', () async {
+  test('should map ServiceViewExpandedEvent to PeripheralDetailsState when view expanded', () async {
     // given
     SampleBleService service = SampleBleService();
-    BleServiceState newBleServiceState = BleServiceState(service, true);
+    BleServiceState newBleServiceState = BleServiceState(service: service, expanded: true);
+
+    peripheralDetailsBloc.add(ServicesFetchedEvent([service]));
+
+    PeripheralDetailsState expectedState = PeripheralDetailsState(
+        peripheral: peripheral, bleServiceStates: [newBleServiceState]);
+
+    // when
+    peripheralDetailsBloc.add(ServiceViewExpandedEvent(0));
+
+    // then
+    await expectLater(
+      peripheralDetailsBloc,
+      emitsThrough(equals(expectedState)),
+    );
+  });
+
+  test('should map ServiceViewExpandedEvent to PeripheralDetailsState when view collapsed', () async {
+    // given
+    SampleBleService service = SampleBleService();
+    BleServiceState newBleServiceState = BleServiceState(service: service, expanded: false);
 
     peripheralDetailsBloc.add(ServicesFetchedEvent([service]));
 

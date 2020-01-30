@@ -21,5 +21,5 @@ class BleServiceState extends Equatable {
   @override
   List<Object> get props => [service, expanded];
 
-  BleServiceState(this.service, this.expanded);
+  BleServiceState({@required this.service, @required this.expanded});
 }
