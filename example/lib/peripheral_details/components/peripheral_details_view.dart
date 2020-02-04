@@ -1,7 +1,6 @@
-import 'package:blemulator_example/model/ble_service.dart';
-import 'package:blemulator_example/peripheral_details/bloc.dart';
 import 'package:blemulator_example/common/components/property_row.dart';
-import 'package:blemulator_example/styles/custom_text_style.dart';
+import 'package:blemulator_example/peripheral_details/bloc.dart';
+import 'package:blemulator_example/peripheral_details/components/services_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,103 +32,10 @@ class PeripheralDetailsView extends StatelessWidget {
         ),
         BlocBuilder<PeripheralDetailsBloc, PeripheralDetailsState>(
           builder: (context, state) {
-            return _createServiceView(context, state);
+            return ServicesSliver(state.bleServiceStates);
           },
         )
       ],
     );
   }
-
-  Widget _createServiceView(
-    BuildContext context,
-    PeripheralDetailsState state,
-  ) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => _createServiceTileView(
-            context, state.bleServiceStates[index], index),
-        childCount: state.bleServiceStates.length,
-      ),
-    );
-  }
-
-  Widget _createServiceTileView(
-    BuildContext context,
-    BleServiceState serviceState,
-    int index,
-  ) {
-    // ignore: close_sinks
-    final PeripheralDetailsBloc bloc =
-        BlocProvider.of<PeripheralDetailsBloc>(context);
-
-    return Column(
-      children: <Widget>[
-        PropertyRow(
-          title: "Service UUID",
-          titleColor: Theme.of(context).primaryColor,
-          value: serviceState.service.uuid,
-          valueTextStyle: CustomTextStyle.serviceUuidStyle,
-          rowAccessory: IconButton(
-            icon: Icon(
-                serviceState.expanded ? Icons.unfold_less : Icons.unfold_more),
-            onPressed: () => bloc.add(ServiceViewExpandedEvent(
-              index,
-            )),
-          ),
-        ),
-        if (serviceState.expanded)
-          Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: ListView.builder(
-              itemCount: serviceState.service.characteristics.length,
-              itemBuilder: (context, index) => _buildCharacteristicCard(
-                  context, serviceState.service.characteristics[index]),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-            ),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildCharacteristicCard(
-    BuildContext context,
-    BleCharacteristic characteristic,
-  ) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "UUID: ${characteristic.uuid}",
-              style: CustomTextStyle.characteristicsStyle,
-            ),
-            Text(
-              "Properties: ${_getCharacteristicProperties(characteristic).toString()}",
-              style: CustomTextStyle.characteristicsStyle,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-List<String> _getCharacteristicProperties(BleCharacteristic characteristic) {
-  List<String> properties = new List<String>();
-
-  if (characteristic.isWritableWithResponse ||
-      characteristic.isWritableWithoutResponse) {
-    properties.add("write");
-  }
-  if (characteristic.isReadable) {
-    properties.add("read");
-  }
-  if (characteristic.isIndicatable || characteristic.isNotifiable) {
-    properties.add("notify");
-  }
-
-  return properties;
 }
