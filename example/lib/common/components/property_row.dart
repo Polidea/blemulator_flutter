@@ -7,6 +7,7 @@ class PropertyRow extends StatelessWidget {
   final Widget titleIcon;
   final Color titleColor;
   final String valueCompanion;
+  final TextStyle valueTextStyle;
   final Widget rowAccessory;
   final Widget titleAccessory;
   final Widget valueAccessory;
@@ -17,6 +18,7 @@ class PropertyRow extends StatelessWidget {
     this.titleIcon,
     this.titleColor,
     @required this.value,
+    this.valueTextStyle = CustomTextStyle.cardValue,
     this.valueCompanion,
     this.rowAccessory,
     this.titleAccessory,
@@ -113,7 +115,7 @@ class PropertyRow extends StatelessWidget {
                 child: Text(
                   value ?? '',
                   textWidthBasis: TextWidthBasis.longestLine,
-                  style: CustomTextStyle.cardValue,
+                  style: valueTextStyle,
                 ),
               ),
             ),
@@ -129,7 +131,7 @@ class PropertyRow extends StatelessWidget {
       return Expanded(
         child: Text(
           value ?? '',
-          style: CustomTextStyle.cardValue,
+          style: valueTextStyle,
         ),
       );
     }
