@@ -224,6 +224,25 @@ class SensorTag extends SimulatedPeripheral {
 The example above could be refactored to a custom SimulatedService with all the
  logic that handles cross-characteristic mechanisms and a simplified SimulatedPeripheral that takes an instance of the newly created class.
 
+### Descriptors
+
+Characteristics may hold descriptors using the optional parameter `descriptors`.
+
+```dart
+SimulatedCharacteristic(uuid: "F000AA13-0451-4000-B000-000000000000",
+                        value: Uint8List.fromList([30]),
+                        descriptors: [
+                          SimulatedDescriptor(
+                            uuid: "F0002901-0451-4000-B000-000000000000",
+                            value: Uint8List.fromList([0]),
+                            convenienceName:
+                                "Example descriptor (Characteristic "
+                                "User Description)",
+                          ),
+                        ],
+                        convenienceName: "Accelerometer Period");
+```
+
 ### Working example
 If you'd like to poke around some more, clone the repository and run the provided example.
 

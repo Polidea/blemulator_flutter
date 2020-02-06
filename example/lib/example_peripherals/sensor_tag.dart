@@ -41,6 +41,15 @@ class SensorTag extends SimulatedPeripheral {
                     SimulatedCharacteristic(
                         uuid: "F000AA13-0451-4000-B000-000000000000",
                         value: Uint8List.fromList([30]),
+                        descriptors: [
+                          SimulatedDescriptor(
+                            uuid: "F0002901-0451-4000-B000-000000000000",
+                            value: Uint8List.fromList([0]),
+                            convenienceName:
+                                "Example descriptor (Characteristic "
+                                "User Description)",
+                          ),
+                        ],
                         convenienceName: "Accelerometer Period"),
                   ],
                   convenienceName: "Accelerometer Service")
