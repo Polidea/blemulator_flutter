@@ -4,6 +4,7 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
     with
         ClientManagingMixin,
         CharacteristicsMixin,
+        DescriptorsMixin,
         ErrorChecksMixin,
         PeripheralConnectionMixin,
         PeripheralScanningMixing,

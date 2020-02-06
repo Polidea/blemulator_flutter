@@ -25,6 +25,14 @@ Map<String, dynamic> mapToDescriptorJson(
   String peripheralId,
   SimulatedDescriptor descriptor, {
   Uint8List value,
-}) => <String, dynamic>{
-
-};
+}) =>
+    <String, dynamic>{
+      Metadata.deviceIdentifier: peripheralId,
+      Metadata.serviceUuid: descriptor.characteristic.service.uuid,
+      Metadata.serviceId: descriptor.characteristic.service.id,
+      Metadata.characteristicUuid: descriptor.characteristic.uuid,
+      Metadata.characteristicId: descriptor.characteristic.id,
+      Metadata.descriptorUuid: descriptor.uuid,
+      Metadata.descriptorId: descriptor.id,
+      Metadata.value: value,
+    };

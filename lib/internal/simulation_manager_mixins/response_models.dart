@@ -6,3 +6,10 @@ class CharacteristicResponse {
 
   CharacteristicResponse(this.characteristic, this.value);
 }
+
+class DescriptorResponse {
+  final SimulatedDescriptor descriptor;
+  final Uint8List value;
+
+  DescriptorResponse(this.descriptor, this.value);
+}

@@ -40,18 +40,31 @@ abstract class DartMethodName {
       "readCharacteristicForDevice";
   static const String readCharacteristicForService =
       "readCharacteristicForService";
+
   static const String writeCharacteristicForIdentifier =
       "writeCharacteristicForIdentifier";
   static const String writeCharacteristicForDevice =
       "writeCharacteristicForDevice";
   static const String writeCharacteristicForService =
       "writeCharacteristicForService";
+
   static const String monitorCharacteristicForIdentifier =
       "monitorCharacteristicForIdentifier";
   static const String monitorCharacteristicForDevice =
       "monitorCharacteristicForDevice";
   static const String monitorCharacteristicForService =
       "monitorCharacteristicForService";
+
+  static const String writeDescriptorForIdentifier = "writeDescriptorForIdentifier";
+  static const String writeDescriptorForCharacteristic = "writeDescriptorForCharacteristic";
+  static const String writeDescriptorForService = "writeDescriptorForService";
+  static const String writeDescriptorForDevice = "writeDescriptorForDevice";
+
+  static const String readDescriptorForIdentifier = "readDescriptorForIdentifier";
+  static const String readDescriptorForCharacteristic = "readDescriptorForCharacteristic";
+  static const String readDescriptorForService = "readDescriptorForService";
+  static const String readDescriptorForDevice = "readDescriptorForDevice";
+
   static const String cancelTransaction = "cancelTransaction";
   static const String readRssi = "rssi";
   static const String requestMtu = "requestMtu";
@@ -63,6 +76,8 @@ abstract class SimulationArgumentName {
   static const String serviceId = "serviceId";
   static const String characteristicUuid = "characteristicUuid";
   static const String characteristicIdentifier = "characteristicIdentifier";
+  static const String descriptorId = "descriptorId";
+  static const String descriptorUuid = "descriptorUuid";
   static const String name = "name";
   static const String id = "id";
   static const String mtu = "mtu";

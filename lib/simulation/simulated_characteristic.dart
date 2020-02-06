@@ -34,6 +34,8 @@ class SimulatedCharacteristic {
           value: (descriptor) => descriptor,
         ) {
     _value = value;
+    _descriptors.values
+        .forEach((descriptor) => descriptor.attachToCharacteristic(this));
   }
 
   void attachToService(SimulatedService service) => this.service = service;

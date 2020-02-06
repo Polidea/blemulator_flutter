@@ -50,6 +50,12 @@ abstract class SimulationManagerBase {
         orElse: () => null,
       );
 
+  SimulatedPeripheral _findPeripheralWithDescriptorId(int id) =>
+      _peripherals.values.firstWhere(
+        (peripheral) => peripheral.hasDescriptor(id),
+        orElse: () => null,
+      );
+
   Future<void> cancelTransactionIfExists(String transactionId) async {
     await _cancelMonitoringTransactionIfExists(transactionId);
     await _pendingTransactions.remove(transactionId)?.cancel()?.catchError(

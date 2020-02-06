@@ -7,6 +7,7 @@ class SimulatedDescriptor {
   final bool writable;
   Uint8List _value;
   final int id;
+  SimulatedCharacteristic characteristic;
   StreamController<Uint8List> _streamController;
 
   SimulatedDescriptor({
@@ -18,6 +19,9 @@ class SimulatedDescriptor {
   }) : id = IdGenerator().nextId() {
     _value = value;
   }
+
+  void attachToCharacteristic(SimulatedCharacteristic characteristic) =>
+      this.characteristic = characteristic;
 
   Future<Uint8List> read() async => _value;
 
