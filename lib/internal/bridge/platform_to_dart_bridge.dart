@@ -128,7 +128,11 @@ class PlatformToDartBridge {
                 .characteristics()
                 .map(
                   (characteristic) => mapToCharacteristicJson(
-                      call.arguments[ArgumentName.id], characteristic, null),
+                    call.arguments[ArgumentName.id],
+                    characteristic,
+                    null,
+                    serializeDescriptors: true,
+                  ),
                 )
                 .toList(),
           },

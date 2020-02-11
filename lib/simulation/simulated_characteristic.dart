@@ -64,7 +64,7 @@ class SimulatedCharacteristic {
     return _streamController.stream;
   }
 
-  List<SimulatedDescriptor> descriptors() => _descriptors.values;
+  List<SimulatedDescriptor> descriptors() => _descriptors.values.toList();
 
   SimulatedDescriptor descriptor(int id) => _descriptors[id];
 
