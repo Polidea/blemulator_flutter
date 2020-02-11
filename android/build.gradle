@@ -35,5 +35,5 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.Polidea:MultiPlatformBleAdapter:0.1.3'
+    implementation 'com.github.Polidea:MultiPlatformBleAdapter:20bca65'
 }
