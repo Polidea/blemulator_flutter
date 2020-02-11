@@ -31,5 +31,7 @@ public interface SimulationArgumentName {
     String IS_INDICATABLE = "isIndicatable";
     String VALUE = "value";
 
+    String DESCRIPTORS = "descriptors";
+
     String TRANSACTION_ID = "transactionId";
 }

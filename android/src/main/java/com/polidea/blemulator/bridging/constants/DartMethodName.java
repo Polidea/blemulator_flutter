@@ -24,7 +24,17 @@ public interface DartMethodName {
     String MONITOR_CHARACTERISTIC_FOR_IDENTIFIER = "monitorCharacteristicForIdentifier";
     String MONITOR_CHARACTERISTIC_FOR_DEVICE = "monitorCharacteristicForDevice";
     String MONITOR_CHARACTERISTIC_FOR_SERVICE = "monitorCharacteristicForService";
-    
+
+    String READ_DESCRIPTOR_FOR_IDENTIFIER = "readDescriptorForIdentifier";
+    String READ_DESCRIPTOR_FOR_CHARACTERISTIC = "readDescriptorForCharacteristic";
+    String READ_DESCRIPTOR_FOR_SERVICE = "readDescriptorForService";
+    String READ_DESCRIPTOR_FOR_DEVICE = "readDescriptorForDevice";
+
+    String WRITE_DESCRIPTOR_FOR_IDENTIFIER = "writeDescriptorForIdentifier";
+    String WRITE_DESCRIPTOR_FOR_CHARACTERISTIC = "writeDescriptorForCharacteristic";
+    String WRITE_DESCRIPTOR_FOR_SERVICE = "writeDescriptorForService";
+    String WRITE_DESCRIPTOR_FOR_DEVICE = "writeDescriptorForDevice";
+
     String RSSI = "rssi";
     String REQUEST_MTU = "requestMtu";
     String CANCEL_TRANSACTION = "cancelTransaction";

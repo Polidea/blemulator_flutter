@@ -1,7 +1,9 @@
 package com.polidea.blemulator;
 
 import android.util.Log;
+import android.util.SparseArray;
 
+import com.polidea.blemulator.bridging.CharacteristicContainer;
 import com.polidea.blemulator.bridging.DartMethodCaller;
 import com.polidea.blemulator.bridging.DartValueHandler;
 import com.polidea.multiplatformbleadapter.BleAdapter;
@@ -21,15 +23,16 @@ import com.polidea.multiplatformbleadapter.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class SimulatedAdapter implements BleAdapter {
 
     private static final String TAG = SimulatedAdapter.class.getSimpleName();
 
     private Map<String, DeviceContainer> knownPeripherals = new HashMap<>();
+    private SparseArray<CharacteristicContainer> knownCharacteristics = new SparseArray<>();
     private DartMethodCaller dartMethodCaller;
     private DartValueHandler dartValueHandler;
     private String logLevel = Constants.BluetoothLogLevel.NONE;
@@ -258,6 +261,13 @@ public class SimulatedAdapter implements BleAdapter {
                     deviceContainer.setConnected(oldContainer.isConnected());
                 }
                 knownPeripherals.put(deviceContainer.getIdentifier(), deviceContainer);
+
+                for (List<CharacteristicContainer> characteristicContainers : deviceContainer.getCharacteristicContainersIndexedByServiceUuids().values()) {
+                    for (CharacteristicContainer characteristicContainer : characteristicContainers) {
+                        knownCharacteristics.put(characteristicContainer.getCharacteristic().getId(), characteristicContainer);
+                    }
+                }
+
                 onSuccessCallback.onSuccess(new Device(deviceContainer.getIdentifier(), deviceContainer.getName()));
             }
         };
@@ -302,14 +312,23 @@ public class SimulatedAdapter implements BleAdapter {
             throw new BleError(BleErrorCode.DeviceNotConnected, "Device not connected", 0);
         }
 
-        if (knownPeripherals.get(deviceIdentifier).getCharacteristics() == null) {
+        if (knownPeripherals.get(deviceIdentifier).getCharacteristicContainersIndexedByServiceUuids() == null) {
             throw new BleError(BleErrorCode.CharacteristicsNotDiscovered, "Discovery not done on this device", 0);
         }
 
-        return knownPeripherals
+        List<CharacteristicContainer> characteristicContainers = knownPeripherals
                 .get(deviceIdentifier)
-                .getCharacteristics()
+                .getCharacteristicContainersIndexedByServiceUuids()
                 .get(serviceUUID);
+
+        List<Characteristic> characteristics = new LinkedList<>();
+        if (characteristicContainers != null) {
+            for (CharacteristicContainer characteristicContainer : characteristicContainers) {
+                characteristics.add(characteristicContainer.getCharacteristic());
+            }
+        }
+
+        return characteristics;
     }
 
     @Override
@@ -321,9 +340,21 @@ public class SimulatedAdapter implements BleAdapter {
             if (deviceContainer.getServices() != null) {
                 for (Service service : deviceContainer.getServices()) {
                     if (service.getId() == serviceIdentifier) {
-                        return deviceContainer
-                                .getCharacteristics()
+                        if (!deviceContainer.isConnected()) {
+                            throw new BleError(BleErrorCode.DeviceNotConnected, "Device not connected", 0);
+                        }
+                        List<CharacteristicContainer> characteristicContainers = deviceContainer
+                                .getCharacteristicContainersIndexedByServiceUuids()
                                 .get(service.getUuid().toString().toUpperCase());
+
+                        List<Characteristic> characteristics = new LinkedList<>();
+                        if (characteristicContainers != null) {
+                            for (CharacteristicContainer characteristicContainer : characteristicContainers) {
+                                characteristics.add(characteristicContainer.getCharacteristic());
+                            }
+                        }
+
+                        return characteristics;
                     }
                 }
             }
@@ -335,20 +366,75 @@ public class SimulatedAdapter implements BleAdapter {
 
     @Override
     public List<Descriptor> descriptorsForDevice(String deviceIdentifier, String serviceUUID, String characteristicUUID) throws BleError {
-        //TODO
-        return null;
+        if (knownPeripherals.get(deviceIdentifier) == null) {
+            throw new BleError(BleErrorCode.DeviceNotFound, "Device unknown", 0);
+        }
+
+        if (!knownPeripherals.get(deviceIdentifier).isConnected()) {
+            throw new BleError(BleErrorCode.DeviceNotConnected, "Device not connected", 0);
+        }
+
+        if (knownPeripherals.get(deviceIdentifier).getServices() == null) {
+            throw new BleError(BleErrorCode.ServicesNotDiscovered, "Discovery not done on this device", 0);
+        }
+
+        List<CharacteristicContainer> characteristicContainers = knownPeripherals.get(deviceIdentifier)
+                .getCharacteristicContainersIndexedByServiceUuids()
+                .get(serviceUUID);
+
+        List<Descriptor> descriptors = null;
+
+        for (CharacteristicContainer characteristicContainer : characteristicContainers) {
+            if (characteristicContainer.getCharacteristic().getUuid().equals(characteristicUUID.toUpperCase())) {
+                descriptors = characteristicContainer.getDescriptors();
+                break;
+            }
+        }
+
+        return descriptors;
     }
 
     @Override
     public List<Descriptor> descriptorsForService(int serviceIdentifier, String characteristicUUID) throws BleError {
-        //TODO
-        return null;
+        for (DeviceContainer deviceContainer : knownPeripherals.values()) {
+            if (deviceContainer.getServices() != null) {
+                for (Service service : deviceContainer.getServices()) {
+                    if (service.getId() == serviceIdentifier) {
+                        if (!deviceContainer.isConnected()) {
+                            throw new BleError(BleErrorCode.DeviceNotConnected, "Device not connected", 0);
+                        }
+                        List<CharacteristicContainer> characteristicContainers = deviceContainer
+                                .getCharacteristicContainersIndexedByServiceUuids()
+                                .get(service.getUuid().toString().toUpperCase());
+
+                        if (characteristicContainers != null) {
+                            for (CharacteristicContainer characteristicContainer : characteristicContainers) {
+                                if (characteristicContainer.getCharacteristic().getUuid().equals(characteristicUUID.toUpperCase())) {
+                                    return characteristicContainer.getDescriptors();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        throw new BleError(BleErrorCode.ServiceNotFound, "Service with id " + serviceIdentifier + " not found", 0);
     }
 
     @Override
     public List<Descriptor> descriptorsForCharacteristic(int characteristicIdentifier) throws BleError {
-        //TODO
-        return null;
+        CharacteristicContainer characteristicContainer = knownCharacteristics.get(characteristicIdentifier);
+
+        if (characteristicContainer == null) {
+            throw new BleError(BleErrorCode.CharacteristicNotFound, "Service with id " + characteristicIdentifier + " not found", 0);
+        }
+
+        if (!knownPeripherals.get(characteristicContainer.getCharacteristic().getDeviceId()).isConnected()) {
+            throw new BleError(BleErrorCode.DeviceNotConnected, "Device not connected", 0);
+        }
+
+        return characteristicContainer.getDescriptors();
     }
 
     @Override
@@ -500,7 +586,8 @@ public class SimulatedAdapter implements BleAdapter {
                                         String transactionId,
                                         OnSuccessCallback<Descriptor> successCallback,
                                         OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "readDescriptorForDevice");
+        dartMethodCaller.readDescriptorForDevice(deviceId, serviceUUID, characteristicUUID, descriptorUUID, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -510,7 +597,8 @@ public class SimulatedAdapter implements BleAdapter {
                                          String transactionId,
                                          OnSuccessCallback<Descriptor> successCallback,
                                          OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "readDescriptorForService");
+        dartMethodCaller.readDescriptorForService(serviceIdentifier, characteristicUUID, descriptorUUID, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -519,7 +607,8 @@ public class SimulatedAdapter implements BleAdapter {
                                                 String transactionId,
                                                 OnSuccessCallback<Descriptor> successCallback,
                                                 OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "readDescriptorForCharacteristic");
+        dartMethodCaller.readDescriptorForCharacteristic(characteristicIdentifier, descriptorUUID, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -527,7 +616,8 @@ public class SimulatedAdapter implements BleAdapter {
                                String transactionId,
                                OnSuccessCallback<Descriptor> onSuccessCallback,
                                OnErrorCallback onErrorCallback) {
-        //TODO
+        Log.i(TAG, "readDescriptor");
+        dartMethodCaller.readDescriptor(descriptorIdentifier, transactionId, onSuccessCallback, onErrorCallback);
     }
 
     @Override
@@ -539,7 +629,8 @@ public class SimulatedAdapter implements BleAdapter {
                                          String transactionId,
                                          OnSuccessCallback<Descriptor> successCallback,
                                          OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "writeDescriptorForDevice");
+        dartMethodCaller.writeDescriptorForDevice(deviceId, serviceUUID, characteristicUUID, descriptorUUID, valueBase64, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -550,7 +641,8 @@ public class SimulatedAdapter implements BleAdapter {
                                           String transactionId,
                                           OnSuccessCallback<Descriptor> successCallback,
                                           OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "writeDescriptorForService");
+        dartMethodCaller.writeDescriptorForService(serviceIdentifier, characteristicUUID, descriptorUUID, valueBase64, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -560,7 +652,8 @@ public class SimulatedAdapter implements BleAdapter {
                                                  String transactionId,
                                                  OnSuccessCallback<Descriptor> successCallback,
                                                  OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "writeDescriptorForCharacteristic");
+        dartMethodCaller.writeDescriptorForCharacteristic(characteristicIdentifier, descriptorUUID, valueBase64, transactionId, successCallback, errorCallback);
     }
 
     @Override
@@ -569,7 +662,8 @@ public class SimulatedAdapter implements BleAdapter {
                                 String transactionId,
                                 OnSuccessCallback<Descriptor> successCallback,
                                 OnErrorCallback errorCallback) {
-        //TODO
+        Log.i(TAG, "writeDescriptor");
+        dartMethodCaller.writeDescriptor(descriptorIdentifier, valueBase64, transactionId, successCallback, errorCallback);
     }
 
     @Override
