@@ -33,7 +33,7 @@ abstract class SimulationManagerBase {
       },
       onError: (error) {
         _pendingTransactions.remove(transactionId);
-        return Future.error(error);
+        throw error;
       },
     );
   }
