@@ -41,15 +41,6 @@ class SensorTag extends SimulatedPeripheral {
                     SimulatedCharacteristic(
                         uuid: "F000AA13-0451-4000-B000-000000000000",
                         value: Uint8List.fromList([30]),
-                        descriptors: [
-                          SimulatedDescriptor(
-                            uuid: "F0002901-0451-4000-B000-000000000000",
-                            value: Uint8List.fromList([0]),
-                            convenienceName:
-                                "Example descriptor (Characteristic "
-                                "User Description)",
-                          ),
-                        ],
                         convenienceName: "Accelerometer Period"),
                   ],
                   convenienceName: "Accelerometer Service")
@@ -99,6 +90,21 @@ class TemperatureService extends SimulatedService {
                 value: Uint8List.fromList([0, 0, 0, 0]),
                 convenienceName: "IR Temperature Data",
                 isNotifiable: true,
+                descriptors: [
+                  SimulatedDescriptor(
+                    uuid: "00002901-0000-1000-8000-00805f9b34fb",
+                    value: Uint8List.fromList([0]),
+                    convenienceName:
+                    "Client characteristic configuration",
+                  ),
+                  SimulatedDescriptor(
+                    uuid: "00002902-0000-1000-8000-00805f9b34fb",
+                    value: Uint8List.fromList([0]),
+                    writable: false,
+                    convenienceName:
+                    "Characteristic user description",
+                  ),
+                ],
               ),
               BooleanCharacteristic(
                 uuid: _temperatureConfigUuid,
