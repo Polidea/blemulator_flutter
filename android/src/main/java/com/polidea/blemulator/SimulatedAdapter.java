@@ -385,7 +385,8 @@ public class SimulatedAdapter implements BleAdapter {
         List<Descriptor> descriptors = null;
 
         for (CharacteristicContainer characteristicContainer : characteristicContainers) {
-            if (characteristicContainer.getCharacteristic().getUuid().equals(characteristicUUID.toUpperCase())) {
+            String checkedUuid = characteristicContainer.getCharacteristic().getUuid().toString().toUpperCase();
+            if (checkedUuid.equals(characteristicUUID.toUpperCase())) {
                 descriptors = characteristicContainer.getDescriptors();
                 break;
             }
@@ -409,17 +410,19 @@ public class SimulatedAdapter implements BleAdapter {
 
                         if (characteristicContainers != null) {
                             for (CharacteristicContainer characteristicContainer : characteristicContainers) {
-                                if (characteristicContainer.getCharacteristic().getUuid().equals(characteristicUUID.toUpperCase())) {
+                                String checkedId = characteristicContainer.getCharacteristic().getUuid().toString().toUpperCase();
+                                if (checkedId.equals(characteristicUUID.toUpperCase())) {
                                     return characteristicContainer.getDescriptors();
                                 }
                             }
                         }
+                        break;
                     }
                 }
             }
         }
 
-        throw new BleError(BleErrorCode.ServiceNotFound, "Service with id " + serviceIdentifier + " not found", 0);
+        throw new BleError(BleErrorCode.CharacteristicNotFound, "Characteristic with uuid " + characteristicUUID + " not found", 0);
     }
 
     @Override

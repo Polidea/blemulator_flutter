@@ -20,7 +20,7 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return DescriptorResponse(descriptor, value);
+        return DescriptorResponse(peripheral.id, descriptor, value);
       });
 
   Future<DescriptorResponse> _readDescriptorForCharacteristic(
@@ -51,7 +51,7 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return DescriptorResponse(descriptor, value);
+        return DescriptorResponse(peripheral.id, descriptor, value);
       });
 
   Future<DescriptorResponse> _readDescriptorForService(
@@ -86,7 +86,7 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return DescriptorResponse(descriptor, value);
+        return DescriptorResponse(peripheral.id, descriptor, value);
       });
 
   Future<DescriptorResponse> _readDescriptorForDevice(
@@ -119,10 +119,10 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return DescriptorResponse(descriptor, value);
+        return DescriptorResponse(peripheral.id, descriptor, value);
       });
 
-  Future<SimulatedDescriptor> _writeDescriptorForIdentifier(
+  Future<DescriptorResponse> _writeDescriptorForIdentifier(
     int descriptorIdentifier,
     Uint8List value,
     String transactionId,
@@ -142,10 +142,10 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return descriptor;
+        return DescriptorResponse(peripheral.id, descriptor, null);
       });
 
-  Future<SimulatedDescriptor> _writeDescriptorForCharacteristic(
+  Future<DescriptorResponse> _writeDescriptorForCharacteristic(
     int characteristicIdentifier,
     String descriptorUuid,
     Uint8List value,
@@ -175,10 +175,10 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return descriptor;
+        return DescriptorResponse(peripheral.id, descriptor, null);
       });
 
-  Future<SimulatedDescriptor> _writeDescriptorForService(
+  Future<DescriptorResponse> _writeDescriptorForService(
     int serviceIdentifier,
     String characteristicUuid,
     String descriptorUuid,
@@ -211,10 +211,10 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return descriptor;
+        return DescriptorResponse(peripheral.id, descriptor, null);
       });
 
-  Future<SimulatedDescriptor> _writeDescriptorForDevice(
+  Future<DescriptorResponse> _writeDescriptorForDevice(
     String deviceIdentifier,
     String serviceUuid,
     String characteristicUuid,
@@ -245,6 +245,6 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
 
         await _errorIfDisconnected(peripheral.id);
 
-        return descriptor;
+        return DescriptorResponse(peripheral.id, descriptor, null);
       });
 }

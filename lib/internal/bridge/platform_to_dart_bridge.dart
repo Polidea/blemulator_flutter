@@ -274,67 +274,75 @@ class PlatformToDartBridge {
         call.arguments[SimulationArgumentName.transactionId]);
   }
 
-  Future<dynamic> _readDescriptorForIdentifier(MethodCall call) =>
-      _manager._readDescriptorForIdentifier(
+  Future<dynamic> _readDescriptorForIdentifier(MethodCall call) => _manager
+      ._readDescriptorForIdentifier(
         call.arguments[SimulationArgumentName.descriptorId],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _readDescriptorForCharacteristic(MethodCall call) =>
-      _manager._readDescriptorForCharacteristic(
+  Future<dynamic> _readDescriptorForCharacteristic(MethodCall call) => _manager
+      ._readDescriptorForCharacteristic(
         call.arguments[SimulationArgumentName.characteristicIdentifier],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _readDescriptorForService(MethodCall call) =>
-      _manager._readDescriptorForService(
+  Future<dynamic> _readDescriptorForService(MethodCall call) => _manager
+      ._readDescriptorForService(
         call.arguments[SimulationArgumentName.serviceId],
         call.arguments[SimulationArgumentName.characteristicUuid],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _readDescriptorForDevice(MethodCall call) =>
-      _manager._readDescriptorForDevice(
+  Future<dynamic> _readDescriptorForDevice(MethodCall call) => _manager
+      ._readDescriptorForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier],
         call.arguments[SimulationArgumentName.serviceUuid],
         call.arguments[SimulationArgumentName.characteristicUuid],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _writeDescriptorForIdentifier(MethodCall call) =>
-      _manager._writeDescriptorForIdentifier(
+  Future<dynamic> _writeDescriptorForIdentifier(MethodCall call) => _manager
+      ._writeDescriptorForIdentifier(
         call.arguments[SimulationArgumentName.descriptorId],
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _writeDescriptorForCharacteristic(MethodCall call) =>
-      _manager._writeDescriptorForCharacteristic(
+  Future<dynamic> _writeDescriptorForCharacteristic(MethodCall call) => _manager
+      ._writeDescriptorForCharacteristic(
         call.arguments[SimulationArgumentName.characteristicIdentifier],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _writeDescriptorForService(MethodCall call) =>
-      _manager._writeDescriptorForService(
+  Future<dynamic> _writeDescriptorForService(MethodCall call) => _manager
+      ._writeDescriptorForService(
         call.arguments[SimulationArgumentName.serviceId],
         call.arguments[SimulationArgumentName.characteristicUuid],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 
-  Future<dynamic> _writeDescriptorForDevice(MethodCall call) =>
-      _manager._writeDescriptorForDevice(
+  Future<dynamic> _writeDescriptorForDevice(MethodCall call) => _manager
+      ._writeDescriptorForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier],
         call.arguments[SimulationArgumentName.serviceUuid],
         call.arguments[SimulationArgumentName.characteristicUuid],
         call.arguments[SimulationArgumentName.descriptorUuid],
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
-      );
+      )
+      .then((response) => mapToDescriptorJson(response));
 }

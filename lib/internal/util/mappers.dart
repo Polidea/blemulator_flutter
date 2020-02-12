@@ -26,7 +26,10 @@ Map<String, dynamic> mapToCharacteristicJson(
       Metadata.descriptors,
       () => characteristic
           .descriptors()
-          .map((descriptor) => mapToDescriptorJson(peripheralId, descriptor))
+          .map(
+            (descriptor) => mapToDescriptorJson(
+                DescriptorResponse(peripheralId, descriptor, null)),
+          )
           .toList(),
     );
   }
@@ -35,18 +38,16 @@ Map<String, dynamic> mapToCharacteristicJson(
 }
 
 Map<String, dynamic> mapToDescriptorJson(
-  String peripheralId,
-  SimulatedDescriptor descriptor, {
-  Uint8List value,
-}) =>
+  DescriptorResponse response,
+) =>
     <String, dynamic>{
-      Metadata.deviceIdentifier: peripheralId,
-      Metadata.serviceUuid: descriptor.characteristic.service.uuid,
-      Metadata.serviceId: descriptor.characteristic.service.id,
-      Metadata.characteristicUuid: descriptor.characteristic.uuid,
-      Metadata.characteristicId: descriptor.characteristic.id,
-      Metadata.descriptorUuid: descriptor.uuid,
-      Metadata.descriptorId: descriptor.id,
-      Metadata.deviceIdentifier: peripheralId,
-      Metadata.value: value,
+      Metadata.deviceIdentifier: response.peripheralId,
+      Metadata.serviceUuid: response.descriptor.characteristic.service.uuid,
+      Metadata.serviceId: response.descriptor.characteristic.service.id,
+      Metadata.characteristicUuid: response.descriptor.characteristic.uuid,
+      Metadata.characteristicId: response.descriptor.characteristic.id,
+      Metadata.descriptorUuid: response.descriptor.uuid,
+      Metadata.descriptorId: response.descriptor.id,
+      Metadata.deviceIdentifier: response.peripheralId,
+      Metadata.value: response.value,
     };

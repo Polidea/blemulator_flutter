@@ -8,8 +8,9 @@ class CharacteristicResponse {
 }
 
 class DescriptorResponse {
+  final String peripheralId;
   final SimulatedDescriptor descriptor;
   final Uint8List value;
 
-  DescriptorResponse(this.descriptor, this.value);
+  DescriptorResponse(this.peripheralId, this.descriptor, this.value);
 }
