@@ -593,7 +593,7 @@ public class DartMethodCaller {
         }};
 
         dartMethodChannel.invokeMethod(
-                DartMethodName.READ_DESCRIPTOR_FOR_DEVICE,
+                DartMethodName.READ_DESCRIPTOR_FOR_SERVICE,
                 arguments,
                 new MethodChannel.Result() {
                     @Override
@@ -625,7 +625,7 @@ public class DartMethodCaller {
         }};
 
         dartMethodChannel.invokeMethod(
-                DartMethodName.READ_DESCRIPTOR_FOR_DEVICE,
+                DartMethodName.READ_DESCRIPTOR_FOR_CHARACTERISTIC,
                 arguments,
                 new MethodChannel.Result() {
                     @Override
@@ -655,7 +655,7 @@ public class DartMethodCaller {
         }};
 
         dartMethodChannel.invokeMethod(
-                DartMethodName.READ_DESCRIPTOR_FOR_DEVICE,
+                DartMethodName.READ_DESCRIPTOR_FOR_IDENTIFIER,
                 arguments,
                 new MethodChannel.Result() {
                     @Override

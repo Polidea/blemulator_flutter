@@ -589,7 +589,7 @@ class PeripheralTestOperations {
           SensorTagTemperatureUuids.clientCharacteristicConfigurationDescriptor,
           Uint8List.fromList([enable ? 1 : 0, 0]),
         );
-        log("Descriptor $value written to!");
+        log("Descriptor ${value.uuid} written to!");
       });
 
   Future<void> writeDescriptorForService({bool enable = false}) async =>
@@ -608,7 +608,7 @@ class PeripheralTestOperations {
           SensorTagTemperatureUuids.clientCharacteristicConfigurationDescriptor,
           Uint8List.fromList([enable ? 1 : 0, 0]),
         );
-        log("Descriptor $value written to!");
+        log("Descriptor ${value.uuid} written to!");
       });
 
   Future<void> writeDescriptorForCharacteristic({bool enable = false}) async =>
@@ -631,7 +631,7 @@ class PeripheralTestOperations {
           SensorTagTemperatureUuids.clientCharacteristicConfigurationDescriptor,
           Uint8List.fromList([enable ? 1 : 0, 0]),
         );
-        log("Descriptor $value written to!");
+        log("Descriptor ${value.uuid} written to!");
       });
 
   Future<void> writeDescriptor({bool enable = false}) async =>
@@ -660,7 +660,7 @@ class PeripheralTestOperations {
         await chosenDescriptor.write(
           Uint8List.fromList([enable ? 1 : 0, 0]),
         );
-        log("Descriptor $chosenDescriptor written to!");
+        log("Descriptor ${chosenDescriptor.uuid} written to!");
       });
 
   Future<void> readWriteDescriptorForPeripheral() async =>

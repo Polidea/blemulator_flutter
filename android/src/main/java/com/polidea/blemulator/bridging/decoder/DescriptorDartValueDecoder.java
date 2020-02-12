@@ -17,6 +17,7 @@ public class DescriptorDartValueDecoder {
         String SERVICE_ID = "serviceId";
         String SERVICE_UUID = "serviceUuid";
         String DEVICE_ID = "deviceIdentifier";
+        String VALUE = "value";
     }
 
     public Descriptor decode(Map<String, Object> values) {
@@ -25,7 +26,7 @@ public class DescriptorDartValueDecoder {
                         (String) values.get(Metadata.DESCRIPTOR_UUID)),
                 0);
 
-        return new Descriptor(
+        Descriptor descriptor = new Descriptor(
                 (Integer) values.get(Metadata.CHARACTERISTIC_ID),
                 (Integer) values.get(Metadata.SERVICE_ID),
                 UUID.fromString((String) values.get(Metadata.CHARACTERISTIC_UUID)),
@@ -36,5 +37,10 @@ public class DescriptorDartValueDecoder {
                 UUID.fromString(
                         (String) values.get(Metadata.DESCRIPTOR_UUID))
         );
+
+        byte[] value = (byte[]) values.get(Metadata.VALUE);
+        descriptor.setValue(value);
+
+        return descriptor;
     }
 }

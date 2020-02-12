@@ -76,7 +76,7 @@ abstract class SimulationArgumentName {
   static const String serviceId = "serviceId";
   static const String characteristicUuid = "characteristicUuid";
   static const String characteristicIdentifier = "characteristicIdentifier";
-  static const String descriptorId = "descriptorId";
+  static const String descriptorId = "descriptorIdentifier";
   static const String descriptorUuid = "descriptorUuid";
   static const String name = "name";
   static const String id = "id";
