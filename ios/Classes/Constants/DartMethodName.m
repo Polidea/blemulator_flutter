@@ -21,6 +21,16 @@ NSString * const DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_DEVICE = @"monitorC
 NSString * const DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_SERVICE = @"monitorCharacteristicForService";
 NSString * const DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_IDENTIFIER = @"monitorCharacteristicForIdentifier";
 
+NSString * const DART_METHOD_NAME_READ_DESCRIPTOR_FOR_IDENTIFIER = @"readDescriptorForIdentifier";
+NSString * const DART_METHOD_NAME_READ_DESCRIPTOR_FOR_CHARACTERISTIC = @"readDescriptorForCharacteristic";
+NSString * const DART_METHOD_NAME_READ_DESCRIPTOR_FOR_SERVICE = @"readDescriptorForService";
+NSString * const DART_METHOD_NAME_READ_DESCRIPTOR_FOR_DEVICE = @"readDescriptorForDevice";
+
+NSString * const DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_IDENTIFIER = @"writeDescriptorForIdentifier";
+NSString * const DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_CHARACTERISTIC = @"writeDescriptorForCharacteristic";
+NSString * const DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_SERVICE = @"writeDescriptorForService";
+NSString * const DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_DEVICE = @"writeDescriptorForDevice";
+
 NSString * const DART_METHOD_NAME_RSSI = @"rssi";
 NSString * const DART_METHOD_NAME_REQUEST_MTU = @"requestMtu";
 

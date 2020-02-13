@@ -1,4 +1,5 @@
 NSString * const DART_RESULT_CHARACTERISTICS = @"characteristics";
+NSString * const DART_RESULT_DESCRIPTORS = @"descriptors";
 NSString * const DART_RESULT_SERVICE_ID = @"serviceId";
 NSString * const DART_RESULT_SERVICE_UUID = @"serviceUuid";
 
@@ -12,3 +13,6 @@ NSString * const DART_RESULT_IS_READABLE = @"isReadable";
 NSString * const DART_RESULT_IS_WRITABLE_WITH_RESPONSE = @"isWritableWithResponse";
 NSString * const DART_RESULT_IS_WRITABLE_WITHOUT_RESPONSE = @"isWritableWithoutResponse";
 NSString * const DART_RESULT_VALUE = @"value";
+
+NSString * const DART_RESULT_DESCRIPTOR_ID = @"descriptorId";
+NSString * const DART_RESULT_DESCRIPTOR_UUID = @"descriptorUuid";

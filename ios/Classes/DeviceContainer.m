@@ -5,7 +5,7 @@
 @property (readwrite) NSString *identifier;
 @property (readwrite) NSString *name;
 @property (readwrite) NSArray<Service *> *services;
-@property (readwrite) NSDictionary<NSString *, NSArray<Characteristic *> *> *characteristics;
+@property (readwrite) NSDictionary<NSString *, NSArray<CharacteristicContainer *> *> *characteristicContainers;
 
 @end
 
@@ -17,7 +17,7 @@
         self.identifier = identifier;
         self.name = name;
         self.services = nil;
-        self.characteristics = nil;
+        self.characteristicContainers = nil;
         self.isConnected = false;
     }
     return self;
@@ -26,13 +26,13 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               name:(NSString *)name
                           services:(NSArray<Service *> *)services
-                   characteristics:(NSDictionary<NSString *, NSArray<Characteristic *> *> *)characteristics {
+                   characteristicContainers:(NSDictionary<NSString *, NSArray<CharacteristicContainer *> *> *)characteristicContainers {
     self = [super init];
     if (self) {
         self.identifier = identifier;
         self.name = name;
         self.services = services;
-        self.characteristics = characteristics;
+        self.characteristicContainers = characteristicContainers;
         self.isConnected = false;
     }
     return self;
@@ -48,8 +48,8 @@
 
 - (NSArray *)characteristicsJsonRepresentationForService:(NSString *)serviceUuidString {
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    for (Characteristic *characteristic in [_characteristics objectForKey:serviceUuidString]) {
-        [result addObject:[characteristic jsonObjectRepresentation]];
+    for (CharacteristicContainer *characteristicContainer in [_characteristicContainers objectForKey:serviceUuidString]) {
+        [result addObject:[characteristicContainer.characteristic jsonObjectRepresentation]];
     }
     return result;
 }

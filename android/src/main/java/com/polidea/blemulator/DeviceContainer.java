@@ -10,14 +10,14 @@ public class DeviceContainer {
     private String identifier;
     private String name;
     private List<Service> services;
-    private Map<String, List<CharacteristicContainer>> characteristicContainersIndexByServiceUuids;
+    private Map<String, List<CharacteristicContainer>> characteristicContainersIndexedByServiceUuids;
     private boolean isConnected = false;
 
-    public DeviceContainer(String identifier, String name, List<Service> services, Map<String, List<CharacteristicContainer>> characteristicContainersIndexByServiceUuids) {
+    public DeviceContainer(String identifier, String name, List<Service> services, Map<String, List<CharacteristicContainer>> characteristicContainersIndexedByServiceUuids) {
         this.identifier = identifier;
         this.name = name;
         this.services = services;
-        this.characteristicContainersIndexByServiceUuids = characteristicContainersIndexByServiceUuids;
+        this.characteristicContainersIndexedByServiceUuids = characteristicContainersIndexedByServiceUuids;
     }
 
     public boolean isConnected() {
@@ -41,6 +41,6 @@ public class DeviceContainer {
     }
 
     public Map<String, List<CharacteristicContainer>> getCharacteristicContainersIndexedByServiceUuids() {
-        return characteristicContainersIndexByServiceUuids;
+        return characteristicContainersIndexedByServiceUuids;
     }
 }

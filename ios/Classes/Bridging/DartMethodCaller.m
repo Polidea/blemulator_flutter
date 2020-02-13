@@ -280,6 +280,164 @@ typedef void (^SuccessHandler)(id _Nullable result);
                                   result:[self simpleInvokeMethodResultHandlerForMethod:DART_METHOD_NAME_MONITOR_CHARACTERISTIC_FOR_IDENTIFIER]];
 }
 
+// MARK: - Descriptors
+
+- (void)readDescriptorForIdentifier:(int)descriptorIdentifier
+                      transactionId:(NSString *)transactionId
+                            resolve:(Resolve)resolve
+                             reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:descriptorIdentifier], DART_CALL_ARGUMENT_DESCRIPTOR_IDENTIFIER,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_IDENTIFIER
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_IDENTIFIER
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)readDescriptorForCharacteristic:(int)characteristicIdentifier
+                         descriptorUuid:(NSString *)descriptorUuid
+                      transactionId:(NSString *)transactionId
+                            resolve:(Resolve)resolve
+                                 reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:characteristicIdentifier], DART_CALL_ARGUMENT_CHARACTERISTIC_IDENTIFIER,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_CHARACTERISTIC
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_CHARACTERISTIC
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)readDescriptorForService:(int)serviceIdentifier
+              characteristicUuid:(NSString *)characteristicUuid
+                  descriptorUuid:(NSString *)descriptorUuid
+                      transactionId:(NSString *)transactionId
+                            resolve:(Resolve)resolve
+                          reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:serviceIdentifier], DART_CALL_ARGUMENT_SERVICE_ID,
+                                              characteristicUuid, DART_CALL_ARGUMENT_CHARACTERISTIC_UUID,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_SERVICE
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_SERVICE
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)readDescriptorForDevice:(NSString *)deviceIdentifier
+                    serviceUuid:(NSString *)serviceUuid
+             characteristicUuid:(NSString *)characteristicUuid
+                 descriptorUuid:(NSString *)descriptorUuid
+                      transactionId:(NSString *)transactionId
+                            resolve:(Resolve)resolve
+                         reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_IDENTIFIER,
+                                              serviceUuid, DART_CALL_ARGUMENT_SERVICE_UUID,
+                                              characteristicUuid, DART_CALL_ARGUMENT_CHARACTERISTIC_UUID,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_DEVICE
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_READ_DESCRIPTOR_FOR_DEVICE
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)writeDescriptorForIdentifier:(int)descriptorIdentifier
+                       transactionId:(NSString *)transactionId
+                               value:(NSString *)value
+                             resolve:(Resolve)resolve
+                              reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:descriptorIdentifier], DART_CALL_ARGUMENT_DESCRIPTOR_IDENTIFIER,
+                                              [FlutterStandardTypedData
+                                               typedDataWithBytes:[Base64Coder dataFromBase64String:value]], DART_CALL_ARGUMENT_VALUE,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_IDENTIFIER
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_IDENTIFIER
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)writeDescriptorForCharacteristic:(int)characteristicIdentifier
+                          descriptorUuid:(NSString *)descriptorUuid
+                           transactionId:(NSString *)transactionId
+                                   value:(NSString *)value
+                                 resolve:(Resolve)resolve
+                                  reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:characteristicIdentifier], DART_CALL_ARGUMENT_CHARACTERISTIC_IDENTIFIER,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              [FlutterStandardTypedData
+                                               typedDataWithBytes:[Base64Coder dataFromBase64String:value]], DART_CALL_ARGUMENT_VALUE,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_CHARACTERISTIC
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_CHARACTERISTIC
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)writeDescriptorForService:(int)serviceIdentifier
+               characteristicUuid:(NSString *)characteristicUuid
+                   descriptorUuid:(NSString *)descriptorUuid
+                    transactionId:(NSString *)transactionId
+                            value:(NSString *)value
+                          resolve:(Resolve)resolve
+                           reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithInt:serviceIdentifier], DART_CALL_ARGUMENT_SERVICE_ID,
+                                              characteristicUuid, DART_CALL_ARGUMENT_CHARACTERISTIC_UUID,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              [FlutterStandardTypedData
+                                               typedDataWithBytes:[Base64Coder dataFromBase64String:value]], DART_CALL_ARGUMENT_VALUE,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_SERVICE
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_SERVICE
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
+- (void)writeDescriptorForDevice:(NSString *)deviceIdentifier
+                     serviceUuid:(NSString *)serviceUuid
+              characteristicUuid:(NSString *)characteristicUuid
+                  descriptorUuid:(NSString *)descriptorUuid
+                   transactionId:(NSString *)transactionId
+                           value:(NSString *)value
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject {
+    NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_IDENTIFIER,
+                                              serviceUuid, DART_CALL_ARGUMENT_SERVICE_UUID,
+                                              characteristicUuid, DART_CALL_ARGUMENT_CHARACTERISTIC_UUID,
+                                              descriptorUuid, DART_CALL_ARGUMENT_DESCRIPTOR_UUID,
+                                              [FlutterStandardTypedData
+                                               typedDataWithBytes:[Base64Coder dataFromBase64String:value]], DART_CALL_ARGUMENT_VALUE,
+                                              transactionId, DART_CALL_ARGUMENT_TRANSACTION_ID,
+                                              nil];
+    [self.dartMethodChannel invokeMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_DEVICE
+                               arguments:arguments
+                                  result:[self invokeMethodResultHandlerForMethod:DART_METHOD_NAME_WRITE_DESCRIPTOR_FOR_DEVICE
+                                                                        onSuccess:[self descriptorResultSuccessHandler:resolve]
+                                                                          onError:reject]];
+}
+
 // MARK: - MTU
 
 - (void)requestMTUForDevice:(NSString *)deviceIdentifier
@@ -337,6 +495,12 @@ typedef void (^SuccessHandler)(id _Nullable result);
 - (SuccessHandler)characteristicResultSuccessHandler:(Resolve)resolve {
     return ^(id result) {
         resolve([[DartResultConverter characteristicFromDartResult:result] jsonObjectRepresentation]);
+    };
+}
+
+- (SuccessHandler)descriptorResultSuccessHandler:(Resolve)resolve {
+    return ^(id result) {
+        resolve([[DartResultConverter descriptorFromDartResult:result] jsonObjectRepresentation]);
     };
 }
 

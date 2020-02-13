@@ -10,6 +10,7 @@
 @property DartMethodCaller *dartMethodCaller;
 @property DartValueHandler *dartValueHandler;
 @property NSMutableDictionary<NSString *, DeviceContainer *> *knownPeripherals;
+@property NSMutableDictionary<NSString *, CharacteristicContainer *> *knownCharacteristicContainers;
 @property NSString *logLevelValue;
 @property NSString *bluetoothState;
 
@@ -223,6 +224,11 @@
             container.isConnected = oldContainer.isConnected;
         }
         [self.knownPeripherals setObject:container forKey:container.identifier];
+        
+        for (CharacteristicContainer *characteristicContainer in [container.characteristicContainers allValues]) {
+            NSString *key = [NSString stringWithFormat:@"%d", characteristicContainer.characteristic.objectId];
+            [self.knownCharacteristicContainers setObject:characteristicContainer forKey:key];
+        }
         resolve([[[Peripheral alloc] initWithIdentifier:container.identifier
                                                    name:container.name] jsonObjectRepresentation]);
     };
@@ -233,12 +239,35 @@
                                                           reject:reject];
 }
 
-// UNUSED
 - (void)characteristicsForDevice:(NSString * _Nonnull)deviceIdentifier
                      serviceUUID:(NSString * _Nonnull)serviceUUID
                          resolve:(NS_NOESCAPE Resolve)resolve
                           reject:(NS_NOESCAPE Reject)reject {
     NSLog(@"SimulatedAdapter.characteristicsForDevice");
+    DeviceContainer *deviceContainer = [_knownPeripherals objectForKey:deviceIdentifier];
+    
+    if (deviceContainer == nil) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeDeviceNotFound
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s not found", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    if (deviceContainer.isConnected != true) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeDeviceNotConnected
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s not connected", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    if (deviceContainer.services == nil) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeServicesNotDiscovered
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s has not run discovery", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    resolve([deviceContainer characteristicsJsonRepresentationForService:serviceUUID]);
 }
 
 - (void)characteristicsForService:(double)serviceIdentifier
@@ -258,6 +287,85 @@
     BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeServiceNotFound
                                                       reason:[NSString stringWithFormat:@"Service with id %.0f not found", serviceIdentifier]];
     [bleError callReject:reject];
+}
+
+- (void)descriptorsForDevice:(NSString *)deviceIdentifier
+                 serviceUUID:(NSString *)serviceUUID
+          characteristicUUID:(NSString *)characteristicUUID
+                     resolve:(NS_NOESCAPE Resolve)resolve
+                      reject:(NS_NOESCAPE Reject)reject {
+    NSLog(@"SimulatedAdapter.descriptorsForDevice");
+    DeviceContainer *deviceContainer = [self.knownPeripherals objectForKey:deviceIdentifier];
+    
+    if (deviceContainer == nil) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeDeviceNotFound
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s not found", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    if (deviceContainer.isConnected != true) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeDeviceNotConnected
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s not connected", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    if (deviceContainer.services == nil) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeServicesNotDiscovered
+                                                          reason:[NSString stringWithFormat:@"Peripheral %s has not run discovery", deviceIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    NSArray<CharacteristicContainer *> *characteristicContainersArray = [deviceContainer.characteristicContainers objectForKey:serviceUUID];
+    for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
+        if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
+            resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
+            return;
+        }
+    }
+}
+
+- (void)descriptorsForService:(double)serviceIdentifier
+           characteristicUUID:(NSString *)characteristicUUID
+                      resolve:(NS_NOESCAPE Resolve)resolve
+                       reject:(NS_NOESCAPE Reject)reject {
+    NSLog(@"SimulatedAdapter.descriptorsForService");
+    for (DeviceContainer *container in [self.knownPeripherals allValues]) {
+        if (container.services != nil) {
+            for (Service *service in container.services) {
+                if (service.objectId == serviceIdentifier) {
+                    NSArray<CharacteristicContainer *> *characteristicContainersArray = [container.characteristicContainers objectForKey:[service.uuid UUIDString]];
+                    for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
+                        if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
+                            resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeServiceNotFound
+                                                      reason:[NSString stringWithFormat:@"Service with id %.0f not found", serviceIdentifier]];
+    [bleError callReject:reject];
+}
+
+- (void)descriptorsForCharacteristic:(double)characteristicIdentifier
+                             resolve:(NS_NOESCAPE Resolve)resolve
+                              reject:(NS_NOESCAPE Reject)reject {
+    NSString *key = [NSString stringWithFormat:@"%.0f", characteristicIdentifier];
+    CharacteristicContainer *characteristicContainer = [self.knownCharacteristicContainers objectForKey:key];
+    
+    if (characteristicContainer == nil) {
+        BleError *bleError = [[BleError alloc] initWithErrorCode:BleErrorCodeCharacteristicNotFound
+                                                          reason:[NSString stringWithFormat:@"Characteristic %.0f not found", characteristicIdentifier]];
+        [bleError callReject:reject];
+        return;
+    }
+    
+    resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
 }
 
 // MARK: - Adapter Methods - Characteristics observation
@@ -384,6 +492,120 @@
                                    transactionId:transactionId
                                          resolve:resolve
                                           reject:reject];
+}
+
+// MARK: - Adapter Methods - Descriptors
+
+- (void)readDescriptor:(double)descriptorID
+         transactionId:(NSString *)transactionId
+               resolve:(Resolve)resolve
+                reject:(Reject)reject {
+    [self.dartMethodCaller readDescriptorForIdentifier:descriptorID
+                                         transactionId:transactionId
+                                               resolve:resolve
+                                                reject:reject];
+}
+
+- (void)readDescriptorForCharacteristic:(double)characteristicID
+                         descriptorUUID:(NSString *)descriptorUUID
+                          transactionId:(NSString *)transactionId
+                                resolve:(Resolve)resolve
+                                 reject:(Reject)reject {
+    [self.dartMethodCaller readDescriptorForCharacteristic:characteristicID
+                                            descriptorUuid:descriptorUUID
+                                             transactionId:transactionId
+                                                   resolve:resolve
+                                                    reject:reject];
+}
+
+- (void)readDescriptorForService:(double)serviceId
+              characteristicUUID:(NSString *)characteristicUUID
+                  descriptorUUID:(NSString *)descriptorUUID
+                   transactionId:(NSString *)transactionId
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject {
+    [self.dartMethodCaller readDescriptorForService:serviceId
+                                 characteristicUuid:characteristicUUID
+                                     descriptorUuid:descriptorUUID
+                                      transactionId:transactionId
+                                            resolve:resolve
+                                             reject:reject];
+}
+
+- (void)readDescriptorForDevice:(NSString *)deviceIdentifier
+                    serviceUUID:(NSString *)serviceUUID
+             characteristicUUID:(NSString *)characteristicUUID
+                 descriptorUUID:(NSString *)descriptorUUID
+                  transactionId:(NSString *)transactionId
+                        resolve:(Resolve)resolve
+                         reject:(Reject)reject {
+    [self.dartMethodCaller readDescriptorForDevice:deviceIdentifier
+                                       serviceUuid:serviceUUID
+                                characteristicUuid:characteristicUUID
+                                    descriptorUuid:descriptorUUID
+                                     transactionId:transactionId
+                                           resolve:resolve
+                                            reject:reject];
+}
+
+- (void)writeDescriptor:(double)descriptorID
+            valueBase64:(NSString *)valueBase64
+          transactionId:(NSString *)transactionId
+                resolve:(Resolve)resolve
+                 reject:(Reject)reject {
+    [self.dartMethodCaller writeDescriptorForIdentifier:descriptorID
+                                          transactionId:transactionId
+                                                  value:valueBase64
+                                                resolve:resolve
+                                                 reject:reject];
+}
+
+- (void)writeDescriptorForCharacteristic:(double)characteristicID
+                          descriptorUUID:(NSString *)descriptorUUID
+                             valueBase64:(NSString *)valueBase64
+                           transactionId:(NSString *)transactionId
+                                 resolve:(Resolve)resolve
+                                  reject:(Reject)reject {
+    [self.dartMethodCaller writeDescriptorForCharacteristic:characteristicID
+                                             descriptorUuid:descriptorUUID
+                                              transactionId:transactionId
+                                                      value:valueBase64
+                                                    resolve:resolve
+                                                     reject:reject];
+}
+
+- (void)writeDescriptorForService:(double)serviceID
+               characteristicUUID:(NSString *)characteristicUUID
+                   descriptorUUID:(NSString *)descriptorUUID
+                      valueBase64:(NSString *)valueBase64
+                    transactionId:(NSString *)transactionId
+                          resolve:(Resolve)resolve
+                           reject:(Reject)reject {
+    [self.dartMethodCaller writeDescriptorForService:serviceID
+                                  characteristicUuid:characteristicUUID
+                                      descriptorUuid:descriptorUUID
+                                       transactionId:transactionId
+                                               value:valueBase64
+                                             resolve:resolve
+                                              reject:reject];
+}
+
+- (void)writeDescriptorForDevice:(NSString *)deviceIdentifier
+                     serviceUUID:(NSString *)serviceUUID
+              characteristicUUID:(NSString *)characteristicUUID
+                  descriptorUUID:(NSString *)descriptorUUID
+                     valueBase64:(NSString *)valueBase64
+                   transactionId:(NSString *)transactionId
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject {
+    [self.dartMethodCaller writeDescriptorForDevice:deviceIdentifier
+                                        serviceUuid:serviceUUID
+                                 characteristicUuid:characteristicUUID
+                                     descriptorUuid:descriptorUUID
+                                      transactionId:transactionId
+                                              value:valueBase64
+                                            resolve:resolve
+                                             reject:reject];
 }
 
 // MARK: - Adapter Methods - Known / Connected devices
