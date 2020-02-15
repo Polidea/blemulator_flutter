@@ -225,9 +225,11 @@
         }
         [self.knownPeripherals setObject:container forKey:container.identifier];
         
-        for (CharacteristicContainer *characteristicContainer in [container.characteristicContainers allValues]) {
-            NSString *key = [NSString stringWithFormat:@"%d", characteristicContainer.characteristic.objectId];
-            [self.knownCharacteristicContainers setObject:characteristicContainer forKey:key];
+        for (NSArray<CharacteristicContainer *> *arrayOfContainers in [container.characteristicContainers allValues]) {
+            for (CharacteristicContainer *characteristicContainer in arrayOfContainers) {
+                NSString *key = [NSString stringWithFormat:@"%d", characteristicContainer.characteristic.objectId];
+                [self.knownCharacteristicContainers setObject:characteristicContainer forKey:key];
+            }
         }
         resolve([[[Peripheral alloc] initWithIdentifier:container.identifier
                                                    name:container.name] jsonObjectRepresentation]);

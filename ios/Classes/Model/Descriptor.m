@@ -21,14 +21,14 @@
 
 - (NSDictionary<NSString *, id> *)jsonObjectRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithInt:_objectId], DESCRIPTOR_RESPONSE_DESCRIPTOR_ID,
-            [_uuid UUIDString].lowercaseString, DESCRIPTOR_RESPONSE_DESCRIPTOR_UUID,
-            [NSNumber numberWithInt:_characteristic.objectId], DESCRIPTOR_RESPONSE_CHARACTERISTIC_ID,
-            [_characteristic.uuid UUIDString].lowercaseString, DESCRIPTOR_RESPONSE_CHARACTERISTIC_UUID,
-            [_characteristic.service.uuid UUIDString].lowercaseString, DESCRIPTOR_RESPONSE_SERVICE_UUID,
-            [NSNumber numberWithInt:_characteristic.service.objectId], DESCRIPTOR_RESPONSE_SERVICE_ID,
-            _characteristic.service.peripheralIdentifier, DESCRIPTOR_RESPONSE_DEVICE_ID,
-            [self base64encodedStringFromBytes:_value], DESCRIPTOR_RESPONSE_VALUE,
+            [NSNumber numberWithInt:self.objectId], BLEMULATOR_DESCRIPTOR_RESPONSE_DESCRIPTOR_ID,
+            [self.uuid UUIDString].lowercaseString, BLEMULATOR_DESCRIPTOR_RESPONSE_DESCRIPTOR_UUID,
+            [NSNumber numberWithInt:self.characteristic.objectId], BLEMULATOR_DESCRIPTOR_RESPONSE_CHARACTERISTIC_ID,
+            [self.characteristic.uuid UUIDString].lowercaseString, BLEMULATOR_DESCRIPTOR_RESPONSE_CHARACTERISTIC_UUID,
+            [self.characteristic.service.uuid UUIDString].lowercaseString, BLEMULATOR_DESCRIPTOR_RESPONSE_SERVICE_UUID,
+            [NSNumber numberWithInt:self.characteristic.service.objectId], BLEMULATOR_DESCRIPTOR_RESPONSE_SERVICE_ID,
+            self.characteristic.service.peripheralIdentifier, BLEMULATOR_DESCRIPTOR_RESPONSE_DEVICE_ID,
+            [self base64encodedStringFromBytes:self.value], BLEMULATOR_DESCRIPTOR_RESPONSE_VALUE,
             nil];
 }
 

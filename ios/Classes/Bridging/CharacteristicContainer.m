@@ -20,7 +20,7 @@
 
 - (NSArray *)descriptorsJsonRepresentationForCharacteristic {
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    for (Descriptor *descriptor in _descriptors) {
+    for (Descriptor *descriptor in self.descriptors) {
         [result addObject:[descriptor jsonObjectRepresentation]];
     }
     
