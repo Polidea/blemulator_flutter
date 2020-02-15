@@ -1,20 +1,23 @@
 PODS:
   - blemulator (0.0.1):
     - Flutter
-    - MultiplatformBleAdapter (= 0.0.4)
+    - MultiplatformBleAdapter (= 0.1.3)
   - Flutter (1.0.0)
-  - flutter_ble_lib (0.0.1):
+  - flutter_ble_lib (2.1.0):
     - Flutter
-    - MultiplatformBleAdapter (= 0.0.4)
-  - MultiplatformBleAdapter (0.0.4)
+    - MultiplatformBleAdapter (= 0.1.3)
+  - MultiplatformBleAdapter (0.1.3)
+  - "permission_handler (4.2.0+hotfix.3)":
+    - Flutter
 
 DEPENDENCIES:
   - blemulator (from `.symlinks/plugins/blemulator/ios`)
   - Flutter (from `Flutter`)
   - flutter_ble_lib (from `.symlinks/plugins/flutter_ble_lib/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - MultiplatformBleAdapter
 
 EXTERNAL SOURCES:
@@ -24,12 +27,15 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_ble_lib:
     :path: ".symlinks/plugins/flutter_ble_lib/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
-  blemulator: 012650fdcaa11e45be8946da5aafa0c944cdc233
+  blemulator: d3ca29d8374f374fa2346cefe9c7410cd732c8a6
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_ble_lib: 9b0fcef11a0cb8432317e445c4cd413f9cab3b08
-  MultiplatformBleAdapter: 1beec49bbd1585505a73d4bbf649e05a55dbd85e
+  flutter_ble_lib: 0c614d66e8a33861a15fad54c327fd406910606a
+  MultiplatformBleAdapter: edd1e768925ab61637cb178bd465eb12952ec981
+  permission_handler: 40520ab8ad1bb78a282b832464e995ec87f77ec6
 
 PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 
