@@ -82,6 +82,7 @@
         self.dartMethodCaller = dartMethodCaller;
         self.dartValueHandler = dartValueHandler;
         self.knownPeripherals = [[NSMutableDictionary alloc] init];
+        self.knownCharacteristicContainers = [[NSMutableDictionary alloc] init];
         self.logLevelValue = @"None";
         self.bluetoothState = @"PoweredOn";
 
@@ -230,6 +231,7 @@
                 NSString *key = [NSString stringWithFormat:@"%d", characteristicContainer.characteristic.objectId];
                 [self.knownCharacteristicContainers setObject:characteristicContainer forKey:key];
             }
+
         }
         resolve([[[Peripheral alloc] initWithIdentifier:container.identifier
                                                    name:container.name] jsonObjectRepresentation]);
