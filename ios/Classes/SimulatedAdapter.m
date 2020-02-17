@@ -325,7 +325,7 @@
     NSArray<CharacteristicContainer *> *characteristicContainersArray = [deviceContainer.characteristicContainers objectForKey:serviceUUID];
     for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
         if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
-            resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
+            resolve([characteristicContainer descriptorsJsonRepresentation]);
             return;
         }
     }
@@ -343,7 +343,7 @@
                     NSArray<CharacteristicContainer *> *characteristicContainersArray = [container.characteristicContainers objectForKey:[service.uuid UUIDString]];
                     for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
                         if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
-                            resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
+                            resolve([characteristicContainer descriptorsJsonRepresentation]);
                             return;
                         }
                     }
@@ -369,7 +369,7 @@
         return;
     }
     
-    resolve([characteristicContainer descriptorsJsonRepresentationForCharacteristic]);
+    resolve([characteristicContainer descriptorsJsonRepresentation]);
 }
 
 // MARK: - Adapter Methods - Characteristics observation

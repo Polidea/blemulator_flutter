@@ -9,7 +9,7 @@
 - (instancetype)initWithCharacteristic:(Characteristic *)characteristic
                            descriptors:(NSArray<Descriptor *> *)descriptors;
 
-- (NSArray *)descriptorsJsonRepresentationForCharacteristic;
+- (NSArray *)descriptorsJsonRepresentation;
 
 @end
 

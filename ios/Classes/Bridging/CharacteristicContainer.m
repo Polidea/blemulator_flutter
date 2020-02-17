@@ -18,7 +18,7 @@
     return self;
 }
 
-- (NSArray *)descriptorsJsonRepresentationForCharacteristic {
+- (NSArray *)descriptorsJsonRepresentation {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     for (Descriptor *descriptor in self.descriptors) {
         [result addObject:[descriptor jsonObjectRepresentation]];

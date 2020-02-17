@@ -109,24 +109,24 @@
 
 - (void)readDescriptorForCharacteristic:(int)characteristicIdentifier
                          descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
-                             reject:(Reject)reject;
+                          transactionId:(NSString *)transactionId
+                                resolve:(Resolve)resolve
+                                 reject:(Reject)reject;
 
 - (void)readDescriptorForService:(int)serviceIdentifier
               characteristicUuid:(NSString *)characteristicUuid
                   descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
-                             reject:(Reject)reject;
+                   transactionId:(NSString *)transactionId
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject;
 
 - (void)readDescriptorForDevice:(NSString *)deviceIdentifier
                     serviceUuid:(NSString *)serviceUuid
              characteristicUuid:(NSString *)characteristicUuid
                  descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
-                             reject:(Reject)reject;
+                  transactionId:(NSString *)transactionId
+                        resolve:(Resolve)resolve
+                         reject:(Reject)reject;
 
 - (void)writeDescriptorForIdentifier:(int)descriptorIdentifier
                        transactionId:(NSString *)transactionId

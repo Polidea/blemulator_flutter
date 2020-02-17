@@ -299,8 +299,8 @@ typedef void (^SuccessHandler)(id _Nullable result);
 
 - (void)readDescriptorForCharacteristic:(int)characteristicIdentifier
                          descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
+                          transactionId:(NSString *)transactionId
+                                resolve:(Resolve)resolve
                                  reject:(Reject)reject {
     NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSNumber numberWithInt:characteristicIdentifier], DART_CALL_ARGUMENT_CHARACTERISTIC_IDENTIFIER,
@@ -317,8 +317,8 @@ typedef void (^SuccessHandler)(id _Nullable result);
 - (void)readDescriptorForService:(int)serviceIdentifier
               characteristicUuid:(NSString *)characteristicUuid
                   descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
+                   transactionId:(NSString *)transactionId
+                         resolve:(Resolve)resolve
                           reject:(Reject)reject {
     NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSNumber numberWithInt:serviceIdentifier], DART_CALL_ARGUMENT_SERVICE_ID,
@@ -337,8 +337,8 @@ typedef void (^SuccessHandler)(id _Nullable result);
                     serviceUuid:(NSString *)serviceUuid
              characteristicUuid:(NSString *)characteristicUuid
                  descriptorUuid:(NSString *)descriptorUuid
-                      transactionId:(NSString *)transactionId
-                            resolve:(Resolve)resolve
+                  transactionId:(NSString *)transactionId
+                        resolve:(Resolve)resolve
                          reject:(Reject)reject {
     NSDictionary<NSString *,id> *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                               deviceIdentifier, DART_CALL_ARGUMENT_DEVICE_IDENTIFIER,
