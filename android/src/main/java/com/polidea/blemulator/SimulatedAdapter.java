@@ -313,7 +313,7 @@ public class SimulatedAdapter implements BleAdapter {
         }
 
         if (knownPeripherals.get(deviceIdentifier).getCharacteristicContainersIndexedByServiceUuids() == null) {
-            throw new BleError(BleErrorCode.CharacteristicsNotDiscovered, "Discovery not done on this device", 0);
+            throw new BleError(BleErrorCode.CharacteristicsNotDiscovered, "Discovery not done for this peripheral", 0);
         }
 
         List<CharacteristicContainer> characteristicContainers = knownPeripherals
@@ -415,6 +415,8 @@ public class SimulatedAdapter implements BleAdapter {
                                     return characteristicContainer.getDescriptors();
                                 }
                             }
+                        } else {
+                            throw new BleError(BleErrorCode.CharacteristicNotFound, "Characteristic with uuid " + characteristicUUID + " not found", 0);
                         }
                         break;
                     }
@@ -422,7 +424,7 @@ public class SimulatedAdapter implements BleAdapter {
             }
         }
 
-        throw new BleError(BleErrorCode.CharacteristicNotFound, "Characteristic with uuid " + characteristicUUID + " not found", 0);
+        throw new BleError(BleErrorCode.ServiceNotFound, "Service with id " + serviceIdentifier + " not found", 0);
     }
 
     @Override
@@ -619,8 +621,8 @@ public class SimulatedAdapter implements BleAdapter {
                                String transactionId,
                                OnSuccessCallback<Descriptor> onSuccessCallback,
                                OnErrorCallback onErrorCallback) {
-        Log.i(TAG, "readDescriptor");
-        dartMethodCaller.readDescriptor(descriptorIdentifier, transactionId, onSuccessCallback, onErrorCallback);
+        Log.i(TAG, "readDescriptorForIdentifier");
+        dartMethodCaller.readDescriptorForIdentifier(descriptorIdentifier, transactionId, onSuccessCallback, onErrorCallback);
     }
 
     @Override
@@ -665,8 +667,8 @@ public class SimulatedAdapter implements BleAdapter {
                                 String transactionId,
                                 OnSuccessCallback<Descriptor> successCallback,
                                 OnErrorCallback errorCallback) {
-        Log.i(TAG, "writeDescriptor");
-        dartMethodCaller.writeDescriptor(descriptorIdentifier, valueBase64, transactionId, successCallback, errorCallback);
+        Log.i(TAG, "writeDescriptorForIdentifier");
+        dartMethodCaller.writeDescriptorForIdentifier(descriptorIdentifier, valueBase64, transactionId, successCallback, errorCallback);
     }
 
     @Override

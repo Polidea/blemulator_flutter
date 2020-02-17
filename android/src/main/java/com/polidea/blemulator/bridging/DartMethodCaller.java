@@ -645,10 +645,10 @@ public class DartMethodCaller {
                 });
     }
 
-    public void readDescriptor(final int descriptorIdentifier,
-                               final String transactionId,
-                               final OnSuccessCallback<Descriptor> successCallback,
-                               final OnErrorCallback errorCallback) {
+    public void readDescriptorForIdentifier(final int descriptorIdentifier,
+                                            final String transactionId,
+                                            final OnSuccessCallback<Descriptor> successCallback,
+                                            final OnErrorCallback errorCallback) {
         Map<String, Object> arguments = new HashMap<String, Object>() {{
             put(ArgumentName.DESCRIPTOR_IDENTIFIER, descriptorIdentifier);
             put(ArgumentName.TRANSACTION_ID, transactionId);
@@ -670,7 +670,7 @@ public class DartMethodCaller {
 
                     @Override
                     public void notImplemented() {
-                        Log.e(TAG, "readDescriptor not implemented");
+                        Log.e(TAG, "readDescriptorForIdentifier not implemented");
                     }
                 });
     }
@@ -783,11 +783,11 @@ public class DartMethodCaller {
                 });
     }
 
-    public void writeDescriptor(final int descriptorIdentifier,
-                                final String valueBase64,
-                                final String transactionId,
-                                final OnSuccessCallback<Descriptor> successCallback,
-                                final OnErrorCallback errorCallback) {
+    public void writeDescriptorForIdentifier(final int descriptorIdentifier,
+                                             final String valueBase64,
+                                             final String transactionId,
+                                             final OnSuccessCallback<Descriptor> successCallback,
+                                             final OnErrorCallback errorCallback) {
         Map<String, Object> arguments = new HashMap<String, Object>() {{
             put(ArgumentName.DESCRIPTOR_IDENTIFIER, descriptorIdentifier);
             put(ArgumentName.TRANSACTION_ID, transactionId);
@@ -810,7 +810,7 @@ public class DartMethodCaller {
 
                     @Override
                     public void notImplemented() {
-                        Log.e(TAG, "writeDescriptor not implemented");
+                        Log.e(TAG, "writeDescriptorForIdentifier not implemented");
                     }
                 });
     }
