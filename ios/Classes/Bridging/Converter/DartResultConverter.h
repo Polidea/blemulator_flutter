@@ -1,4 +1,5 @@
 #import "DeviceContainer.h"
+#import "CharacteristicContainer.h"
 
 @interface DartResultConverter : NSObject
 
@@ -7,4 +8,5 @@
 
 + (Characteristic *)characteristicFromDartResult:(id)result;
 
++ (Descriptor *)descriptorFromDartResult:(id)result;
 @end

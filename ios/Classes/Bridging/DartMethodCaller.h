@@ -99,6 +99,65 @@
                       resolve:(Resolve)resolve
                        reject:(Reject)reject;
 
+
+// MARK: - Descriptors
+
+- (void)readDescriptorForIdentifier:(int)descriptorIdentifier
+                      transactionId:(NSString *)transactionId
+                            resolve:(Resolve)resolve
+                             reject:(Reject)reject;
+
+- (void)readDescriptorForCharacteristic:(int)characteristicIdentifier
+                         descriptorUuid:(NSString *)descriptorUuid
+                          transactionId:(NSString *)transactionId
+                                resolve:(Resolve)resolve
+                                 reject:(Reject)reject;
+
+- (void)readDescriptorForService:(int)serviceIdentifier
+              characteristicUuid:(NSString *)characteristicUuid
+                  descriptorUuid:(NSString *)descriptorUuid
+                   transactionId:(NSString *)transactionId
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject;
+
+- (void)readDescriptorForDevice:(NSString *)deviceIdentifier
+                    serviceUuid:(NSString *)serviceUuid
+             characteristicUuid:(NSString *)characteristicUuid
+                 descriptorUuid:(NSString *)descriptorUuid
+                  transactionId:(NSString *)transactionId
+                        resolve:(Resolve)resolve
+                         reject:(Reject)reject;
+
+- (void)writeDescriptorForIdentifier:(int)descriptorIdentifier
+                       transactionId:(NSString *)transactionId
+                               value:(NSString *)value
+                             resolve:(Resolve)resolve
+                              reject:(Reject)reject;
+
+- (void)writeDescriptorForCharacteristic:(int)characteristicIdentifier
+                          descriptorUuid:(NSString *)descriptorUuid
+                           transactionId:(NSString *)transactionId
+                                   value:(NSString *)value
+                                 resolve:(Resolve)resolve
+                                  reject:(Reject)reject;
+
+- (void)writeDescriptorForService:(int)serviceIdentifier
+               characteristicUuid:(NSString *)characteristicUuid
+                   descriptorUuid:(NSString *)descriptorUuid
+                    transactionId:(NSString *)transactionId
+                            value:(NSString *)value
+                          resolve:(Resolve)resolve
+                           reject:(Reject)reject;
+
+- (void)writeDescriptorForDevice:(NSString *)deviceIdentifier
+                     serviceUuid:(NSString *)serviceUuid
+              characteristicUuid:(NSString *)characteristicUuid
+                  descriptorUuid:(NSString *)descriptorUuid
+                   transactionId:(NSString *)transactionId
+                           value:(NSString *)value
+                         resolve:(Resolve)resolve
+                          reject:(Reject)reject;
+
 // MARK: - MTU
 
 - (void)requestMTUForDevice:(NSString *)deviceIdentifier

@@ -78,6 +78,18 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       );
   }
 
+  Future<void> _errorIfCharacteristicIsNull(
+      SimulatedCharacteristic characteristic,
+      String characteristicId,
+      ) async {
+    if (characteristic == null) {
+      return Future.error(SimulatedBleError(
+        BleErrorCode.CharacteristicNotFound,
+        "Characteristic $characteristicId not found",
+      ));
+    }
+  }
+
   Future<void> _errorIfCharacteristicNotReadable(
       SimulatedCharacteristic characteristic) async {
     if (!characteristic.isReadable) {
@@ -122,6 +134,44 @@ mixin ErrorChecksMixin on SimulationManagerBase {
           BleErrorCode.CharacteristicNotifyChangeFailed,
           "Characteristic ${characteristic.uuid} is neither indicatable, "
           "nor notifiable",
+        ),
+      );
+    }
+  }
+
+  Future<void> _errorIfDescriptorNotFound(
+    SimulatedDescriptor descriptor, {
+    String descriptorUuid,
+    int descriptorId,
+  }) async {
+    if (descriptor == null) {
+      return Future.error(
+        SimulatedBleError(
+          BleErrorCode.DescriptorNotFound,
+          "Descriptor (uuid: $descriptorUuid, id: $descriptorId) not found",
+        ),
+      );
+    }
+  }
+
+  Future<void> _errorIfDescriptorNotWritable(
+      SimulatedDescriptor descriptor) async {
+    if (!descriptor.writable) {
+      return Future.error(
+        SimulatedBleError(
+          BleErrorCode.DescriptorWriteFailed,
+          "Write to descriptor ${descriptor.uuid} is not allowed",
+        ),
+      );
+    }
+  }
+
+  Future<void> _errorIfDescriptorNotReadable(SimulatedDescriptor descriptor) {
+    if (!descriptor.readable) {
+      return Future.error(
+        SimulatedBleError(
+          BleErrorCode.DescriptorReadFailed,
+          "Read from descriptor ${descriptor.uuid} is not allowed",
         ),
       );
     }

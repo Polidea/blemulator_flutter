@@ -22,6 +22,17 @@
                                          properties:[self calculatePropertiesFor:dictionary]];
 }
 
+
++ (Descriptor *)descriptorFromDictionary:(NSDictionary *)dictionary
+                          characteristic:(Characteristic *)characteristic {
+    id value = [dictionary objectForKey:DART_RESULT_VALUE] != [NSNull null] ? (NSData *)[dictionary objectForKey:DART_RESULT_VALUE] : nil;
+    return [[Descriptor alloc] initWithObjectId:[[dictionary objectForKey:DART_RESULT_DESCRIPTOR_ID] intValue]
+                                           uuid:[CBUUID UUIDWithString:[dictionary objectForKey:DART_RESULT_DESCRIPTOR_UUID]]
+                                          value:value
+                                 characteristic:characteristic];
+    
+}
+
 + (CBCharacteristicProperties)calculatePropertiesFor:(NSDictionary *)characteristicDictionary {
     CBCharacteristicProperties properties = 0;
 

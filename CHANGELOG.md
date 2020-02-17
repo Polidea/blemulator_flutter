@@ -1,3 +1,7 @@
+## 1.1.0
+
+* **NEW** characteristics may now contain descriptors
+
 ## 1.0.1
 
 * Fix an issue causing characteristics' properties to be null on iOS

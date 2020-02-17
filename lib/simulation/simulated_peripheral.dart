@@ -35,6 +35,7 @@ abstract class SimulatedPeripheral {
 
   Map<int, SimulatedService> _services;
   Map<int, SimulatedCharacteristic> _characteristics;
+  Map<int, SimulatedDescriptor> _descriptors;
   final StreamController<FlutterBLELib.PeripheralConnectionState>
       _connectionStateStreamController;
 
@@ -63,10 +64,20 @@ abstract class SimulatedPeripheral {
 
     _services = Map.fromIterable(services, key: (service) => service.id);
     _characteristics = Map();
+    _descriptors = Map();
     for (SimulatedService service in services) {
       for (SimulatedCharacteristic characteristic
           in service.characteristics()) {
-        _characteristics.putIfAbsent(characteristic.id, () => characteristic);
+        _characteristics.putIfAbsent(
+          characteristic.id,
+          () => characteristic,
+        );
+        for (SimulatedDescriptor descriptor in characteristic.descriptors()) {
+          _descriptors.putIfAbsent(
+            descriptor.id,
+            () => descriptor,
+          );
+        }
       }
     }
   }
@@ -123,6 +134,9 @@ abstract class SimulatedPeripheral {
   SimulatedCharacteristic characteristic(int characteristicIdentifier) =>
       _characteristics[characteristicIdentifier];
 
+  SimulatedDescriptor descriptor(int descriptorIdentifier) =>
+      _descriptors[descriptorIdentifier];
+
   bool hasService(int id) => _services.containsKey(id);
 
   bool hasServiceWithUuid(String uuid) {
@@ -142,6 +156,30 @@ abstract class SimulatedPeripheral {
       orElse: () => null,
     );
     return characteristic != null;
+  }
+
+  bool hasDescriptor(int id) => _descriptors.containsKey(id);
+
+  bool hasDescriptorWithUuid(
+    String uuid, {
+    String characteristicUuid,
+    int characteristicId,
+  }) {
+    SimulatedDescriptor descriptor = _descriptors.values.firstWhere(
+      (descriptor) {
+        bool found = descriptor.uuid == uuid;
+        if (characteristicUuid != null) {
+          found = found && descriptor.characteristic.uuid == characteristicUuid;
+        }
+        if (characteristicId != null) {
+          found = found && descriptor.characteristic.id == characteristicId;
+        }
+
+        return found;
+      },
+      orElse: () => null,
+    );
+    return descriptor != null;
   }
 
   SimulatedCharacteristic getCharacteristicForService(

@@ -33,7 +33,7 @@ abstract class SimulationManagerBase {
       },
       onError: (error) {
         _pendingTransactions.remove(transactionId);
-        return Future.error(error);
+        throw error;
       },
     );
   }
@@ -47,6 +47,12 @@ abstract class SimulationManagerBase {
   SimulatedPeripheral _findPeripheralWithCharacteristicId(int id) =>
       _peripherals.values.firstWhere(
         (peripheral) => peripheral.hasCharacteristic(id),
+        orElse: () => null,
+      );
+
+  SimulatedPeripheral _findPeripheralWithDescriptorId(int id) =>
+      _peripherals.values.firstWhere(
+        (peripheral) => peripheral.hasDescriptor(id),
         orElse: () => null,
       );
 

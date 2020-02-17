@@ -8,5 +8,7 @@ public interface ArgumentName {
     String CHARACTERISTIC_UUID = "characteristicUuid";
     String SERVICE_IDENTIFIER = "serviceId";
     String CHARACTERISTIC_IDENTIFIER = "characteristicIdentifier";
+    String DESCRIPTOR_IDENTIFIER = "descriptorIdentifier";
+    String DESCRIPTOR_UUID = "descriptorUuid";
     String VALUE = "value";
 }

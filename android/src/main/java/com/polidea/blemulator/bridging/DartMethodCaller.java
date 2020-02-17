@@ -1,6 +1,7 @@
 package com.polidea.blemulator.bridging;
 
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 
 import com.polidea.blemulator.DeviceContainer;
@@ -8,9 +9,11 @@ import com.polidea.blemulator.bridging.constants.ArgumentName;
 import com.polidea.blemulator.bridging.constants.DartMethodName;
 import com.polidea.blemulator.bridging.constants.SimulationArgumentName;
 import com.polidea.blemulator.bridging.decoder.CharacteristicDartValueDecoder;
+import com.polidea.blemulator.bridging.decoder.DescriptorDartValueDecoder;
 import com.polidea.blemulator.bridging.decoder.ServiceDartValueDecoder;
 import com.polidea.multiplatformbleadapter.Characteristic;
 import com.polidea.multiplatformbleadapter.ConnectionOptions;
+import com.polidea.multiplatformbleadapter.Descriptor;
 import com.polidea.multiplatformbleadapter.Device;
 import com.polidea.multiplatformbleadapter.OnErrorCallback;
 import com.polidea.multiplatformbleadapter.OnSuccessCallback;
@@ -29,6 +32,7 @@ public class DartMethodCaller {
     private static final String TAG = DartMethodCaller.class.getSimpleName();
     private MethodChannel dartMethodChannel;
     private JSONToBleErrorConverter jsonToBleErrorConverter = new JSONToBleErrorConverter();
+    private DescriptorDartValueDecoder descriptorDartValueDecoder = new DescriptorDartValueDecoder();
     private CharacteristicDartValueDecoder characteristicJsonDecoder = new CharacteristicDartValueDecoder();
     private ServiceDartValueDecoder serviceDartValueDecoder = new ServiceDartValueDecoder();
 
@@ -138,7 +142,7 @@ public class DartMethodCaller {
 
             @Override
             public void error(String s, @Nullable String s1, @Nullable Object o) {
-                Log.e(TAG, "connectToDevice error "+ s1);
+                Log.e(TAG, "connectToDevice error " + s1);
                 onErrorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(s1));
             }
 
@@ -229,11 +233,12 @@ public class DartMethodCaller {
     private DeviceContainer parseDiscoveryResponse(String deviceIdentifier, String deviceName, Object responseObject) {
         List<Map<String, Object>> response = (List<Map<String, Object>>) responseObject;
         List<Service> services = new ArrayList<>();
-        Map<String, List<Characteristic>> characteristics = new HashMap<>();
+        Map<String, List<CharacteristicContainer>> characteristics = new HashMap<>();
         for (Map<String, Object> mappedService : response) {
             Service service = serviceDartValueDecoder.decode(deviceIdentifier, mappedService);
             services.add(service);
-            characteristics.put(((String) mappedService.get(SimulationArgumentName.SERVICE_UUID)).toUpperCase(),
+            characteristics.put(
+                    ((String) mappedService.get(SimulationArgumentName.SERVICE_UUID)).toUpperCase(),
                     parseCharacteristicsForServicesResponse(
                             (List<Map<String, Object>>) mappedService.get(SimulationArgumentName.CHARACTERISTICS))
             );
@@ -241,12 +246,19 @@ public class DartMethodCaller {
         return new DeviceContainer(deviceIdentifier, deviceName, services, characteristics);
     }
 
-    private List<Characteristic> parseCharacteristicsForServicesResponse(List<Map<String, Object>> response) {
-        List<Characteristic> characteristics = new ArrayList<>();
+    private List<CharacteristicContainer> parseCharacteristicsForServicesResponse(List<Map<String, Object>> response) {
+        List<CharacteristicContainer> characteristicContainers = new ArrayList<>();
         for (Map<String, Object> mappedCharacteristic : response) {
-            characteristics.add(characteristicJsonDecoder.decode(mappedCharacteristic));
+            Characteristic characteristic = characteristicJsonDecoder.decode(mappedCharacteristic);
+
+            List<Descriptor> descriptors = new ArrayList<>();
+            for (Map<String, Object> mappedDescriptor : (List<Map<String, Object>>) mappedCharacteristic.get(SimulationArgumentName.DESCRIPTORS)) {
+                descriptors.add(descriptorDartValueDecoder.decode(mappedDescriptor));
+            }
+
+            characteristicContainers.add(new CharacteristicContainer(characteristic, descriptors));
         }
-        return characteristics;
+        return characteristicContainers;
     }
 
     public void readCharacteristicForDevice(
@@ -531,6 +543,278 @@ public class DartMethodCaller {
                 });
     }
 
+    public void readDescriptorForDevice(final String deviceId,
+                                        final String serviceUUID,
+                                        final String characteristicUUID,
+                                        final String descriptorUUID,
+                                        final String transactionId,
+                                        final OnSuccessCallback<Descriptor> successCallback,
+                                        final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.DEVICE_IDENTIFIER, deviceId);
+            put(ArgumentName.SERVICE_UUID, serviceUUID);
+            put(ArgumentName.CHARACTERISTIC_UUID, characteristicUUID);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.READ_DESCRIPTOR_FOR_DEVICE,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "readDescriptorForDevice not implemented");
+                    }
+                });
+    }
+
+    public void readDescriptorForService(final int serviceIdentifier,
+                                         final String characteristicUUID,
+                                         final String descriptorUUID,
+                                         final String transactionId,
+                                         final OnSuccessCallback<Descriptor> successCallback,
+                                         final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.SERVICE_IDENTIFIER, serviceIdentifier);
+            put(ArgumentName.CHARACTERISTIC_UUID, characteristicUUID);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.READ_DESCRIPTOR_FOR_SERVICE,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "readDescriptorForService not implemented");
+                    }
+                });
+    }
+
+    public void readDescriptorForCharacteristic(final int characteristicIdentifier,
+                                                final String descriptorUUID,
+                                                final String transactionId,
+                                                final OnSuccessCallback<Descriptor> successCallback,
+                                                final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.CHARACTERISTIC_IDENTIFIER, characteristicIdentifier);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.READ_DESCRIPTOR_FOR_CHARACTERISTIC,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "readDescriptorForCharacteristic not implemented");
+                    }
+                });
+    }
+
+    public void readDescriptorForIdentifier(final int descriptorIdentifier,
+                                            final String transactionId,
+                                            final OnSuccessCallback<Descriptor> successCallback,
+                                            final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.DESCRIPTOR_IDENTIFIER, descriptorIdentifier);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.READ_DESCRIPTOR_FOR_IDENTIFIER,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "readDescriptorForIdentifier not implemented");
+                    }
+                });
+    }
+
+    public void writeDescriptorForDevice(final String deviceId,
+                                         final String serviceUUID,
+                                         final String characteristicUUID,
+                                         final String descriptorUUID,
+                                         final String valueBase64,
+                                         final String transactionId,
+                                         final OnSuccessCallback<Descriptor> successCallback,
+                                         final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.DEVICE_IDENTIFIER, deviceId);
+            put(ArgumentName.SERVICE_UUID, serviceUUID);
+            put(ArgumentName.CHARACTERISTIC_UUID, characteristicUUID);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+            put(ArgumentName.VALUE, Base64Converter.decode(valueBase64));
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.WRITE_DESCRIPTOR_FOR_DEVICE,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "writeDescriptorForDevice not implemented");
+                    }
+                });
+    }
+
+    public void writeDescriptorForService(final int serviceIdentifier,
+                                          final String characteristicUUID,
+                                          final String descriptorUUID,
+                                          final String valueBase64,
+                                          final String transactionId,
+                                          final OnSuccessCallback<Descriptor> successCallback,
+                                          final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.SERVICE_IDENTIFIER, serviceIdentifier);
+            put(ArgumentName.CHARACTERISTIC_UUID, characteristicUUID);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+            put(ArgumentName.VALUE, Base64Converter.decode(valueBase64));
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.WRITE_DESCRIPTOR_FOR_SERVICE,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "writeDescriptorForService not implemented");
+                    }
+                });
+    }
+
+    public void writeDescriptorForCharacteristic(final int characteristicIdentifier,
+                                                 final String descriptorUUID,
+                                                 final String valueBase64,
+                                                 final String transactionId,
+                                                 final OnSuccessCallback<Descriptor> successCallback,
+                                                 final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.CHARACTERISTIC_IDENTIFIER, characteristicIdentifier);
+            put(ArgumentName.DESCRIPTOR_UUID, descriptorUUID);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+            put(ArgumentName.VALUE, Base64Converter.decode(valueBase64));
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.WRITE_DESCRIPTOR_FOR_CHARACTERISTIC,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "writeDescriptorForCharacteristic not implemented");
+                    }
+                });
+    }
+
+    public void writeDescriptorForIdentifier(final int descriptorIdentifier,
+                                             final String valueBase64,
+                                             final String transactionId,
+                                             final OnSuccessCallback<Descriptor> successCallback,
+                                             final OnErrorCallback errorCallback) {
+        Map<String, Object> arguments = new HashMap<String, Object>() {{
+            put(ArgumentName.DESCRIPTOR_IDENTIFIER, descriptorIdentifier);
+            put(ArgumentName.TRANSACTION_ID, transactionId);
+            put(ArgumentName.VALUE, Base64Converter.decode(valueBase64));
+        }};
+
+        dartMethodChannel.invokeMethod(
+                DartMethodName.WRITE_DESCRIPTOR_FOR_IDENTIFIER,
+                arguments,
+                new MethodChannel.Result() {
+                    @Override
+                    public void success(Object descriptorJsonObject) {
+                        successCallback.onSuccess(descriptorDartValueDecoder.decode((Map<String, Object>) descriptorJsonObject));
+                    }
+
+                    @Override
+                    public void error(String errorCode, String jsonBody, Object irrelevant) {
+                        errorCallback.onError(jsonToBleErrorConverter.bleErrorFromJSON(jsonBody));
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.e(TAG, "writeDescriptorForIdentifier not implemented");
+                    }
+                });
+    }
+
     public void readRSSIForDevice(final String deviceIdentifier,
                                   final OnSuccessCallback<Device> onSuccessCallback,
                                   final OnErrorCallback onErrorCallback) {
@@ -560,9 +844,9 @@ public class DartMethodCaller {
     }
 
     public void requestMTUForDevice(final String deviceIdentifier,
-                                  final int mtu,
-                                  final OnSuccessCallback<Device> onSuccessCallback,
-                                  final OnErrorCallback onErrorCallback) {
+                                    final int mtu,
+                                    final OnSuccessCallback<Device> onSuccessCallback,
+                                    final OnErrorCallback onErrorCallback) {
         HashMap<String, Object> arguments = new HashMap<String, Object>();
         arguments.put(SimulationArgumentName.DEVICE_IDENTIFIER, deviceIdentifier);
         arguments.put(SimulationArgumentName.MTU, mtu);

@@ -378,18 +378,6 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
       ),
     );
   }
-
-  Future<void> _errorIfCharacteristicIsNull(
-    SimulatedCharacteristic characteristic,
-    String characteristicId,
-  ) async {
-    if (characteristic == null) {
-      return Future.error(SimulatedBleError(
-        BleErrorCode.CharacteristicNotFound,
-        "Characteristic $characteristicId not found",
-      ));
-    }
-  }
 }
 
 class _CharacteristicMonitoringSubscription {

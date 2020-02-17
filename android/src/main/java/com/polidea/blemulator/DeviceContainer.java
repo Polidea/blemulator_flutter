@@ -1,6 +1,6 @@
 package com.polidea.blemulator;
 
-import com.polidea.multiplatformbleadapter.Characteristic;
+import com.polidea.blemulator.bridging.CharacteristicContainer;
 import com.polidea.multiplatformbleadapter.Service;
 
 import java.util.List;
@@ -10,14 +10,14 @@ public class DeviceContainer {
     private String identifier;
     private String name;
     private List<Service> services;
-    private Map<String, List<Characteristic>> characteristics;
+    private Map<String, List<CharacteristicContainer>> characteristicContainersIndexedByServiceUuids;
     private boolean isConnected = false;
 
-    public DeviceContainer(String identifier, String name, List<Service> services, Map<String, List<Characteristic>> characteristics) {
+    public DeviceContainer(String identifier, String name, List<Service> services, Map<String, List<CharacteristicContainer>> characteristicContainersIndexedByServiceUuids) {
         this.identifier = identifier;
         this.name = name;
         this.services = services;
-        this.characteristics = characteristics;
+        this.characteristicContainersIndexedByServiceUuids = characteristicContainersIndexedByServiceUuids;
     }
 
     public boolean isConnected() {
@@ -40,7 +40,7 @@ public class DeviceContainer {
         return services;
     }
 
-    public Map<String, List<Characteristic>> getCharacteristics() {
-        return characteristics;
+    public Map<String, List<CharacteristicContainer>> getCharacteristicContainersIndexedByServiceUuids() {
+        return characteristicContainersIndexedByServiceUuids;
     }
 }

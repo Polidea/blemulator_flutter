@@ -12,6 +12,7 @@ class SimulatedCharacteristic {
   final bool isNotifiable;
   bool isNotifying;
   final bool isIndicatable;
+  final Map<int, SimulatedDescriptor> _descriptors;
 
   StreamController<Uint8List> _streamController;
 
@@ -25,8 +26,16 @@ class SimulatedCharacteristic {
     this.isNotifiable = false,
     this.isNotifying = false,
     this.isIndicatable = false,
-  }) : id = IdGenerator().nextId() {
+    List<SimulatedDescriptor> descriptors = const [],
+  })  : id = IdGenerator().nextId(),
+        _descriptors = Map.fromIterable(
+          descriptors,
+          key: (descriptor) => descriptor.id,
+          value: (descriptor) => descriptor,
+        ) {
     _value = value;
+    _descriptors.values
+        .forEach((descriptor) => descriptor.attachToCharacteristic(this));
   }
 
   void attachToService(SimulatedService service) => this.service = service;
@@ -54,4 +63,14 @@ class SimulatedCharacteristic {
     }
     return _streamController.stream;
   }
+
+  List<SimulatedDescriptor> descriptors() => _descriptors.values.toList();
+
+  SimulatedDescriptor descriptor(int id) => _descriptors[id];
+
+  SimulatedDescriptor descriptorByUuid(String uuid) =>
+      _descriptors.values.firstWhere(
+        (descriptor) => descriptor.uuid == uuid,
+        orElse: () => null,
+      );
 }

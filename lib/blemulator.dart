@@ -21,6 +21,8 @@ part 'blemulator_core.dart';
 
 part 'simulation/simulated_characteristic.dart';
 
+part 'simulation/simulated_descriptor.dart';
+
 part 'simulation/simulated_peripheral.dart';
 
 part 'simulation/simulated_service.dart';

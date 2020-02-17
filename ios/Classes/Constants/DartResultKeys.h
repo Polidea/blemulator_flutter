@@ -1,4 +1,5 @@
 extern NSString * const DART_RESULT_CHARACTERISTICS;
+extern NSString * const DART_RESULT_DESCRIPTORS;
 extern NSString * const DART_RESULT_SERVICE_ID;
 extern NSString * const DART_RESULT_SERVICE_UUID;
 
@@ -12,3 +13,6 @@ extern NSString * const DART_RESULT_IS_READABLE;
 extern NSString * const DART_RESULT_IS_WRITABLE_WITH_RESPONSE;
 extern NSString * const DART_RESULT_IS_WRITABLE_WITHOUT_RESPONSE;
 extern NSString * const DART_RESULT_VALUE;
+
+extern NSString * const DART_RESULT_DESCRIPTOR_ID;
+extern NSString * const DART_RESULT_DESCRIPTOR_UUID;
