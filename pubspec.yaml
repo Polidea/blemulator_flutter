@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_ble_lib: ^2.2.0
+  async: ^2.4.0
+  meta: ^1.1.8
 
 dev_dependencies:
   flutter_test:
