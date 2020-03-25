@@ -1,4 +1,4 @@
-import 'package:blemulator/internal/internal.dart';
+import 'package:blemulator/src/internal.dart';
 import 'package:test/test.dart';
 
 import '../../factory/simulated_peripheral_factory.dart';

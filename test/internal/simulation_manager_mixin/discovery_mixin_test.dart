@@ -1,5 +1,5 @@
 import 'package:blemulator/blemulator.dart';
-import 'package:blemulator/internal/internal.dart';
+import 'package:blemulator/src/internal.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

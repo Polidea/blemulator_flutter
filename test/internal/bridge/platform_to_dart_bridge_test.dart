@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blemulator/internal/internal.dart';
+import 'package:blemulator/src/internal.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart' as FlutterTest;
 import 'package:mockito/mockito.dart';
