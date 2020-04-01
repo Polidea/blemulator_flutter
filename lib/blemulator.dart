@@ -10,10 +10,10 @@ import 'dart:typed_data';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:blemulator/internal/id_generator.dart';
+import 'package:blemulator/src/id_generator.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
 
-import 'internal/internal.dart';
+import 'src/internal.dart';
 
 part 'simulated_ble_error.dart';
 
