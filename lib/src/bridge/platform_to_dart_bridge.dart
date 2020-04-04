@@ -11,7 +11,6 @@ class PlatformToDartBridge {
 
   @visibleForTesting
   Future<dynamic> dispatchPlatformCall(MethodCall call) {
-    print("Observed method call on Flutter Simulator: ${call.method}");
     switch (call.method) {
       case DartMethodName.createClient:
         return _createClient(call);

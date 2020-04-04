@@ -1,6 +1,7 @@
 ## 1.1.1
 
 * hide private API
+* remove unnecessary log
 * update dependencies
 
 ## 1.1.0
