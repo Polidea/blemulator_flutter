@@ -171,6 +171,7 @@ class SensorTag extends SimulatedPeripheral {
                       convenienceName: "IR Temperature Data",
                       isWritableWithoutResponse: false,
                       isWritableWithResponse: false,
+                      isNotifiable: true,
                     ),
                     SimulatedCharacteristic(
                         uuid: _temperatureConfigUuid,
