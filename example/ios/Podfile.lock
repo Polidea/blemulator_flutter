@@ -1,5 +1,5 @@
 PODS:
-  - blemulator (1.1.0):
+  - blemulator (1.1.1):
     - Flutter
     - MultiplatformBleAdapter (~> 0.1.5)
   - Flutter (1.0.0)
@@ -26,7 +26,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_ble_lib/ios"
 
 SPEC CHECKSUMS:
-  blemulator: d82525c9bb4927a3bec6b618a7b82a0acdcd7e4b
+  blemulator: aedfaa5a8b8e5197e953cea4a59129e550fe6258
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_ble_lib: 20e79f0b1d78d921d9ed68ab4451e190029bc3d9
   MultiplatformBleAdapter: 3c4391d428382738a47662ae1f665a29ce78ff39

@@ -238,7 +238,7 @@ public class DartMethodCaller {
             Service service = serviceDartValueDecoder.decode(deviceIdentifier, mappedService);
             services.add(service);
             characteristics.put(
-                    ((String) mappedService.get(SimulationArgumentName.SERVICE_UUID)).toUpperCase(),
+                    ((String) mappedService.get(SimulationArgumentName.SERVICE_UUID)).toLowerCase(),
                     parseCharacteristicsForServicesResponse(
                             (List<Map<String, Object>>) mappedService.get(SimulationArgumentName.CHARACTERISTICS))
             );
