@@ -8,11 +8,12 @@ class SimulatedService {
   Map<int, SimulatedCharacteristic> _characteristics;
 
   SimulatedService(
-      {@required this.uuid,
+      {@required String uuid,
       @required this.isAdvertised,
       @required List<SimulatedCharacteristic> characteristics,
       this.convenienceName})
-      : _characteristics = Map.fromIterable(characteristics, key: (v) => v.id),
+      : uuid = uuid.toLowerCase(),
+        _characteristics = Map.fromIterable(characteristics, key: (v) => v.id),
         id = IdGenerator().nextId() {
     _characteristics.values.forEach((v) => v.attachToService(this));
   }
@@ -24,6 +25,6 @@ class SimulatedService {
 
   SimulatedCharacteristic characteristicByUuid(String uuid) =>
       _characteristics.values.firstWhere(
-          (characteristic) => characteristic.uuid == uuid,
+          (characteristic) => characteristic.uuid.toLowerCase() == uuid.toLowerCase(),
           orElse: () => null);
 }

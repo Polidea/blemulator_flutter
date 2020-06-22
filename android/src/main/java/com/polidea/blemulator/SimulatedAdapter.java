@@ -319,7 +319,7 @@ public class SimulatedAdapter implements BleAdapter {
         List<CharacteristicContainer> characteristicContainers = knownPeripherals
                 .get(deviceIdentifier)
                 .getCharacteristicContainersIndexedByServiceUuids()
-                .get(serviceUUID);
+                .get(serviceUUID.toLowerCase());
 
         List<Characteristic> characteristics = new LinkedList<>();
         if (characteristicContainers != null) {
@@ -345,7 +345,7 @@ public class SimulatedAdapter implements BleAdapter {
                         }
                         List<CharacteristicContainer> characteristicContainers = deviceContainer
                                 .getCharacteristicContainersIndexedByServiceUuids()
-                                .get(service.getUuid().toString().toUpperCase());
+                                .get(service.getUuid().toString().toLowerCase());
 
                         List<Characteristic> characteristics = new LinkedList<>();
                         if (characteristicContainers != null) {
@@ -380,13 +380,13 @@ public class SimulatedAdapter implements BleAdapter {
 
         List<CharacteristicContainer> characteristicContainers = knownPeripherals.get(deviceIdentifier)
                 .getCharacteristicContainersIndexedByServiceUuids()
-                .get(serviceUUID);
+                .get(serviceUUID.toLowerCase());
 
         List<Descriptor> descriptors = null;
 
         for (CharacteristicContainer characteristicContainer : characteristicContainers) {
-            String checkedUuid = characteristicContainer.getCharacteristic().getUuid().toString().toUpperCase();
-            if (checkedUuid.equals(characteristicUUID.toUpperCase())) {
+            String checkedUuid = characteristicContainer.getCharacteristic().getUuid().toString().toLowerCase();
+            if (checkedUuid.equalsIgnoreCase(characteristicUUID)) {
                 descriptors = characteristicContainer.getDescriptors();
                 break;
             }
@@ -406,12 +406,12 @@ public class SimulatedAdapter implements BleAdapter {
                         }
                         List<CharacteristicContainer> characteristicContainers = deviceContainer
                                 .getCharacteristicContainersIndexedByServiceUuids()
-                                .get(service.getUuid().toString().toUpperCase());
+                                .get(service.getUuid().toString().toLowerCase());
 
                         if (characteristicContainers != null) {
                             for (CharacteristicContainer characteristicContainer : characteristicContainers) {
-                                String checkedId = characteristicContainer.getCharacteristic().getUuid().toString().toUpperCase();
-                                if (checkedId.equals(characteristicUUID.toUpperCase())) {
+                                String checkedId = characteristicContainer.getCharacteristic().getUuid().toString().toLowerCase();
+                                if (checkedId.equalsIgnoreCase(characteristicUUID)) {
                                     return characteristicContainer.getDescriptors();
                                 }
                             }

@@ -17,7 +17,7 @@ class SimulatedCharacteristic {
   StreamController<Uint8List> _streamController;
 
   SimulatedCharacteristic({
-    @required this.uuid,
+    @required String uuid,
     @required Uint8List value,
     this.convenienceName,
     this.isReadable = true,
@@ -27,7 +27,8 @@ class SimulatedCharacteristic {
     this.isNotifying = false,
     this.isIndicatable = false,
     List<SimulatedDescriptor> descriptors = const [],
-  })  : id = IdGenerator().nextId(),
+  })  : uuid = uuid.toLowerCase(),
+        id = IdGenerator().nextId(),
         _descriptors = Map.fromIterable(
           descriptors,
           key: (descriptor) => descriptor.id,
@@ -70,7 +71,7 @@ class SimulatedCharacteristic {
 
   SimulatedDescriptor descriptorByUuid(String uuid) =>
       _descriptors.values.firstWhere(
-        (descriptor) => descriptor.uuid == uuid,
+        (descriptor) => descriptor.uuid.toLowerCase() == uuid.toLowerCase(),
         orElse: () => null,
       );
 }

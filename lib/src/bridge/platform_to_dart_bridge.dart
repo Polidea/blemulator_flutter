@@ -160,8 +160,10 @@ class PlatformToDartBridge {
     return _manager
         ._readCharacteristicForDevice(
           arguments[SimulationArgumentName.deviceIdentifier],
-          arguments[SimulationArgumentName.serviceUuid],
-          arguments[SimulationArgumentName.characteristicUuid],
+          (arguments[SimulationArgumentName.serviceUuid] as String)
+              .toLowerCase(),
+          (arguments[SimulationArgumentName.characteristicUuid] as String)
+              .toLowerCase(),
           arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristic) => mapToCharacteristicJson(
@@ -176,7 +178,8 @@ class PlatformToDartBridge {
     return _manager
         ._readCharacteristicForService(
           arguments[SimulationArgumentName.serviceId],
-          arguments[SimulationArgumentName.characteristicUuid],
+          (arguments[SimulationArgumentName.characteristicUuid] as String)
+              .toLowerCase(),
           arguments[SimulationArgumentName.transactionId],
         )
         .then((characteristicResponse) => mapToCharacteristicJson(
@@ -206,8 +209,10 @@ class PlatformToDartBridge {
     return _manager
         ._writeCharacteristicForDevice(
           arguments[SimulationArgumentName.deviceIdentifier],
-          arguments[SimulationArgumentName.serviceUuid],
-          arguments[SimulationArgumentName.characteristicUuid],
+          (arguments[SimulationArgumentName.serviceUuid] as String)
+              .toLowerCase(),
+          (arguments[SimulationArgumentName.characteristicUuid] as String)
+              .toLowerCase(),
           arguments[SimulationArgumentName.value],
           arguments[SimulationArgumentName.transactionId],
         )
@@ -223,7 +228,8 @@ class PlatformToDartBridge {
     return _manager
         ._writeCharacteristicForService(
           arguments[SimulationArgumentName.serviceId],
-          arguments[SimulationArgumentName.characteristicUuid],
+          (arguments[SimulationArgumentName.characteristicUuid] as String)
+              .toLowerCase(),
           arguments[SimulationArgumentName.value],
           arguments[SimulationArgumentName.transactionId],
         )
@@ -243,15 +249,18 @@ class PlatformToDartBridge {
   Future<dynamic> _monitorCharacteristicForDevice(MethodCall call) =>
       _manager._monitorCharacteristicForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier],
-        call.arguments[SimulationArgumentName.serviceUuid],
-        call.arguments[SimulationArgumentName.characteristicUuid],
+        (call.arguments[SimulationArgumentName.serviceUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.transactionId],
       );
 
   Future<dynamic> _monitorCharacteristicForService(MethodCall call) =>
       _manager._monitorCharacteristicForService(
         call.arguments[SimulationArgumentName.serviceId],
-        call.arguments[SimulationArgumentName.characteristicUuid],
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.transactionId],
       );
 
@@ -283,7 +292,8 @@ class PlatformToDartBridge {
   Future<dynamic> _readDescriptorForCharacteristic(MethodCall call) => _manager
       ._readDescriptorForCharacteristic(
         call.arguments[SimulationArgumentName.characteristicIdentifier],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.transactionId],
       )
       .then((response) => mapToDescriptorJson(response));
@@ -291,8 +301,10 @@ class PlatformToDartBridge {
   Future<dynamic> _readDescriptorForService(MethodCall call) => _manager
       ._readDescriptorForService(
         call.arguments[SimulationArgumentName.serviceId],
-        call.arguments[SimulationArgumentName.characteristicUuid],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.transactionId],
       )
       .then((response) => mapToDescriptorJson(response));
@@ -300,9 +312,12 @@ class PlatformToDartBridge {
   Future<dynamic> _readDescriptorForDevice(MethodCall call) => _manager
       ._readDescriptorForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier],
-        call.arguments[SimulationArgumentName.serviceUuid],
-        call.arguments[SimulationArgumentName.characteristicUuid],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.serviceUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.transactionId],
       )
       .then((response) => mapToDescriptorJson(response));
@@ -318,7 +333,8 @@ class PlatformToDartBridge {
   Future<dynamic> _writeDescriptorForCharacteristic(MethodCall call) => _manager
       ._writeDescriptorForCharacteristic(
         call.arguments[SimulationArgumentName.characteristicIdentifier],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
       )
@@ -327,8 +343,10 @@ class PlatformToDartBridge {
   Future<dynamic> _writeDescriptorForService(MethodCall call) => _manager
       ._writeDescriptorForService(
         call.arguments[SimulationArgumentName.serviceId],
-        call.arguments[SimulationArgumentName.characteristicUuid],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
       )
@@ -337,9 +355,12 @@ class PlatformToDartBridge {
   Future<dynamic> _writeDescriptorForDevice(MethodCall call) => _manager
       ._writeDescriptorForDevice(
         call.arguments[SimulationArgumentName.deviceIdentifier],
-        call.arguments[SimulationArgumentName.serviceUuid],
-        call.arguments[SimulationArgumentName.characteristicUuid],
-        call.arguments[SimulationArgumentName.descriptorUuid],
+        (call.arguments[SimulationArgumentName.serviceUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.characteristicUuid] as String)
+            .toLowerCase(),
+        (call.arguments[SimulationArgumentName.descriptorUuid] as String)
+            .toLowerCase(),
         call.arguments[SimulationArgumentName.value],
         call.arguments[SimulationArgumentName.transactionId],
       )
