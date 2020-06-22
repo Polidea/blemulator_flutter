@@ -282,7 +282,7 @@
         if (container.services != nil) {
             for (Service *service in container.services) {
                 if (service.objectId == serviceIdentifier) {
-                    resolve([container characteristicsJsonRepresentationForService:[service.uuid UUIDString]]);
+                    resolve([container characteristicsJsonRepresentationForService:[service.uuid UUIDString].lowercaseString]);
                     return;
                 }
             }
@@ -322,9 +322,9 @@
         return;
     }
     
-    NSArray<CharacteristicContainer *> *characteristicContainersArray = [deviceContainer.characteristicContainers objectForKey:serviceUUID];
+    NSArray<CharacteristicContainer *> *characteristicContainersArray = [deviceContainer.characteristicContainers objectForKey:serviceUUID.lowercaseString];
     for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
-        if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
+        if ([[characteristicContainer.characteristic.uuid UUIDString].lowercaseString isEqualToString:characteristicUUID.lowercaseString]) {
             resolve([characteristicContainer descriptorsJsonRepresentation]);
             return;
         }
@@ -340,9 +340,9 @@
         if (container.services != nil) {
             for (Service *service in container.services) {
                 if (service.objectId == serviceIdentifier) {
-                    NSArray<CharacteristicContainer *> *characteristicContainersArray = [container.characteristicContainers objectForKey:[service.uuid UUIDString]];
+                    NSArray<CharacteristicContainer *> *characteristicContainersArray = [container.characteristicContainers objectForKey:[service.uuid UUIDString].lowercaseString];
                     for (CharacteristicContainer *characteristicContainer in characteristicContainersArray) {
-                        if ([[characteristicContainer.characteristic.uuid UUIDString] isEqualToString:characteristicUUID]) {
+                        if ([[characteristicContainer.characteristic.uuid UUIDString].lowercaseString isEqualToString:characteristicUUID.lowercaseString]) {
                             resolve([characteristicContainer descriptorsJsonRepresentation]);
                             return;
                         }

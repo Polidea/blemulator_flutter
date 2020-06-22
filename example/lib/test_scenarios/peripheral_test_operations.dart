@@ -756,8 +756,13 @@ class PeripheralTestOperations {
       await testedFunction();
     } on BleError catch (e) {
       logError("BleError caught: ${e.errorCode.value} ${e.reason}");
+      print("CAUGHT ERROR============");
+      print(e);
+      print(e.reason);
+      print("END=====================");
     } catch (e) {
       if (e is Error) {
+        print(e);
         debugPrintStack(stackTrace: e.stackTrace);
       }
       logError("${e.runtimeType}: $e");

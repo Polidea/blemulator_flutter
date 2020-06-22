@@ -48,7 +48,7 @@
 
 - (NSArray *)characteristicsJsonRepresentationForService:(NSString *)serviceUuidString {
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    for (CharacteristicContainer *characteristicContainer in [_characteristicContainers objectForKey:serviceUuidString]) {
+    for (CharacteristicContainer *characteristicContainer in [_characteristicContainers objectForKey:serviceUuidString.lowercaseString]) {
         [result addObject:[characteristicContainer.characteristic jsonObjectRepresentation]];
     }
     return result;

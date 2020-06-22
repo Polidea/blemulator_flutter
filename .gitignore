@@ -13,3 +13,4 @@ example/android/res/values/strings_en.arb
 res/values/strings_en.arb
 lib/generated/
 example/lib/generated/
+example/ios/Podfile.lock

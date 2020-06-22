@@ -32,7 +32,7 @@
         }
 
         [services addObject:service];
-        [characteristicContainers setObject:characteristicContainersArray forKey:[service.uuid UUIDString]];
+        [characteristicContainers setObject:characteristicContainersArray forKey:[service.uuid UUIDString].lowercaseString];
     }
 
     return [[DeviceContainer alloc] initWithIdentifier:peripheral.identifier

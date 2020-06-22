@@ -11,12 +11,13 @@ class SimulatedDescriptor {
   StreamController<Uint8List> _streamController;
 
   SimulatedDescriptor({
-    @required this.uuid,
+    @required String uuid,
     @required Uint8List value,
     this.convenienceName,
     this.readable = true,
     this.writable = true,
-  }) : id = IdGenerator().nextId() {
+  })  : uuid = uuid.toLowerCase(),
+        id = IdGenerator().nextId() {
     _value = value;
   }
 

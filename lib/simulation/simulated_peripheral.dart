@@ -167,9 +167,11 @@ abstract class SimulatedPeripheral {
   }) {
     SimulatedDescriptor descriptor = _descriptors.values.firstWhere(
       (descriptor) {
-        bool found = descriptor.uuid == uuid;
+        bool found = descriptor.uuid.toLowerCase() == uuid.toLowerCase();
         if (characteristicUuid != null) {
-          found = found && descriptor.characteristic.uuid == characteristicUuid;
+          found = found &&
+              descriptor.characteristic.uuid.toLowerCase() ==
+                  characteristicUuid.toLowerCase();
         }
         if (characteristicId != null) {
           found = found && descriptor.characteristic.id == characteristicId;
@@ -187,16 +189,22 @@ abstract class SimulatedPeripheral {
     String characteristicUuid,
   ) {
     SimulatedCharacteristic targetCharacteristic;
+
     servicesLoop:
     for (SimulatedService service in services()) {
-      SimulatedCharacteristic characteristic = service
-          .characteristics()
-          .firstWhere(
-              (characteristic) => characteristic.uuid == characteristicUuid,
-              orElse: () => null);
-      if (characteristic != null) {
-        targetCharacteristic = characteristic;
-        break servicesLoop;
+      if (service.uuid.toLowerCase() == serviceUuid.toLowerCase()) {
+        SimulatedCharacteristic characteristic = service
+            .characteristics()
+            .firstWhere(
+                (characteristic) =>
+                    characteristic.uuid.toLowerCase() ==
+                    characteristicUuid.toLowerCase(),
+                orElse: () => null);
+
+        if (characteristic != null) {
+          targetCharacteristic = characteristic;
+          break servicesLoop;
+        }
       }
     }
     return targetCharacteristic;
