@@ -60,12 +60,13 @@ _android_job_template: &android_job_template
 _ios_job_template: &ios_job_template
   language: objective-c
   os: osx
-  osx_image: xcode11
+  osx_image: xcode11.6
   xcode_project: example/ios/Runner.xcworkspace
   xcode_scheme: Runner
   before_script:
     - git clone https://github.com/flutter/flutter.git -b stable
     - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+    - pod repo update
   script:
     - cd example
     - flutter build ios --no-codesign --verbose
