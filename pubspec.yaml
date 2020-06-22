@@ -1,11 +1,12 @@
 name: blemulator
 description: Flutter plugin for simulating BLE peripherals on FlutterBleLib
-version: 1.1.1
-author: "Polidea <hello@polidea.com>"
+version: 1.1.2
 homepage: https://github.com/Polidea/blemulator_flutter
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
+  # Flutter versions prior to 1.10 did not support the flutter.plugin.platforms map.
+  flutter: ">=1.10.0 <2.0.0"
 
 dependencies:
   flutter:
@@ -31,8 +32,12 @@ flutter:
   # be modified. They are used by the tooling to maintain consistency when
   # adding or updating assets for this project.
   plugin:
-    androidPackage: com.polidea.blemulator
-    pluginClass: BlemulatorPlugin
+    platforms:
+      android:
+        package: com.polidea.blemulator
+        pluginClass: BlemulatorPlugin
+      ios:
+        pluginClass: FlutterBleLibPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

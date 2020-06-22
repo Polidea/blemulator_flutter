@@ -1,3 +1,7 @@
+## 1.1.2
+
+* Unify internal representation of UUIDs to lower case, making simulated GATTs case insensitive
+
 ## 1.1.1
 
 * hide private API
