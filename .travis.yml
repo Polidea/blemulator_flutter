@@ -66,7 +66,6 @@ _ios_job_template: &ios_job_template
   before_script:
     - git clone https://github.com/flutter/flutter.git -b stable
     - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
-    - pod repo update
   script:
     - cd example
     - flutter build ios --no-codesign --verbose
