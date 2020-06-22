@@ -1,5 +1,6 @@
 #import "DartMethodCaller.h"
 #import "DartValueHandler.h"
+@import MultiplatformBleAdapter;
 
 @protocol BleAdapter;
 
