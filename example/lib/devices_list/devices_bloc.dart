@@ -31,7 +31,13 @@ class DevicesBloc {
   Stream<BleDevice> get pickedDevice => _deviceRepository.pickedDevice
       .skipWhile((bleDevice) => bleDevice == null);
 
-  DevicesBloc(this._deviceRepository, this._bleManager);
+  DevicesBloc(this._deviceRepository, this._bleManager) {
+    Blemulator().addSimulatedPeripheral(SensorTag());
+    Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
+    Blemulator()
+        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+    Blemulator().simulate();
+  }
 
   void _handlePickedDevice(BleDevice bleDevice) {
     _deviceRepository.pickDevice(bleDevice);
@@ -48,11 +54,6 @@ class DevicesBloc {
   void init() {
     Fimber.d("Init devices bloc");
     bleDevices.clear();
-    Blemulator().addSimulatedPeripheral(SensorTag());
-    Blemulator().addSimulatedPeripheral(SensorTag(id: "different id"));
-    Blemulator()
-        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
-    Blemulator().simulate();
     _bleManager
         .createClient(
             restoreStateIdentifier: "example-restore-state-identifier",
