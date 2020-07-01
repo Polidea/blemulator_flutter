@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Fix incorrect iOS plugin class name causing `Duplicate plugin key: FlutterBleLib`
+
 ## 1.1.2
 
 * Unify internal representation of UUIDs to lower case, making simulated GATTs case insensitive
