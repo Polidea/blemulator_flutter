@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Add support for connecting to peripheral without launching scan first
+
 ## 1.1.3
 
 * Fix incorrect iOS plugin class name causing `Duplicate plugin key: FlutterBleLib`

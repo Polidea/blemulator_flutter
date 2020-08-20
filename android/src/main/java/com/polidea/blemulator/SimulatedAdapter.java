@@ -217,6 +217,12 @@ public class SimulatedAdapter implements BleAdapter {
 
         dartValueHandler.addConnectionStatePublisher(deviceIdentifier, onEventCallback);
 
+        if (!knownPeripherals.containsKey(deviceIdentifier)) {
+            knownPeripherals.put(deviceIdentifier,
+                    new DeviceContainer(deviceIdentifier, "", null, null)
+            );
+        }
+
         dartMethodCaller.connectToDevice(
                 deviceIdentifier,
                 knownPeripherals.get(deviceIdentifier).getName(),
