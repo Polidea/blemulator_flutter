@@ -11,7 +11,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:blemulator/src/id_generator.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
+import 'package:flutter_ble_lib/flutter_ble_lib.dart' as flutter_ble_lib;
 
 import 'src/internal.dart';
 

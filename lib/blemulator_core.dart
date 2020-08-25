@@ -2,7 +2,7 @@ part of blemulator;
 
 /// Entry point for using the simulator
 class Blemulator {
-  static Blemulator _instance = Blemulator._internal();
+  static final Blemulator _instance = Blemulator._internal();
 
   DartToPlatformBridge _toPlatformBridge;
   SimulationManager _simulationManager;

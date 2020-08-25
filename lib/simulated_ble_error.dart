@@ -48,8 +48,8 @@ abstract class BleErrorCode {
 }
 
 class SimulatedBleError implements Exception {
-  static final String _errorCode = "errorCode";
-  static final String _reason = "reason";
+  static final String _errorCode = 'errorCode';
+  static final String _reason = 'reason';
   int errorCode;
   String reason;
 

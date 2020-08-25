@@ -5,7 +5,7 @@ class SimulatedService {
   final int id;
   final bool isAdvertised;
   final String convenienceName;
-  Map<int, SimulatedCharacteristic> _characteristics;
+  final Map<int, SimulatedCharacteristic> _characteristics;
 
   SimulatedService(
       {@required String uuid,

@@ -30,13 +30,13 @@ class ServicesSliver extends StatelessWidget {
     int index,
   ) {
     // ignore: close_sinks
-    final PeripheralDetailsBloc bloc =
+    final bloc =
         BlocProvider.of<PeripheralDetailsBloc>(context);
 
     return Column(
       children: <Widget>[
         PropertyRow(
-          title: "Service UUID",
+          title: 'Service UUID',
           titleColor: Theme.of(context).primaryColor,
           value: serviceState.service.uuid,
           valueTextStyle: CustomTextStyle.serviceUuidStyle,

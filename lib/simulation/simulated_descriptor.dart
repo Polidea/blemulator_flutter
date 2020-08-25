@@ -34,14 +34,12 @@ class SimulatedDescriptor {
   }
 
   Stream<Uint8List> monitor() {
-    if (_streamController == null) {
-      _streamController = StreamController.broadcast(
+    _streamController ??= StreamController.broadcast(
         onCancel: () {
           _streamController.close();
           _streamController = null;
         },
       );
-    }
     return _streamController.stream;
   }
 }

@@ -7,9 +7,7 @@ class SampleBleService extends BleService {
     String uuid = 'F000AA00-0001-4000-B000-000000000000',
     List<BleCharacteristic> characteristics
   }) : super(uuid, characteristics) {
-    if (characteristics == null) {
-      characteristics = [SampleBleCharacteristic()];
-    }
+    characteristics ??= [SampleBleCharacteristic()];
   }
 }
 
@@ -30,8 +28,6 @@ class SampleBleCharacteristic extends BleCharacteristic {
       isWritableWithoutResponse,
       isNotifiable,
       isIndicatable) {
-    if (value == null) {
-      value = Uint8List(1);
-    }
+    value ??= Uint8List(1);
   }
 }

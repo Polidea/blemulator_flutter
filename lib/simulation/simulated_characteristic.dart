@@ -44,14 +44,14 @@ class SimulatedCharacteristic {
   Future<Uint8List> read() async => _value;
 
   Future<void> write(Uint8List value, {bool sendNotification = true}) async {
-    this._value = value;
-    if (sendNotification && _streamController?.hasListener == true)
+    _value = value;
+    if (sendNotification && _streamController?.hasListener == true) {
       _streamController.sink.add(value);
+    }
   }
 
   Stream<Uint8List> monitor() {
-    if (_streamController == null) {
-      _streamController = StreamController.broadcast(
+    _streamController ??= StreamController.broadcast(
         onListen: () {
           isNotifying = true;
         },
@@ -61,7 +61,6 @@ class SimulatedCharacteristic {
           _streamController = null;
         },
       );
-    }
     return _streamController.stream;
   }
 

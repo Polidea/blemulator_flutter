@@ -9,6 +9,7 @@ class ManualTestView extends StatelessWidget {
 
   ManualTestView(this._deviceDetailsBloc);
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -110,9 +111,9 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Connect", action: _connect),
-              ButtonView("Disconnect", action: _disconnect),
-              ButtonView("Connected devices", action: _fetchConnectedDevices),
+              ButtonView('Connect', action: _connect),
+              ButtonView('Disconnect', action: _disconnect),
+              ButtonView('Connected devices', action: _fetchConnectedDevices),
             ],
           ),
         ),
@@ -120,9 +121,9 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Read Rssi", action: _readRssi),
-              ButtonView("Request MTU", action: _requestMtu),
-              ButtonView("Known devices", action: _fetchKnownDevices),
+              ButtonView('Read Rssi', action: _readRssi),
+              ButtonView('Request MTU', action: _requestMtu),
+              ButtonView('Known devices', action: _fetchKnownDevices),
             ],
           ),
         ),
@@ -130,7 +131,7 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Discovery", action: _discovery),
+              ButtonView('Discovery', action: _discovery),
             ],
           ),
         ),
@@ -138,11 +139,11 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Write to temp config via peripheral",
+              ButtonView('Write to temp config via peripheral',
                   action: _writeCharacteristicForPeripheral),
-              ButtonView("Read temp via peripheral",
+              ButtonView('Read temp via peripheral',
                   action: _readCharacteristicForPeripheral),
-              ButtonView("Monitor temp via peripheral",
+              ButtonView('Monitor temp via peripheral',
                   action: _monitorCharacteristicForPeripheral),
             ],
           ),
@@ -151,11 +152,11 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Write to temp config via service",
+              ButtonView('Write to temp config via service',
                   action: _writeCharacteristicForService),
-              ButtonView("Read temp via service",
+              ButtonView('Read temp via service',
                   action: _readCharacteristicForService),
-              ButtonView("Monitor temp via service",
+              ButtonView('Monitor temp via service',
                   action: _monitorCharacteristicForService),
             ],
           ),
@@ -164,11 +165,11 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Write to temp config directly",
+              ButtonView('Write to temp config directly',
                   action: _writeCharacteristicDirectly),
-              ButtonView("Read temp directly",
+              ButtonView('Read temp directly',
                   action: _readCharacteristicDirectly),
-              ButtonView("Monitor temp directly",
+              ButtonView('Monitor temp directly',
                   action: _monitorCharacteristicDirectly),
             ],
           ),
@@ -177,9 +178,9 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Monitor temp", action: _monitorCharacteristicForPeripheral),
-              ButtonView("Turn on temp", action: _writeCharacteristicForPeripheral),
-              ButtonView("Read temp", action: _readCharacteristicForPeripheral),
+              ButtonView('Monitor temp', action: _monitorCharacteristicForPeripheral),
+              ButtonView('Turn on temp', action: _writeCharacteristicForPeripheral),
+              ButtonView('Read temp', action: _readCharacteristicForPeripheral),
             ],
           ),
         ),
@@ -187,9 +188,9 @@ class ManualTestView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Row(
             children: <Widget>[
-              ButtonView("Enable bluetooth", action: _enableBluetooth),
-              ButtonView("Disable bluetooth", action: _disableBluetooth),
-              ButtonView("Fetch BT State", action: _fetchBluetoothState),
+              ButtonView('Enable bluetooth', action: _enableBluetooth),
+              ButtonView('Disable bluetooth', action: _disableBluetooth),
+              ButtonView('Fetch BT State', action: _fetchBluetoothState),
             ],
           ),
         ),

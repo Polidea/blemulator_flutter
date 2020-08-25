@@ -10,7 +10,7 @@ class SensorTagTestScenario {
   }
 
   Future<void> runTestScenario() async {
-    _peripheralTestOperations
+    await _peripheralTestOperations
         .connect()
         .then((_) => _peripheralTestOperations.cancelTransaction())
         .then((_) => _peripheralTestOperations.discovery())

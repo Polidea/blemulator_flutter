@@ -7,7 +7,7 @@ import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class PeripheralDetailsBloc
     extends Bloc<PeripheralDetailsEvent, PeripheralDetailsState> {
-  BleAdapter _bleAdapter;
+  final BleAdapter _bleAdapter;
   final BlePeripheral _chosenPeripheral;
 
   PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral) {
@@ -55,8 +55,8 @@ class PeripheralDetailsBloc
   PeripheralDetailsState _mapServiceViewExpandedEventToState(
     ServiceViewExpandedEvent event,
   ) {
-    List<BleServiceState> newBleServiceStates =
-        List.from(state.bleServiceStates);
+    var newBleServiceStates =
+        List<BleServiceState>.from(state.bleServiceStates);
 
     newBleServiceStates[event.expandedViewIndex] =
         BleServiceState(service: state.bleServiceStates[event.expandedViewIndex].service, expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);

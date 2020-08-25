@@ -6,9 +6,7 @@ class BleAdapterInjector {
   static BleAdapter _instance;
 
   static BleAdapter get inject {
-    if (_instance == null) {
-      _instance = BleAdapter(BleManager(), Blemulator());
-    }
+    _instance ??= BleAdapter(BleManager(), Blemulator());
     return _instance;
   }
 }

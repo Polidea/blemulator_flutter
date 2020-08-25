@@ -36,7 +36,7 @@ abstract class SimulatedPeripheral {
   Map<int, SimulatedService> _services;
   Map<int, SimulatedCharacteristic> _characteristics;
   Map<int, SimulatedDescriptor> _descriptors;
-  final StreamController<FlutterBLELib.PeripheralConnectionState>
+  final StreamController<flutter_ble_lib.PeripheralConnectionState>
       _connectionStateStreamController;
 
   bool _isConnected = false;
@@ -50,29 +50,25 @@ abstract class SimulatedPeripheral {
     this.scanInfo,
   }) : _connectionStateStreamController = StreamController.broadcast() {
     mtu = defaultMtu;
-    if (scanInfo == null) {
-      this.scanInfo = ScanInfo();
-    }
+    scanInfo ??= ScanInfo();
 
-    if (scanInfo.serviceUuids == null) {
-      scanInfo.serviceUuids = [];
-    }
+    scanInfo.serviceUuids ??= [];
 
     scanInfo.serviceUuids.addAll(services
         .where((service) => service.isAdvertised)
         .map((service) => service.uuid));
 
     _services = Map.fromIterable(services, key: (service) => service.id);
-    _characteristics = Map();
-    _descriptors = Map();
-    for (SimulatedService service in services) {
-      for (SimulatedCharacteristic characteristic
+    _characteristics = {};
+    _descriptors = {};
+    for (var service in services) {
+      for (var characteristic
           in service.characteristics()) {
         _characteristics.putIfAbsent(
           characteristic.id,
           () => characteristic,
         );
-        for (SimulatedDescriptor descriptor in characteristic.descriptors()) {
+        for (var descriptor in characteristic.descriptors()) {
           _descriptors.putIfAbsent(
             descriptor.id,
             () => descriptor,
@@ -82,7 +78,7 @@ abstract class SimulatedPeripheral {
     }
   }
 
-  Stream<FlutterBLELib.PeripheralConnectionState> get connectionStateStream {
+  Stream<flutter_ble_lib.PeripheralConnectionState> get connectionStateStream {
     return _connectionStateStreamController.stream;
   }
 
@@ -99,7 +95,7 @@ abstract class SimulatedPeripheral {
 
   Future<bool> onConnectRequest() async {
     _connectionStateStreamController
-        .add(FlutterBLELib.PeripheralConnectionState.connecting);
+        .add(flutter_ble_lib.PeripheralConnectionState.connecting);
     return true;
   }
 
@@ -108,13 +104,13 @@ abstract class SimulatedPeripheral {
   Future<void> onConnect() async {
     _isConnected = true;
     _connectionStateStreamController
-        .add(FlutterBLELib.PeripheralConnectionState.connected);
+        .add(flutter_ble_lib.PeripheralConnectionState.connected);
   }
 
   Future<void> onDisconnect() async {
     _isConnected = false;
     _connectionStateStreamController
-        .add(FlutterBLELib.PeripheralConnectionState.disconnected);
+        .add(flutter_ble_lib.PeripheralConnectionState.disconnected);
   }
 
   Future<void> onDiscovery() async {
@@ -140,7 +136,7 @@ abstract class SimulatedPeripheral {
   bool hasService(int id) => _services.containsKey(id);
 
   bool hasServiceWithUuid(String uuid) {
-    SimulatedService service = _services.values.firstWhere(
+    var service = _services.values.firstWhere(
       (service) => service.uuid.toLowerCase() == uuid.toLowerCase(),
       orElse: () => null,
     );
@@ -150,7 +146,7 @@ abstract class SimulatedPeripheral {
   bool hasCharacteristic(int id) => _characteristics.containsKey(id);
 
   bool hasCharacteristicWithUuid(String uuid) {
-    SimulatedCharacteristic characteristic = _characteristics.values.firstWhere(
+    var characteristic = _characteristics.values.firstWhere(
       (characteristic) =>
           characteristic.uuid.toLowerCase() == uuid.toLowerCase(),
       orElse: () => null,
@@ -165,9 +161,9 @@ abstract class SimulatedPeripheral {
     String characteristicUuid,
     int characteristicId,
   }) {
-    SimulatedDescriptor descriptor = _descriptors.values.firstWhere(
+    var descriptor = _descriptors.values.firstWhere(
       (descriptor) {
-        bool found = descriptor.uuid.toLowerCase() == uuid.toLowerCase();
+        var found = descriptor.uuid.toLowerCase() == uuid.toLowerCase();
         if (characteristicUuid != null) {
           found = found &&
               descriptor.characteristic.uuid.toLowerCase() ==
@@ -191,9 +187,9 @@ abstract class SimulatedPeripheral {
     SimulatedCharacteristic targetCharacteristic;
 
     servicesLoop:
-    for (SimulatedService service in services()) {
+    for (var service in services()) {
       if (service.uuid.toLowerCase() == serviceUuid.toLowerCase()) {
-        SimulatedCharacteristic characteristic = service
+        var characteristic = service
             .characteristics()
             .firstWhere(
                 (characteristic) =>
@@ -218,7 +214,7 @@ abstract class SimulatedPeripheral {
   }
 
   int _negotiateMtu(int requestedMtu) {
-    int negotiatedMtu = max(min_mtu, requestedMtu);
+    var negotiatedMtu = max(min_mtu, requestedMtu);
     negotiatedMtu = min(max_mtu, negotiatedMtu);
     return negotiatedMtu;
   }

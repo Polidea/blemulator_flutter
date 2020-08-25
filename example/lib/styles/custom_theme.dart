@@ -4,7 +4,7 @@ abstract class CustomTheme {
   static const card = CardTheme(
     elevation: 0,
     shape: RoundedRectangleBorder(
-      borderRadius: const BorderRadius.all(
+      borderRadius: BorderRadius.all(
         Radius.circular(8.0),
       ),
     ),

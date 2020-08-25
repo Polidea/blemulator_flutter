@@ -6,7 +6,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceAlreadyConnected,
-          "Peripheral $identifier is already connected",
+          'Peripheral $identifier is already connected',
         ),
       );
     }
@@ -17,7 +17,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceNotConnected,
-          "Peripheral $identifier is not connected",
+          'Peripheral $identifier is not connected',
         ),
       );
     }
@@ -28,7 +28,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceDisconnected,
-          "Peripheral $identifier has disconnected",
+          'Peripheral $identifier has disconnected',
         ),
       );
     }
@@ -39,7 +39,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceNotFound,
-          "Unknown peripheral",
+          'Unknown peripheral',
         ),
       );
     }
@@ -50,7 +50,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicsNotDiscovered,
-          "Discovery was not done on peripheral ${peripheral.id}",
+          'Discovery was not done on peripheral ${peripheral.id}',
         ),
       );
     }
@@ -61,31 +61,32 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceNotFound,
-          "Unknown peripheral identifier $identifier",
+          'Unknown peripheral identifier $identifier',
         ),
       );
     }
   }
 
   Future<void> _errorIfCannotConnect(String identifier) async {
-    bool canConnect = await _peripherals[identifier].onConnectRequest();
-    if (!canConnect)
+    var canConnect = await _peripherals[identifier].onConnectRequest();
+    if (!canConnect) {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DeviceConnectionFailed,
-          "Connection to peripheral $identifier was denied",
+          'Connection to peripheral $identifier was denied',
         ),
       );
+    }
   }
 
   Future<void> _errorIfCharacteristicIsNull(
-      SimulatedCharacteristic characteristic,
-      String characteristicId,
-      ) async {
+    SimulatedCharacteristic characteristic,
+    String characteristicId,
+  ) async {
     if (characteristic == null) {
       return Future.error(SimulatedBleError(
         BleErrorCode.CharacteristicNotFound,
-        "Characteristic $characteristicId not found",
+        'Characteristic $characteristicId not found',
       ));
     }
   }
@@ -96,7 +97,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicReadFailed,
-          "Characteristic is not readable",
+          'Characteristic is not readable',
         ),
       );
     }
@@ -108,7 +109,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed,
-          "Characteristic is not writable with response",
+          'Characteristic is not writable with response',
         ),
       );
     }
@@ -120,7 +121,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicWriteFailed,
-          "Characteristic is not writable without response",
+          'Characteristic is not writable without response',
         ),
       );
     }
@@ -132,8 +133,8 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.CharacteristicNotifyChangeFailed,
-          "Characteristic ${characteristic.uuid} is neither indicatable, "
-          "nor notifiable",
+          'Characteristic ${characteristic.uuid} is neither indicatable, '
+          'nor notifiable',
         ),
       );
     }
@@ -148,7 +149,7 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DescriptorNotFound,
-          "Descriptor (uuid: $descriptorUuid, id: $descriptorId) not found",
+          'Descriptor (uuid: $descriptorUuid, id: $descriptorId) not found',
         ),
       );
     }
@@ -160,18 +161,19 @@ mixin ErrorChecksMixin on SimulationManagerBase {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DescriptorWriteFailed,
-          "Write to descriptor ${descriptor.uuid} is not allowed",
+          'Write to descriptor ${descriptor.uuid} is not allowed',
         ),
       );
     }
   }
 
-  Future<void> _errorIfDescriptorNotReadable(SimulatedDescriptor descriptor) {
+  Future<void> _errorIfDescriptorNotReadable(
+      SimulatedDescriptor descriptor) async {
     if (!descriptor.readable) {
       return Future.error(
         SimulatedBleError(
           BleErrorCode.DescriptorReadFailed,
-          "Read from descriptor ${descriptor.uuid} is not allowed",
+          'Read from descriptor ${descriptor.uuid} is not allowed',
         ),
       );
     }

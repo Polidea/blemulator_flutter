@@ -17,7 +17,7 @@ abstract class BleDevice {
 
   BleDevice(this.name, this.id, this.peripheral) {
     _category = _nameToCategory(name);
-    if (this.name == null) {}
+    if (name == null) {}
   }
 
   factory BleDevice.connected(BleDevice bleDevice) {
@@ -31,9 +31,9 @@ abstract class BleDevice {
   }
 
   DeviceCategory _nameToCategory(String name) {
-    if (name == "SensorTag") {
+    if (name == 'SensorTag') {
       return DeviceCategory.sensorTag;
-    } else if (name != null && name.startsWith("Hex")) {
+    } else if (name != null && name.startsWith('Hex')) {
       return DeviceCategory.hex;
     } else {
       return DeviceCategory.other;
@@ -46,10 +46,10 @@ abstract class BleDevice {
   @override
   bool operator ==(other) =>
       other is BleDevice &&
-      this.name != null &&
+      name != null &&
       other.name != null &&
-      compareAsciiLowerCase(this.name, other.name) == 0 &&
-      this.id == other.id;
+      compareAsciiLowerCase(name, other.name) == 0 &&
+      id == other.id;
 
   @override
   String toString() {
@@ -63,13 +63,14 @@ class DisconnectedBleDevice extends BleDevice {
   StreamController<BleDevice> _devicesInConnectingProcess;
 
   DisconnectedBleDevice(String name, String id, Peripheral peripheral)
-      : super(name ?? "", id, peripheral);
+      : super(name ?? '', id, peripheral);
 
   @override
   String toString() {
     return 'DisconnectedBleDevice{} ${super.toString()}';
   }
 
+  @override
   void abandon() {
     _devicesInConnectingProcess?.close();
   }
@@ -77,7 +78,7 @@ class DisconnectedBleDevice extends BleDevice {
 
 class ConnectedBleDevice extends BleDevice {
   ConnectedBleDevice(String name, String id, Peripheral peripheral)
-      : super(name ?? "", id, peripheral);
+      : super(name ?? '', id, peripheral);
 
   @override
   void abandon() {}

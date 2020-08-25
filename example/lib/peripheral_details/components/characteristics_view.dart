@@ -17,11 +17,11 @@ class CharacteristicsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "UUID: ${_characteristic.uuid}",
+              'UUID: ${_characteristic.uuid}',
               style: CustomTextStyle.characteristicsStyle,
             ),
             Text(
-              "Properties: ${_getCharacteristicProperties(_characteristic).toString()}",
+              'Properties: ${_getCharacteristicProperties(_characteristic).toString()}',
               style: CustomTextStyle.characteristicsStyle,
             ),
           ],
@@ -32,17 +32,17 @@ class CharacteristicsView extends StatelessWidget {
 
   static List<String> _getCharacteristicProperties(
       BleCharacteristic characteristic) {
-    List<String> properties = new List<String>();
+    var properties = <String>[];
 
     if (characteristic.isWritableWithResponse ||
         characteristic.isWritableWithoutResponse) {
-      properties.add("write");
+      properties.add('write');
     }
     if (characteristic.isReadable) {
-      properties.add("read");
+      properties.add('read');
     }
     if (characteristic.isIndicatable || characteristic.isNotifiable) {
-      properties.add("notify");
+      properties.add('notify');
     }
 
     return properties;

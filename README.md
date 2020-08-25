@@ -32,7 +32,7 @@ BleManager bleManager = BleManager();
 bleManager.createClient(); //this creates an instance of native BLE
 ```
 ### Defining simple simulated peripheral
-The following peripheral is based on [Texas Instruments CC2541 SensorTag](http://www.ti.com/tool/CC2541DK-SENSOR).
+The following peripheral is based on [Texas Instruments CC2541 SensorTag](https://www.ti.com/tool/CC2541DK-SENSOR).
 To keep the example clearer, only IR temperature service is simulated.
 ```dart
 class SensorTag extends SimulatedPeripheral {

@@ -48,6 +48,5 @@ Map<String, dynamic> mapToDescriptorJson(
       Metadata.characteristicId: response.descriptor.characteristic.id,
       Metadata.descriptorUuid: response.descriptor.uuid,
       Metadata.descriptorId: response.descriptor.id,
-      Metadata.deviceIdentifier: response.peripheralId,
       Metadata.value: response.value,
     };

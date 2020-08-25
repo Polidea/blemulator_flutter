@@ -1,7 +1,7 @@
 part of internal;
 
 class PlatformToDartBridge {
-  SimulationManager _manager;
+  final SimulationManager _manager;
   MethodChannel _platformToDartChannel;
 
   PlatformToDartBridge(this._manager) {
@@ -72,7 +72,7 @@ class PlatformToDartBridge {
         return Future.error(
           SimulatedBleError(
             BleErrorCode.UnknownError,
-            "${call.method} is not implemented",
+            '${call.method} is not implemented',
           ),
         );
     }
