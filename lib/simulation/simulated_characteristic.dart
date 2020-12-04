@@ -29,11 +29,9 @@ class SimulatedCharacteristic {
     List<SimulatedDescriptor> descriptors = const [],
   })  : uuid = uuid.toLowerCase(),
         id = IdGenerator().nextId(),
-        _descriptors = Map.fromIterable(
-          descriptors,
-          key: (descriptor) => descriptor.id,
-          value: (descriptor) => descriptor,
-        ) {
+        _descriptors = {
+          for (var descriptor in descriptors) descriptor.id: descriptor
+        } {
     _value = value;
     _descriptors.values
         .forEach((descriptor) => descriptor.attachToCharacteristic(this));
@@ -52,15 +50,15 @@ class SimulatedCharacteristic {
 
   Stream<Uint8List> monitor() {
     _streamController ??= StreamController.broadcast(
-        onListen: () {
-          isNotifying = true;
-        },
-        onCancel: () {
-          isNotifying = false;
-          _streamController.close();
-          _streamController = null;
-        },
-      );
+      onListen: () {
+        isNotifying = true;
+      },
+      onCancel: () {
+        isNotifying = false;
+        _streamController.close();
+        _streamController = null;
+      },
+    );
     return _streamController.stream;
   }
 

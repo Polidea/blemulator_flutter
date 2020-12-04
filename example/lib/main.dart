@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
 
   Widget _buildNewExample() {
     return BlocProvider<NavigationBloc>(
-      builder: (context) => NavigationBloc(navigatorKey: _navigatorKey),
+      create: (context) => NavigationBloc(navigatorKey: _navigatorKey),
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: 'Blemulator example',

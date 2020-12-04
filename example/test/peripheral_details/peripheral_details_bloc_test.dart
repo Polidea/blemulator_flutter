@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/model/ble_service.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';

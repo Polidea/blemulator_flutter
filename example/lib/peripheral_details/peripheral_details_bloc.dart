@@ -16,12 +16,14 @@ class PeripheralDetailsBloc
       _bleAdapter
           .discoverAndGetServicesCharacteristics(_chosenPeripheral.id)
           .then(
-            (bleServices) {
+        (bleServices) {
           add(ServicesFetchedEvent(bleServices));
         },
       );
-    } on BleError catch (e) {
-      // TODO handle the error. To my knowledge only possible cause is either peripheral got disconnected or Bluetooth has been turned off,
+    } on BleError catch (_) {
+      // TODO handle the error.
+      //  To my knowledge only possible cause is either peripheral got
+      //  disconnected or Bluetooth has been turned off,
       //  so it should be handled the same way as disconnection.
     }
   }
@@ -58,8 +60,9 @@ class PeripheralDetailsBloc
     var newBleServiceStates =
         List<BleServiceState>.from(state.bleServiceStates);
 
-    newBleServiceStates[event.expandedViewIndex] =
-        BleServiceState(service: state.bleServiceStates[event.expandedViewIndex].service, expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);
+    newBleServiceStates[event.expandedViewIndex] = BleServiceState(
+        service: state.bleServiceStates[event.expandedViewIndex].service,
+        expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);
 
     return PeripheralDetailsState(
       peripheral: state.peripheral,
