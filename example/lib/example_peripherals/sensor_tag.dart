@@ -46,6 +46,7 @@ class SensorTag extends SimulatedPeripheral {
                   convenienceName: 'Accelerometer Service')
             ]) {
     scanInfo.localName = localName;
+    scanInfo.manufacturerData = Uint8List.fromList([0, 1, 2, 255]);
   }
 
   @override

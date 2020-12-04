@@ -2,6 +2,7 @@
 #import "DomainTypesConverter.h"
 #import "DartCallArgumentKeys.h"
 #import "ArrayUtilities.h"
+#import <Flutter/Flutter.h>
 
 @implementation DartCallArgumentsConverter
 
@@ -12,6 +13,7 @@
     id serviceUUIDs = [NSNull null];
     id solicitedServiceUUIDs = [NSNull null];
     id overflowServiceUUIDs = [NSNull null];
+    id manufacturerData = [NSNull null];
 
     if ([callArguments objectForKey:DART_CALL_ARGUMENT_SERVICE_UUIDS] != [NSNull null]) {
         serviceUUIDs = [ArrayUtilities cbuuidArrayFromStringArray:[callArguments objectForKey:DART_CALL_ARGUMENT_SERVICE_UUIDS]];
@@ -22,9 +24,14 @@
     if ([callArguments objectForKey:DART_CALL_ARGUMENT_OVERFLOW_UUIDS] != [NSNull null]) {
         overflowServiceUUIDs = [ArrayUtilities cbuuidArrayFromStringArray:[callArguments objectForKey:DART_CALL_ARGUMENT_OVERFLOW_UUIDS]];
     }
+    if ([callArguments objectForKey:DART_CALL_ARGUMENT_MANUFACTURER_DATA] != [NSNull null]) {
+        FlutterStandardTypedData *rawData = [callArguments objectForKey:DART_CALL_ARGUMENT_MANUFACTURER_DATA];
+        manufacturerData = rawData.data;
+    }
+    
 
     AdvertisementData *advertisementData =
-    [[AdvertisementData alloc] initWithManufacturerData:[callArguments objectForKey:DART_CALL_ARGUMENT_MANUFACTURER_DATA]
+    [[AdvertisementData alloc] initWithManufacturerData:manufacturerData
                                             serviceData:[callArguments objectForKey:DART_CALL_ARGUMENT_SERVICE_DATA]
                                            serviceUUIDs:serviceUUIDs
                                               localName:[callArguments objectForKey:DART_CALL_ARGUMENT_LOCAL_NAME]

@@ -1,3 +1,7 @@
+## 1.2.1
+
+* Fix crash on iOS when manufacturer's data was present in the advertising packet
+
 ## 1.2.0
 
 * Add support for connecting to peripheral without launching scan first
