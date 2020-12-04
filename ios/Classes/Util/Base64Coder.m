@@ -3,8 +3,7 @@
 @implementation Base64Coder
 
 + (NSString *)base64StringFromData:(NSData *)data {
-    return [[NSString alloc] initWithData:data
-                                 encoding:NSUTF8StringEncoding];
+    return [data base64EncodedStringWithOptions:nil];
 }
 
 + (NSData *)dataFromBase64String:(NSString *)string {
