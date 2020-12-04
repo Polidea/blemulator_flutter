@@ -1,6 +1,7 @@
 import 'package:blemulator/blemulator.dart';
 import 'package:blemulator/src/internal.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:test/test.dart';
 
 import '../../factory/simulation_manager_factory.dart';
@@ -10,13 +11,14 @@ class MockedPeripheral extends Mock implements SimulatedPeripheral {}
 void main() {
   const DEVICE_ID = 'qwe123';
   DiscoveryMixin discoveryMixin;
-  var mockedPeripheral = MockedPeripheral();
+  var mockedPeripheral;
 
   setUp(() {
+    mockedPeripheral = MockedPeripheral();
     when(mockedPeripheral.id).thenAnswer((_) => DEVICE_ID);
     when(mockedPeripheral.isConnected()).thenAnswer((_) => true);
     when(mockedPeripheral.onDiscovery()).thenAnswer((_) => Future.sync(() {}));
-    when(mockedPeripheral.services()).thenAnswer((_) => []);
+    when(mockedPeripheral.services()).thenAnswer((_) => <SimulatedService>[]);
     discoveryMixin = SimulationManagerFactory().create()
       ..addSimulatedPeripheral(mockedPeripheral);
   });
@@ -27,15 +29,14 @@ void main() {
     when(mockedPeripheral.onDiscoveryRequest())
         .thenAnswer((_) => Future.delayed(Duration(milliseconds: 200)));
 
-    await expectLater(
+    unawaited(expectLater(
       discoveryMixin.discoverAllServicesAndCharacteristics(DEVICE_ID, '1'),
       throwsA(equals(SimulatedBleError(
           BleErrorCode.OperationCancelled, 'Operation cancelled'))),
-    );
-
+    ));
     await Future.delayed(Duration(milliseconds: 100));
-
-    await discoveryMixin.discoverAllServicesAndCharacteristics(DEVICE_ID, '1');
+    unawaited(
+        discoveryMixin.discoverAllServicesAndCharacteristics(DEVICE_ID, '1'));
   });
 
   test(
