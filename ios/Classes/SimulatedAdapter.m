@@ -152,7 +152,7 @@
     NSLog(@"SimulatedAdapter.connectToDevice");
     self.dartValueHandler.connectionEventDelegate = self;
     
-    if ([self.knownPeripherals objectForKey:deviceIdentifier] != nil) {
+    if ([self.knownPeripherals objectForKey:deviceIdentifier] == nil) {
             [self.knownPeripherals setObject:[[DeviceContainer alloc] initWithIdentifier:deviceIdentifier
                                                           name:@""]
             forKey:deviceIdentifier];
