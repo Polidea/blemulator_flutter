@@ -8,7 +8,7 @@ import 'package:blemulator_example/navigation/router.dart';
 import 'package:blemulator_example/styles/custom_colors.dart';
 import 'package:blemulator_example/styles/custom_theme.dart';
 import 'package:fimber/fimber.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
