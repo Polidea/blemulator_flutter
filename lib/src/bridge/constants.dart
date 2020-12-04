@@ -55,13 +55,17 @@ abstract class DartMethodName {
   static const String monitorCharacteristicForService =
       'monitorCharacteristicForService';
 
-  static const String writeDescriptorForIdentifier = 'writeDescriptorForIdentifier';
-  static const String writeDescriptorForCharacteristic = 'writeDescriptorForCharacteristic';
+  static const String writeDescriptorForIdentifier =
+      'writeDescriptorForIdentifier';
+  static const String writeDescriptorForCharacteristic =
+      'writeDescriptorForCharacteristic';
   static const String writeDescriptorForService = 'writeDescriptorForService';
   static const String writeDescriptorForDevice = 'writeDescriptorForDevice';
 
-  static const String readDescriptorForIdentifier = 'readDescriptorForIdentifier';
-  static const String readDescriptorForCharacteristic = 'readDescriptorForCharacteristic';
+  static const String readDescriptorForIdentifier =
+      'readDescriptorForIdentifier';
+  static const String readDescriptorForCharacteristic =
+      'readDescriptorForCharacteristic';
   static const String readDescriptorForService = 'readDescriptorForService';
   static const String readDescriptorForDevice = 'readDescriptorForDevice';
 

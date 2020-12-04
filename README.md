@@ -77,7 +77,7 @@ class SensorTag extends SimulatedPeripheral {
 
 This creates a peripheral that advertises every 800 milliseconds while peripheral scan is on,
  waits for 200 milliseconds after receiving connection request before agreeing to connect and has a single service 
- with three characteristics according to [SensorTag documentation](http://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf).
+ with three characteristics according to [SensorTag documentation](https://processors.wiki.ti.com/images/a/a8/BLE_SensorTag_GATT_Server.pdf).
 
 The _convenienceName_ fields are optional and not used by the blemulator itself, but allow you to name created objects for better maintainability.
 

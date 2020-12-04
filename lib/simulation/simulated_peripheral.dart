@@ -62,8 +62,7 @@ abstract class SimulatedPeripheral {
     _characteristics = {};
     _descriptors = {};
     for (var service in services) {
-      for (var characteristic
-          in service.characteristics()) {
+      for (var characteristic in service.characteristics()) {
         _characteristics.putIfAbsent(
           characteristic.id,
           () => characteristic,
@@ -189,13 +188,11 @@ abstract class SimulatedPeripheral {
     servicesLoop:
     for (var service in services()) {
       if (service.uuid.toLowerCase() == serviceUuid.toLowerCase()) {
-        var characteristic = service
-            .characteristics()
-            .firstWhere(
-                (characteristic) =>
-                    characteristic.uuid.toLowerCase() ==
-                    characteristicUuid.toLowerCase(),
-                orElse: () => null);
+        var characteristic = service.characteristics().firstWhere(
+            (characteristic) =>
+                characteristic.uuid.toLowerCase() ==
+                characteristicUuid.toLowerCase(),
+            orElse: () => null);
 
         if (characteristic != null) {
           targetCharacteristic = characteristic;

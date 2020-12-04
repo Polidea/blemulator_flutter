@@ -6,13 +6,11 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
     String transactionId,
   ) =>
       _saveCancelableOperation(transactionId, () async {
-        var peripheral =
-            _findPeripheralWithDescriptorId(descriptorIdentifier);
+        var peripheral = _findPeripheralWithDescriptorId(descriptorIdentifier);
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
-        var descriptor =
-            peripheral.descriptor(descriptorIdentifier);
+        var descriptor = peripheral.descriptor(descriptorIdentifier);
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotReadable(descriptor);
 
@@ -42,8 +40,7 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
           characteristicIdentifier.toString(),
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotReadable(descriptor);
 
@@ -61,23 +58,20 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
     String transactionId,
   ) =>
       _saveCancelableOperation(transactionId, () async {
-        var peripheral =
-            _findPeripheralWithServiceId(serviceIdentifier);
+        var peripheral = _findPeripheralWithServiceId(serviceIdentifier);
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
         var service = peripheral.service(serviceIdentifier);
 
-        var characteristic =
-            service.characteristicByUuid(characteristicUuid);
+        var characteristic = service.characteristicByUuid(characteristicUuid);
 
         await _errorIfCharacteristicIsNull(
           characteristic,
           characteristicUuid,
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
 
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotReadable(descriptor);
@@ -101,16 +95,15 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
-        var characteristic = peripheral
-            .getCharacteristicForService(serviceUuid, characteristicUuid);
+        var characteristic = peripheral.getCharacteristicForService(
+            serviceUuid, characteristicUuid);
 
         await _errorIfCharacteristicIsNull(
           characteristic,
           characteristicUuid,
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
 
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotReadable(descriptor);
@@ -128,13 +121,11 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
     String transactionId,
   ) =>
       _saveCancelableOperation(transactionId, () async {
-        var peripheral =
-            _findPeripheralWithDescriptorId(descriptorIdentifier);
+        var peripheral = _findPeripheralWithDescriptorId(descriptorIdentifier);
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
-        var descriptor =
-            peripheral.descriptor(descriptorIdentifier);
+        var descriptor = peripheral.descriptor(descriptorIdentifier);
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotWritable(descriptor);
 
@@ -165,8 +156,7 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
           characteristicIdentifier.toString(),
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
 
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotWritable(descriptor);
@@ -186,23 +176,20 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
     String transactionId,
   ) =>
       _saveCancelableOperation(transactionId, () async {
-        var peripheral =
-            _findPeripheralWithServiceId(serviceIdentifier);
+        var peripheral = _findPeripheralWithServiceId(serviceIdentifier);
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
         var service = peripheral.service(serviceIdentifier);
 
-        var characteristic =
-            service.characteristicByUuid(characteristicUuid);
+        var characteristic = service.characteristicByUuid(characteristicUuid);
 
         await _errorIfCharacteristicIsNull(
           characteristic,
           characteristicUuid,
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
 
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotWritable(descriptor);
@@ -227,16 +214,15 @@ mixin DescriptorsMixin on SimulationManagerBaseWithErrorChecks {
         await _errorIfPeripheralNull(peripheral);
         await _errorIfNotConnected(peripheral.id);
 
-        var characteristic = peripheral
-            .getCharacteristicForService(serviceUuid, characteristicUuid);
+        var characteristic = peripheral.getCharacteristicForService(
+            serviceUuid, characteristicUuid);
 
         await _errorIfCharacteristicIsNull(
           characteristic,
           characteristicUuid,
         );
 
-        var descriptor =
-            characteristic.descriptorByUuid(descriptorUuid);
+        var descriptor = characteristic.descriptorByUuid(descriptorUuid);
 
         await _errorIfDescriptorNotFound(descriptor);
         await _errorIfDescriptorNotWritable(descriptor);

@@ -28,7 +28,7 @@ class DartToPlatformBridge {
       });
 
   Future<void> publishConnectionState(SimulatedPeripheral peripheral,
-      flutter_ble_lib.PeripheralConnectionState connectionState) =>
+          flutter_ble_lib.PeripheralConnectionState connectionState) =>
       _dartToPlatformChannel.invokeMethod(
           SimulationPlatformMethodName.publishConnectionState,
           <String, dynamic>{
@@ -37,7 +37,8 @@ class DartToPlatformBridge {
                 _connectionStateToString(connectionState),
           });
 
-  String _connectionStateToString(flutter_ble_lib.PeripheralConnectionState state) {
+  String _connectionStateToString(
+      flutter_ble_lib.PeripheralConnectionState state) {
     switch (state) {
       case flutter_ble_lib.PeripheralConnectionState.connecting:
         return NativeConnectionState.connecting;

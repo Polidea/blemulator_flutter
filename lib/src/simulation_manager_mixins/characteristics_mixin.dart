@@ -6,8 +6,7 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     SimulatedCharacteristic targetCharacteristic;
 
     for (var peripheral in _peripherals.values) {
-      var characteristic =
-          peripheral.characteristic(characteristicIdentifier);
+      var characteristic = peripheral.characteristic(characteristicIdentifier);
 
       if (characteristic != null) {
         await _errorIfNotConnected(peripheral.id);
@@ -70,8 +69,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         var targetPeripheral = _peripherals[peripheralId];
         await _errorIfDiscoveryNotDone(targetPeripheral);
 
-        var targetCharacteristic = targetPeripheral
-            .getCharacteristicForService(serviceUuid, characteristicUUID);
+        var targetCharacteristic = targetPeripheral.getCharacteristicForService(
+            serviceUuid, characteristicUUID);
 
         await _errorIfCharacteristicIsNull(
             targetCharacteristic, characteristicUUID);
@@ -87,9 +86,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     String transactionId,
   ) =>
       _saveCancelableOperation(transactionId, () async {
-        var targetCharacteristic =
-            _findCharacteristicForServiceId(
-                serviceIdentifier, characteristicUUID);
+        var targetCharacteristic = _findCharacteristicForServiceId(
+            serviceIdentifier, characteristicUUID);
 
         await _errorIfNotConnected(
             _findPeripheralWithServiceId(serviceIdentifier).id);
@@ -151,8 +149,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
         var targetPeripheral = _peripherals[peripheralId];
         await _errorIfDiscoveryNotDone(targetPeripheral);
 
-        var targetCharacteristic = targetPeripheral
-            .getCharacteristicForService(serviceUuid, characteristicUUID);
+        var targetCharacteristic = targetPeripheral.getCharacteristicForService(
+            serviceUuid, characteristicUUID);
 
         await _errorIfCharacteristicIsNull(
             targetCharacteristic, characteristicUUID);
@@ -176,9 +174,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     bool withResponse = true,
   }) =>
       _saveCancelableOperation(transactionId, () async {
-        var targetCharacteristic =
-            _findCharacteristicForServiceId(
-                serviceIdentifier, characteristicUUID);
+        var targetCharacteristic = _findCharacteristicForServiceId(
+            serviceIdentifier, characteristicUUID);
 
         await _errorIfCharacteristicIsNull(
             targetCharacteristic, characteristicUUID);
@@ -271,8 +268,8 @@ mixin CharacteristicsMixin on SimulationManagerBaseWithErrorChecks {
     var targetPeripheral = _peripherals[peripheralId];
     await _errorIfDiscoveryNotDone(targetPeripheral);
 
-    var targetCharacteristic = targetPeripheral
-        .getCharacteristicForService(serviceUuid, characteristicUUID);
+    var targetCharacteristic = targetPeripheral.getCharacteristicForService(
+        serviceUuid, characteristicUUID);
 
     await _errorIfCharacteristicIsNull(
         targetCharacteristic, characteristicUUID);

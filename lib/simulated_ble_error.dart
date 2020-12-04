@@ -66,13 +66,11 @@ class SimulatedBleError implements Exception {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SimulatedBleError &&
-              runtimeType == other.runtimeType &&
-              errorCode == other.errorCode &&
-              reason == other.reason;
+      other is SimulatedBleError &&
+          runtimeType == other.runtimeType &&
+          errorCode == other.errorCode &&
+          reason == other.reason;
 
   @override
-  int get hashCode =>
-      errorCode.hashCode ^
-      reason.hashCode;
+  int get hashCode => errorCode.hashCode ^ reason.hashCode;
 }

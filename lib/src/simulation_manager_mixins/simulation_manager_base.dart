@@ -6,8 +6,8 @@ abstract class SimulationManagerBase {
   final Map<String, SimulatedPeripheral> _peripherals = {};
   final DartToPlatformBridge _bridge;
   final Map<String, CancelableOperation> _pendingTransactions = HashMap();
-  final Map<String, _CharacteristicMonitoringSubscription> _monitoringSubscriptions =
-      HashMap();
+  final Map<String, _CharacteristicMonitoringSubscription>
+      _monitoringSubscriptions = HashMap();
 
   SimulationManagerBase(this._bridge);
 
@@ -67,8 +67,7 @@ abstract class SimulationManagerBase {
 
   Future<void> _cancelMonitoringTransactionIfExists(
       String transactionId) async {
-    var subscription =
-        _monitoringSubscriptions.remove(transactionId);
+    var subscription = _monitoringSubscriptions.remove(transactionId);
     if (subscription != null) {
       await subscription.subscription.cancel();
       await _bridge.publishCharacteristicMonitoringError(
