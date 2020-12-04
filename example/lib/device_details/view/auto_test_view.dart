@@ -33,7 +33,7 @@ class AutoTestView extends StatelessWidget {
   Widget _createAutoTestControlPanel() {
     return Row(
       children: <Widget>[
-        ButtonView("Start Auto Test", action: _startAutoTest),
+        ButtonView('Start Auto Test', action: _startAutoTest),
       ],
     );
   }

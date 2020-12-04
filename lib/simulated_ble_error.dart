@@ -48,8 +48,8 @@ abstract class BleErrorCode {
 }
 
 class SimulatedBleError implements Exception {
-  static final String _errorCode = "errorCode";
-  static final String _reason = "reason";
+  static final String _errorCode = 'errorCode';
+  static final String _reason = 'reason';
   int errorCode;
   String reason;
 
@@ -66,13 +66,11 @@ class SimulatedBleError implements Exception {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SimulatedBleError &&
-              runtimeType == other.runtimeType &&
-              errorCode == other.errorCode &&
-              reason == other.reason;
+      other is SimulatedBleError &&
+          runtimeType == other.runtimeType &&
+          errorCode == other.errorCode &&
+          reason == other.reason;
 
   @override
-  int get hashCode =>
-      errorCode.hashCode ^
-      reason.hashCode;
+  int get hashCode => errorCode.hashCode ^ reason.hashCode;
 }

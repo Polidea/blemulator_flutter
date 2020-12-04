@@ -29,14 +29,14 @@ class MyApp extends StatelessWidget {
 
   Widget _buildExample() {
     return MaterialApp(title: 'Blemulator example',
-      theme: new ThemeData(
-        primaryColor: new Color(0xFF0A3D91),
-        accentColor: new Color(0xFFCC0000),
+      theme: ThemeData(
+        primaryColor: Color(0xFF0A3D91),
+        accentColor: Color(0xFFCC0000),
       ),
-      initialRoute: "/",
+      initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        "/": (context) => DevicesBlocProvider(child: DevicesListScreen()),
-        "/details": (context) =>
+        '/': (context) => DevicesBlocProvider(child: DevicesListScreen()),
+        '/details': (context) =>
             DeviceDetailsBlocProvider(child: DeviceDetailsView()),
       },
       navigatorObservers: [routeObserver],
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
 
   Widget _buildNewExample() {
     return BlocProvider<NavigationBloc>(
-      builder: (context) => NavigationBloc(navigatorKey: _navigatorKey),
+      create: (context) => NavigationBloc(navigatorKey: _navigatorKey),
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: 'Blemulator example',

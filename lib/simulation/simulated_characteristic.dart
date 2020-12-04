@@ -29,11 +29,9 @@ class SimulatedCharacteristic {
     List<SimulatedDescriptor> descriptors = const [],
   })  : uuid = uuid.toLowerCase(),
         id = IdGenerator().nextId(),
-        _descriptors = Map.fromIterable(
-          descriptors,
-          key: (descriptor) => descriptor.id,
-          value: (descriptor) => descriptor,
-        ) {
+        _descriptors = {
+          for (var descriptor in descriptors) descriptor.id: descriptor
+        } {
     _value = value;
     _descriptors.values
         .forEach((descriptor) => descriptor.attachToCharacteristic(this));
@@ -44,24 +42,23 @@ class SimulatedCharacteristic {
   Future<Uint8List> read() async => _value;
 
   Future<void> write(Uint8List value, {bool sendNotification = true}) async {
-    this._value = value;
-    if (sendNotification && _streamController?.hasListener == true)
+    _value = value;
+    if (sendNotification && _streamController?.hasListener == true) {
       _streamController.sink.add(value);
+    }
   }
 
   Stream<Uint8List> monitor() {
-    if (_streamController == null) {
-      _streamController = StreamController.broadcast(
-        onListen: () {
-          isNotifying = true;
-        },
-        onCancel: () {
-          isNotifying = false;
-          _streamController.close();
-          _streamController = null;
-        },
-      );
-    }
+    _streamController ??= StreamController.broadcast(
+      onListen: () {
+        isNotifying = true;
+      },
+      onCancel: () {
+        isNotifying = false;
+        _streamController.close();
+        _streamController = null;
+      },
+    );
     return _streamController.stream;
   }
 

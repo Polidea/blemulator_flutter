@@ -14,9 +14,9 @@ void main() {
   const peripheralRssi = -30;
   const peripheralLocalName = 'Test peripheral local name';
 
-  MockBleManager bleManager = MockBleManager();
-  MockBlemulator blemulator = MockBlemulator();
-  BleAdapter bleAdapter = BleAdapter(bleManager, blemulator);
+  var bleManager = MockBleManager();
+  var blemulator = MockBlemulator();
+  var bleAdapter = BleAdapter(bleManager, blemulator);
   StreamController<ScanResult> scanResultStreamController;
   StreamSubscription<BlePeripheral> blePeripheralsSubscription;
 
@@ -28,21 +28,21 @@ void main() {
   });
 
   MockPeripheral setupMockPeripheral() {
-    MockPeripheral peripheral = MockPeripheral();
+    var peripheral = MockPeripheral();
     when(peripheral.name).thenReturn(peripheralName);
     when(peripheral.identifier).thenReturn(peripheralIdentifier);
     return peripheral;
   }
 
   MockAdvertisementData setupMockAdvertisementData() {
-    MockAdvertisementData advertisementData = MockAdvertisementData();
+    var advertisementData = MockAdvertisementData();
     when(advertisementData.localName).thenReturn(peripheralLocalName);
     return advertisementData;
   }
 
   MockScanResult setupMockScanResult(
       MockPeripheral peripheral, MockAdvertisementData advertisementData) {
-    MockScanResult scanResult = MockScanResult();
+    var scanResult = MockScanResult();
     when(scanResult.peripheral).thenReturn(peripheral);
     when(scanResult.advertisementData).thenReturn(advertisementData);
     when(scanResult.rssi).thenReturn(peripheralRssi);
@@ -100,9 +100,9 @@ void main() {
       // given
       setupBlePeripheralSubscription();
 
-      MockPeripheral peripheral = setupMockPeripheral();
-      MockAdvertisementData advertisementData = setupMockAdvertisementData();
-      MockScanResult scanResult =
+      var peripheral = setupMockPeripheral();
+      var advertisementData = setupMockAdvertisementData();
+      var scanResult =
           setupMockScanResult(peripheral, advertisementData);
 
       // when

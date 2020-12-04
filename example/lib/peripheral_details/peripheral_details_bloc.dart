@@ -7,7 +7,7 @@ import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class PeripheralDetailsBloc
     extends Bloc<PeripheralDetailsEvent, PeripheralDetailsState> {
-  BleAdapter _bleAdapter;
+  final BleAdapter _bleAdapter;
   final BlePeripheral _chosenPeripheral;
 
   PeripheralDetailsBloc(this._bleAdapter, this._chosenPeripheral) {
@@ -16,12 +16,14 @@ class PeripheralDetailsBloc
       _bleAdapter
           .discoverAndGetServicesCharacteristics(_chosenPeripheral.id)
           .then(
-            (bleServices) {
+        (bleServices) {
           add(ServicesFetchedEvent(bleServices));
         },
       );
-    } on BleError catch (e) {
-      // TODO handle the error. To my knowledge only possible cause is either peripheral got disconnected or Bluetooth has been turned off,
+    } on BleError catch (_) {
+      // TODO handle the error.
+      //  To my knowledge only possible cause is either peripheral got
+      //  disconnected or Bluetooth has been turned off,
       //  so it should be handled the same way as disconnection.
     }
   }
@@ -55,11 +57,12 @@ class PeripheralDetailsBloc
   PeripheralDetailsState _mapServiceViewExpandedEventToState(
     ServiceViewExpandedEvent event,
   ) {
-    List<BleServiceState> newBleServiceStates =
-        List.from(state.bleServiceStates);
+    var newBleServiceStates =
+        List<BleServiceState>.from(state.bleServiceStates);
 
-    newBleServiceStates[event.expandedViewIndex] =
-        BleServiceState(service: state.bleServiceStates[event.expandedViewIndex].service, expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);
+    newBleServiceStates[event.expandedViewIndex] = BleServiceState(
+        service: state.bleServiceStates[event.expandedViewIndex].service,
+        expanded: !state.bleServiceStates[event.expandedViewIndex].expanded);
 
     return PeripheralDetailsState(
       peripheral: state.peripheral,

@@ -31,7 +31,7 @@ class BleAdapter {
 
   Stream<BlePeripheral> get blePeripherals => _blePeripheralsController.stream;
 
-  Map<String, Peripheral> _scannedPeripherals = Map();
+  final Map<String, Peripheral> _scannedPeripherals = {};
 
   factory BleAdapter(BleManager bleManager, Blemulator blemulator) {
     if (_instance == null) {
@@ -81,9 +81,9 @@ class BleAdapter {
 
   void _setupSimulation() {
     _blemulator.addSimulatedPeripheral(SensorTag());
-    _blemulator.addSimulatedPeripheral(SensorTag(id: "different id"));
+    _blemulator.addSimulatedPeripheral(SensorTag(id: 'different id'));
     _blemulator
-        .addSimulatedPeripheral(SensorTag(id: "yet another different id"));
+        .addSimulatedPeripheral(SensorTag(id: 'yet another different id'));
     _blemulator.addSimulatedPeripheral(GenericPeripheral());
     _blemulator.simulate();
   }
@@ -95,12 +95,12 @@ class BleAdapter {
     await _scannedPeripherals[peripheralId]
         .discoverAllServicesAndCharacteristics();
 
-    List<BleService> bleServices = [];
-    for (Service service
+    var bleServices = <BleService>[];
+    for (var service
         in await _scannedPeripherals[peripheralId].services()) {
-      List<Characteristic> serviceCharacteristics =
+      var serviceCharacteristics =
           await service.characteristics();
-      List<BleCharacteristic> bleCharacteristics = serviceCharacteristics
+      var bleCharacteristics = serviceCharacteristics
           .map(
             (characteristic) =>
                 BleCharacteristic.fromCharacteristic(characteristic),
@@ -110,7 +110,7 @@ class BleAdapter {
     }
 
     // TODO remove when connectivity handling is implemented
-    _scannedPeripherals[peripheralId].disconnectOrCancelConnection();
+    await _scannedPeripherals[peripheralId].disconnectOrCancelConnection();
 
     return bleServices;
   }

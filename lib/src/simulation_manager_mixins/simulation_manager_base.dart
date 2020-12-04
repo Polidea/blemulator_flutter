@@ -3,11 +3,11 @@ part of internal;
 typedef CancelableFuture<T> = Future<T> Function();
 
 abstract class SimulationManagerBase {
-  Map<String, SimulatedPeripheral> _peripherals = Map();
-  DartToPlatformBridge _bridge;
-  Map<String, CancelableOperation> _pendingTransactions = HashMap();
-  Map<String, _CharacteristicMonitoringSubscription> _monitoringSubscriptions =
-      HashMap();
+  final Map<String, SimulatedPeripheral> _peripherals = {};
+  final DartToPlatformBridge _bridge;
+  final Map<String, CancelableOperation> _pendingTransactions = HashMap();
+  final Map<String, _CharacteristicMonitoringSubscription>
+      _monitoringSubscriptions = HashMap();
 
   SimulationManagerBase(this._bridge);
 
@@ -17,11 +17,11 @@ abstract class SimulationManagerBase {
   ) async {
     await cancelTransactionIfExists(transactionId);
 
-    CancelableOperation<T> operation =
-        CancelableOperation.fromFuture(cancelableFuture(), onCancel: () {
+    var operation =
+        CancelableOperation<T>.fromFuture(cancelableFuture(), onCancel: () {
       return Future.error(SimulatedBleError(
         BleErrorCode.OperationCancelled,
-        "Operation cancelled",
+        'Operation cancelled',
       ));
     });
     _pendingTransactions.putIfAbsent(transactionId, () => operation);
@@ -67,8 +67,7 @@ abstract class SimulationManagerBase {
 
   Future<void> _cancelMonitoringTransactionIfExists(
       String transactionId) async {
-    _CharacteristicMonitoringSubscription subscription =
-        _monitoringSubscriptions.remove(transactionId);
+    var subscription = _monitoringSubscriptions.remove(transactionId);
     if (subscription != null) {
       await subscription.subscription.cancel();
       await _bridge.publishCharacteristicMonitoringError(
@@ -76,7 +75,7 @@ abstract class SimulationManagerBase {
         subscription.characteristicId,
         SimulatedBleError(
           BleErrorCode.OperationCancelled,
-          "Operation cancelled",
+          'Operation cancelled',
         ),
         transactionId,
       );

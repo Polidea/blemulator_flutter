@@ -24,33 +24,33 @@ class DeviceListScreenState extends State<DevicesListScreen> {
   @override
   void didUpdateWidget(DevicesListScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    Fimber.d("didUpdateWidget");
+    Fimber.d('didUpdateWidget');
   }
 
   void _onPause() {
-    Fimber.d("onPause");
+    Fimber.d('onPause');
     _appStateSubscription.cancel();
     _devicesBloc.dispose();
   }
 
   void _onResume() {
-    Fimber.d("onResume");
+    Fimber.d('onResume');
     _devicesBloc.init();
     _appStateSubscription = _devicesBloc.pickedDevice.listen((bleDevice) async {
-      Fimber.d("navigate to details");
+      Fimber.d('navigate to details');
       _onPause();
-      await Navigator.pushNamed(context, "/details");
+      await Navigator.pushNamed(context, '/details');
       setState(() {
         _shouldRunOnResume = true;
       });
-      Fimber.d("back from details");
+      Fimber.d('back from details');
     });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Fimber.d("DeviceListScreenState didChangeDependencies");
+    Fimber.d('DeviceListScreenState didChangeDependencies');
     if (_devicesBloc == null) {
       _devicesBloc = DevicesBlocProvider.of(context);
       if (_shouldRunOnResume) {
@@ -62,7 +62,7 @@ class DeviceListScreenState extends State<DevicesListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Fimber.d("build DeviceListScreenState");
+    Fimber.d('build DeviceListScreenState');
     if (_shouldRunOnResume) {
       _shouldRunOnResume = false;
       _onResume();
@@ -84,20 +84,20 @@ class DeviceListScreenState extends State<DevicesListScreen> {
 
   @override
   void dispose() {
-    Fimber.d("Dispose DeviceListScreenState");
+    Fimber.d('Dispose DeviceListScreenState');
     _onPause();
     super.dispose();
   }
 
   @override
   void deactivate() {
-    print("deactivate");
+    print('deactivate');
     super.deactivate();
   }
 
   @override
   void reassemble() {
-    Fimber.d("reassemble");
+    Fimber.d('reassemble');
     super.reassemble();
   }
 }
@@ -112,7 +112,7 @@ class DevicesList extends ListView {
                 ),
             itemCount: devices.length,
             itemBuilder: (context, i) {
-              Fimber.d("Build row for $i");
+              Fimber.d('Build row for $i');
               return _buildRow(context, devices[i],
                   _createTapListener(devicesBloc, devices[i]));
             });
@@ -120,7 +120,7 @@ class DevicesList extends ListView {
   static DeviceTapListener _createTapListener(
       DevicesBloc devicesBloc, BleDevice bleDevice) {
     return () {
-      Fimber.d("clicked device: ${bleDevice.name}");
+      Fimber.d('clicked device: ${bleDevice.name}');
       devicesBloc.devicePicker.add(bleDevice);
     };
   }

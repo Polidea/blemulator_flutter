@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:async/async.dart';
 import 'package:flutter/services.dart';
 import 'package:blemulator/blemulator.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart' as FlutterBLELib;
+import 'package:flutter_ble_lib/flutter_ble_lib.dart' as flutter_ble_lib;
 import 'package:meta/meta.dart';
 
 part 'bridge/constants.dart';

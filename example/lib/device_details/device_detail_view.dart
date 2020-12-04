@@ -22,7 +22,7 @@ class DeviceDetailsViewState extends State<DeviceDetailsView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Fimber.d("didChangeDependencies");
+    Fimber.d('didChangeDependencies');
     if (_deviceDetailsBloc == null) {
       _deviceDetailsBloc = DeviceDetailsBlocProvider.of(context);
       if (_shouldRunOnResume) {
@@ -33,27 +33,27 @@ class DeviceDetailsViewState extends State<DeviceDetailsView> {
   }
 
   void _onResume() {
-    Fimber.d("onResume");
+    Fimber.d('onResume');
     _deviceDetailsBloc.init();
     _appStateSubscription =
         _deviceDetailsBloc.disconnectedDevice.listen((bleDevice) async {
-          Fimber.d("navigate to details");
+          Fimber.d('navigate to details');
           _onPause();
           Navigator.pop(context);
           _shouldRunOnResume = true;
-          Fimber.d("back from details");
+          Fimber.d('back from details');
         });
   }
 
   void _onPause() {
-    Fimber.d("onPause");
+    Fimber.d('onPause');
     _appStateSubscription.cancel();
     _deviceDetailsBloc.dispose();
   }
 
   @override
   void dispose() {
-    Fimber.d("Dispose DeviceListScreenState");
+    Fimber.d('Dispose DeviceListScreenState');
     _onPause();
     super.dispose();
   }
@@ -74,8 +74,8 @@ class DeviceDetailsViewState extends State<DeviceDetailsView> {
               title: Text('Device Details'),
               bottom: TabBar(
                 tabs: [
-                  Tab(icon: Icon(Icons.autorenew), text: "Automatic",),
-                  Tab(icon: Icon(Icons.settings), text: "Manual",),
+                  Tab(icon: Icon(Icons.autorenew), text: 'Automatic',),
+                  Tab(icon: Icon(Icons.settings), text: 'Manual',),
                 ],
               ),
             ),

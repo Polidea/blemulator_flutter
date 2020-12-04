@@ -6,7 +6,7 @@ import './bloc.dart';
 
 class PeripheralListBloc
     extends Bloc<PeripheralListEvent, PeripheralListState> {
-  BleAdapter _bleAdapter;
+  final BleAdapter _bleAdapter;
   StreamSubscription _blePeripheralsSubscription;
 
   PeripheralListBloc(this._bleAdapter);
@@ -46,7 +46,7 @@ class PeripheralListBloc
 
   Stream<PeripheralListState> _mapNewPeripheralScanToState(
       NewPeripheralScan event) async* {
-    List<BlePeripheral> updatedPeripherals = state.peripherals;
+    var updatedPeripherals = state.peripherals;
     if (!updatedPeripherals.contains(event.peripheral)) {
       updatedPeripherals = List.from(state.peripherals);
       updatedPeripherals.add(event.peripheral);

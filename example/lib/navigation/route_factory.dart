@@ -9,7 +9,7 @@ class RouteFactory {
       ) {
     return MaterialPageRoute(
       builder: (_) => BlocProvider<T>(
-        builder: (_) => bloc,
+        create: (_) => bloc,
         child: view,
       ),
     );

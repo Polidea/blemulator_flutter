@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:blemulator_example/model/ble_peripheral.dart';
 import 'package:blemulator_example/model/ble_service.dart';
 import 'package:blemulator_example/peripheral_details/bloc.dart';
@@ -35,19 +33,19 @@ void main() {
 
   test('should map ServicesFetchedEvent to PeripheralDetailsState', () async {
     // given
-    List<BleService> bleServices = [SampleBleService()];
-    ServicesFetchedEvent event = ServicesFetchedEvent(bleServices);
-    List<BleServiceState> states =
+    var bleServices = <BleService>[SampleBleService()];
+    var event = ServicesFetchedEvent(bleServices);
+    var states =
         bleServices.map((service) => BleServiceState(service: service, expanded: false)).toList();
 
-    PeripheralDetailsState expectedState = PeripheralDetailsState(
+    var expectedState = PeripheralDetailsState(
         peripheral: peripheral, bleServiceStates: states);
 
     // when
     peripheralDetailsBloc.add(event);
 
     // then
-    expectLater(
+    await expectLater(
       peripheralDetailsBloc,
       emitsThrough(equals(expectedState)),
     );
@@ -55,12 +53,12 @@ void main() {
 
   test('should map ServiceViewExpandedEvent to PeripheralDetailsState when view expanded', () async {
     // given
-    SampleBleService service = SampleBleService();
-    BleServiceState newBleServiceState = BleServiceState(service: service, expanded: true);
+    var service = SampleBleService();
+    var newBleServiceState = BleServiceState(service: service, expanded: true);
 
     peripheralDetailsBloc.add(ServicesFetchedEvent([service]));
 
-    PeripheralDetailsState expectedState = PeripheralDetailsState(
+    var expectedState = PeripheralDetailsState(
         peripheral: peripheral, bleServiceStates: [newBleServiceState]);
 
     // when
@@ -75,12 +73,12 @@ void main() {
 
   test('should map ServiceViewExpandedEvent to PeripheralDetailsState when view collapsed', () async {
     // given
-    SampleBleService service = SampleBleService();
-    BleServiceState newBleServiceState = BleServiceState(service: service, expanded: false);
+    var service = SampleBleService();
+    var newBleServiceState = BleServiceState(service: service, expanded: false);
 
     peripheralDetailsBloc.add(ServicesFetchedEvent([service]));
 
-    PeripheralDetailsState expectedState = PeripheralDetailsState(
+    var expectedState = PeripheralDetailsState(
         peripheral: peripheral, bleServiceStates: [newBleServiceState]);
 
     // when

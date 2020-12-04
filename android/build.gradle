@@ -1,5 +1,5 @@
 group 'com.polidea.blemulator'
-version '1.1.2'
+version '1.2.0'
 
 buildscript {
     repositories {
@@ -35,5 +35,5 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.Polidea:MultiPlatformBleAdapter:0.1.5'
+    implementation 'com.github.Polidea:MultiPlatformBleAdapter:0.1.7'
 }

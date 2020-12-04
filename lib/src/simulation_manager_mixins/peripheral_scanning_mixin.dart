@@ -1,7 +1,7 @@
 part of internal;
 
 mixin PeripheralScanningMixing on SimulationManagerBase {
-  List<StreamSubscription> _scanSubscriptions = [];
+  final List<StreamSubscription> _scanSubscriptions = [];
 
   Future<void> _startDeviceScan() async {
     _peripherals.values.forEach((peripheral) {

@@ -14,12 +14,11 @@ class SimulationManager extends SimulationManagerBaseWithErrorChecks
   SimulationManager(DartToPlatformBridge bridge) : super(bridge);
 
   void addSimulatedPeripheral(SimulatedPeripheral peripheral) {
-    SimulatedPeripheral mapEntry =
-        _peripherals.putIfAbsent(peripheral.id, () => peripheral);
+    var mapEntry = _peripherals.putIfAbsent(peripheral.id, () => peripheral);
 
     if (!identical(mapEntry, peripheral)) {
-      print("Peripheral not added - there already"
-          " exists a peripheral with the same id!");
+      print('Peripheral not added - there already'
+          ' exists a peripheral with the same id!');
     }
   }
 

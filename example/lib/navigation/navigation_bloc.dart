@@ -21,7 +21,7 @@ class NavigationBloc extends Bloc<NavigationEvent, void> {
     if (event is Pop) {
       navigatorKey.currentState.pop();
     } else if (event is NavigateToPeripheralDetails) {
-      navigatorKey.currentState
+      await navigatorKey.currentState
           .pushNamed(RouteName.peripheralDetails, arguments: event.peripheral);
     }
   }
