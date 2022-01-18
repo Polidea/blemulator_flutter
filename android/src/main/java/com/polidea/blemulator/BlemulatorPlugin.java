@@ -26,6 +26,8 @@ public class BlemulatorPlugin implements MethodCallHandler, FlutterPlugin {
     private MethodChannel dartToPlatformChannel;
     private MethodChannel platformToDartChannel;
 
+    public BlemulatorPlugin() { }
+
     private BlemulatorPlugin(MethodChannel platformToDartChannel) {
         dartMethodCaller = new DartMethodCaller(platformToDartChannel);
         dartValueHandler = new DartValueHandler();
