@@ -11,26 +11,38 @@ import com.polidea.multiplatformbleadapter.BleAdapter;
 import com.polidea.multiplatformbleadapter.BleAdapterCreator;
 import com.polidea.multiplatformbleadapter.BleAdapterFactory;
 
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
-public class BlemulatorPlugin implements MethodCallHandler {
+public class BlemulatorPlugin implements MethodCallHandler, FlutterPlugin {
 
     private DartMethodCaller dartMethodCaller;
     private DartValueHandler dartValueHandler;
 
-    public static void registerWith(PluginRegistry.Registrar registrar) {
-        MethodChannel dartToPlatformChannel = new MethodChannel(registrar.messenger(), ChannelName.TO_PLATFORM);
-        MethodChannel platformToDartChannel = new MethodChannel(registrar.messenger(), ChannelName.TO_DART);
-
-        dartToPlatformChannel.setMethodCallHandler(new BlemulatorPlugin(platformToDartChannel));
-    }
+    private MethodChannel dartToPlatformChannel;
+    private MethodChannel platformToDartChannel;
 
     private BlemulatorPlugin(MethodChannel platformToDartChannel) {
         dartMethodCaller = new DartMethodCaller(platformToDartChannel);
         dartValueHandler = new DartValueHandler();
+    }
+
+    @Override
+    public void onAttachedToEngine(FlutterPluginBinding binding) {
+        final BinaryMessenger messenger = binding.getBinaryMessenger();
+        dartToPlatformChannel = new MethodChannel(messenger, ChannelName.TO_PLATFORM);
+        platformToDartChannel = new MethodChannel(messenger, ChannelName.TO_DART);
+        dartToPlatformChannel.setMethodCallHandler(new BlemulatorPlugin(platformToDartChannel));
+    }
+
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        dartToPlatformChannel.setMethodCallHandler(null);
+        platformToDartChannel.setMethodCallHandler(null);
     }
 
     @Override
