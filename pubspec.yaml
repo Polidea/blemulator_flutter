@@ -4,17 +4,22 @@ version: 1.2.1
 homepage: https://github.com/Polidea/blemulator_flutter
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   # Flutter versions prior to 1.10 did not support the flutter.plugin.platforms map.
   flutter: ">=1.10.0 <2.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_ble_lib: ^2.3.1
+  # flutter_ble_lib: ^2.3.1
+  flutter_ble_lib:
+    git:
+      url: https://github.com/mkintcom/FlutterBleLib
+      # ref: feature/hyve
   async: ^2.4.0
   meta: ^1.1.8
   pedantic: ^1.9.0
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:
